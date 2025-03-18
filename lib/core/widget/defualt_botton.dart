@@ -12,8 +12,10 @@ class DefaultButton extends StatelessWidget {
   final Color textColor;
   final bool hasIcon;
   final Widget? icon;
-  final double heightButton;
+  final double? heightButton;
   final bool isborder;
+  final double?width;
+  final double? radius;
   const DefaultButton({
     super.key,
     required this.text,
@@ -23,7 +25,7 @@ class DefaultButton extends StatelessWidget {
     this.hasIcon = false,
     this.isborder=false,
     this.icon,
-    this.heightButton=45,
+    this.heightButton, this.width, this.radius,
   });
 
   @override
@@ -31,13 +33,13 @@ class DefaultButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color:(!isborder)? backgroundColor:textColor,
-        borderRadius: BorderRadius.circular(8.0.r),
+        borderRadius: BorderRadius.circular(radius??18.0.r),
         border: (!isborder)?Border.all(
           color: backgroundColor
         ):Border.all()
       ),
-      width: double.infinity,
-      height: heightButton.h,
+      width:width ?? 0.5*MediaQuery.sizeOf(context).width,
+      height:heightButton?? 45.h,
       child: GestureDetector(
         onTap:() {
           function();
