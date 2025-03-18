@@ -8,10 +8,36 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Icon(Icons.notification_add,color: AppColors.greyColor,),
-        leading: Text("En",style: GoogleFonts.leagueSpartan(color: AppColors.accentcolor,fontSize: 10.sp,fontWeight: FontWeight.w500),),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12,right: 12,top: 10),
+        child: Scaffold(
+          body: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "En",
+                    style: GoogleFonts.leagueSpartan(
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.accentcolor
+                    ),
+                  ),
+                  SizedBox(width: 5.w),
+                  Badge(
+                    child: Icon(Icons.notification_important_outlined,size: 20.r,),
+                  ),
+                  SizedBox(width: 90.w),
+                  
+                  Text("مرحبًا في استشيرني، صحتك تهمنا!",style: GoogleFonts.leagueSpartan(fontSize: 15.sp,fontWeight: FontWeight.w500 ),
+                  textAlign: TextAlign.right,
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
