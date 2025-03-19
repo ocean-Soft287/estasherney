@@ -1,6 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/doctor_for_specialization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Specializations extends StatelessWidget {
   const Specializations({super.key});
@@ -18,122 +19,136 @@ class Specializations extends StatelessWidget {
       {"icon": "assets/genre/Bones.png", "label": "عظام"},
     ];
 
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                top: 30,
-                bottom: 10,
-                left: 20,
-                right: 20,
-              ),
-              width: double.infinity,
-              height: 220, // زودنا الارتفاع لاستيعاب مربع البحث
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.blue.shade900,
-                    Colors.blue.shade500,
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(  
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                  top: 30.h,
+                  bottom: 10.h,
+                  left: 20.w,
+                  right: 20.w,
                 ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25),
+                width: double.infinity,
+                height: 190.h,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.blue.shade900, Colors.blue.shade500],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(25.r),
+                    bottomRight: Radius.circular(25.r),
+                  ),
                 ),
-              ),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        'التخصصات',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "LeagueSpartan",
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.3),
-                              offset: Offset(1, 1),
-                              blurRadius: 2,
-                            ),
-                          ],
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'التخصصات',
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "LeagueSpartan",
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.3),
+                                offset: Offset(1.w, 1.h),
+                                blurRadius: 2.r,
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                      ),
-                      Text(
-                        'ابحث عن طبيبك',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: "LeagueSpartan",
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.3),
-                              offset: Offset(1, 1),
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 15), // مسافة بين النصوص ومربع البحث
-                      TextFormField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'ابحث...',
-                          prefixIcon: Icon(Icons.search, color: Colors.grey),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: BorderSide.none,
+                        Text(
+                          'ابحث عن طبيبك',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontFamily: "LeagueSpartan",
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.3),
+                                offset: Offset(1.w, 1.h),
+                                blurRadius: 2.r,
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: Icon(Icons.arrow_forward_ios, color: Colors.white),
-                  ),
-                ],
+                        SizedBox(height: 15.h),
+                        TextFormField(
+                          textAlign: TextAlign.right,
+                          textDirection: TextDirection.rtl,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: "ابحث",
+                            hintStyle: TextStyle(color: Colors.grey),
+                            suffixIcon: Padding(
+                              padding: EdgeInsets.only(left: 10.w),
+                              child: Icon(Icons.search, color: Colors.grey),
+                            ),
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.r),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      right: 0.w,
+                      child: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20.sp),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 40),
-            const Text(
-              "التخصصات",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              SizedBox(height: 20.h),
+              Padding(
+                padding: EdgeInsets.all(8.0.w),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "التخصصات",
+                    style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
+              SizedBox(height: 16.h),
+              Padding(
+                padding: EdgeInsets.all(15.0.w),
                 child: GridView.builder(
+                  shrinkWrap: true,  
+                  physics: NeverScrollableScrollPhysics(),  
                   itemCount: specializations.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 18,
-                    mainAxisSpacing: 18,
+                    crossAxisSpacing: 18.w,
+                    mainAxisSpacing: 18.h,
                     childAspectRatio: 1.1,
                   ),
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DoctorForSpecialization()));
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DoctorForSpecialization(),
+                          ),
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                           border: Border.all(color: AppColors.mainColor),
                         ),
                         child: Column(
@@ -141,13 +156,13 @@ class Specializations extends StatelessWidget {
                           children: [
                             Image.asset(
                               specializations[index]["icon"]!,
-                              width: 50,
-                              height: 50,
+                              width: 50.w,
+                              height: 50.h,
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8.h),
                             Text(
                               specializations[index]["label"]!,
-                              style: const TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 16.sp),
                             ),
                           ],
                         ),
@@ -156,8 +171,8 @@ class Specializations extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

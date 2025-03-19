@@ -3,8 +3,6 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'feature/doctors/presentation/view/screens/Specializations.dart';
-import 'feature/doctors/presentation/view/screens/about_aboutdoctor.dart';
 
 void main() {
   runApp(DevicePreview(
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const AboutAboutdoctor(),
+        home: const SplashScreen(),
       ),
     );
   }

@@ -1,4 +1,7 @@
+import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/about_aboutdoctor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DoctorForSpecialization extends StatelessWidget {
   const DoctorForSpecialization({super.key});
@@ -10,145 +13,205 @@ class DoctorForSpecialization extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // الهيدر العلوي
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
               width: double.infinity,
-              height: 220,
+              height: 190.h,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Colors.blue.shade900,
-                    Colors.blue.shade500,
-                  ],
+                  colors: [Colors.blue.shade900, Colors.blue.shade500],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(25.r),
+                  bottomRight: Radius.circular(25.r),
                 ),
               ),
-              child: Column(
+              child: Stack(
                 children: [
-                  const Text(
-                    'التخصصات',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: "LeagueSpartan",
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Text(
-                    'ابحث عن طبيبك',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "LeagueSpartan",
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'ابحث...',
-                      prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide.none,
+                  Column(
+                    children: [
+                      Text(
+                        'امراض القلب',
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "LeagueSpartan",
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.3),
+                              offset: Offset(1.w, 1.h),
+                              blurRadius: 2.r,
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.start,
                       ),
+                      Text(
+                        'ابحث عن طبيبك',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontFamily: "LeagueSpartan",
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.3),
+                              offset: Offset(1.w, 1.h),
+                              blurRadius: 2.r,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15.h),
+                      TextFormField(
+                        textAlign: TextAlign.right,
+                        textDirection: TextDirection.rtl,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "....ابحث",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          suffixIcon: Padding(
+                            padding: EdgeInsets.only(left: 10.w),
+                            child: Icon(Icons.search, color: Colors.grey),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.h,
+                            horizontal: 20.w,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.r),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    right: 0.w,
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 20.sp,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            // قائمة الأطباء
+            SizedBox(height: 20.h),
+
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: 5,
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  return  Container(
-                    padding: const EdgeInsets.all(12),
-
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // صورة الطبيب
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: NetworkImage(
-                            "https://s3-alpha-sig.figma.com/img/0da1/1e17/12b0c18beb8f15818d9ed4d215ca9118?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=t7duI1TsrNp~5OlVlvpv-g0GLsPrdoJIFCh10GE9CZOvbR-fPQB8xqakGh2ZJvwXeauGgFEDj6PFHBh1VmmwMzcnv-G9CFfdOVybNmszB1IJKpDthjCj4lbpS8xrMmsDHlo4P0Zluf8OY37p-xpYk1RO6z9ShZj3IlFA-DkUObl9xTGi3CFPG0tKTPa5fwSqFS~lDVU36GZhdyIogmZ-RQfrYAmbt5HKE2qOwmpm~y~3o4u76wPLTRcDYcGWunR1VyrbhzZ8ZpFQAFSn9zy1EOeihx--GiZrHlEbhju4XRsO170nIzamMe~Pf0H0PN3h1ApPpcI~BhBVro5L~ll0xw__",
+              child: SingleChildScrollView(
+                child: Column(
+                  children: List.generate(
+                    5,
+                    (index) => Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 10.h,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: AppColors.mainColor,
+                              side: BorderSide(
+                                color: AppColors.mainColor,
+                                width: 2.w,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 8.h,
+                              ),
+                            ),
+                            child: Text(
+                              "احجز الآن",
+                              style: TextStyle(fontSize: 14.sp),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        // معلومات الطبيب
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children:  [
-                            Text(
-                              "د/ محمد فتحي",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
 
-                              ),
-                              maxLines: 2,
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              "أمراض القلب",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: (){
+                          SizedBox(width: 55.w),
 
-                                  },
-                                  icon:  Icon(Icons.favorite_border, color: Colors.purple),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-
-
-                                  },
-                                  icon:  Icon(Icons.calendar_month, color: Colors.purple),
-                                ),
-                                SizedBox(
-                                  width: 50
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.purple,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AboutAboutdoctor(),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "د/ محمد فتحي",
+                                    style: TextStyle(
+                                      color: AppColors.mainColor,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
                                     ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  child: const Text(
-                                    "احجز الآن",
-                                    style: TextStyle(color: Colors.white),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    "أمراض القلب",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: AppColors.greyColor,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        // أيقونات الحجز والمفضلة + زر الحجز
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.calendar_month,
+                                          color: AppColors.mainColor,
+                                          size: 20.sp,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.favorite_border,
+                                          color: AppColors.mainColor,
+                                          size: 20.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
 
-                  ]));
-                },
+                          CircleAvatar(
+                            radius: 40.r,
+                            backgroundImage: AssetImage(
+                              "assets/images/Mask Group (3).png",
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

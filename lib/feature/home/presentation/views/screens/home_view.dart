@@ -1,4 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/Specializations.dart';
 import 'package:consult_me/feature/home/presentation/views/widget/custom_grid_view.dart';
 import 'package:consult_me/feature/home/presentation/views/widget/custom_vitamin_card.dart';
 import 'package:flutter/material.dart';
@@ -195,12 +196,17 @@ class HomeView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "الكل",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.accentcolor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Specializations()));
+                      },
+                      child: Text(
+                        "الكل",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.accentcolor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                     Text(
