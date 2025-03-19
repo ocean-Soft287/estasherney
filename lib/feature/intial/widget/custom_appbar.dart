@@ -9,12 +9,13 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      
+      backgroundColor: Colors.white,
       elevation: 0,
       automaticallyImplyLeading: false,
       actions: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: Row(
             children: [
               Text(
