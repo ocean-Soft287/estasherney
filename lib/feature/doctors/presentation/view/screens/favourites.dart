@@ -1,86 +1,52 @@
-import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Favourites extends StatelessWidget {
   const Favourites({super.key});
 
   @override
+  State<Favourites> createState() => _FavouritesState();
+}
+
+class _FavouritesState extends State<Favourites> {
+  bool isDoctor = true;
+
+  void toggleSelection(bool value) {
+    if (isDoctor != value) {
+      setState(() {
+        isDoctor = value;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 100.h,
-            alignment: Alignment.center,
-            child: Text("المفضل",style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-              fontFamily: "LeagueSpartan"
-            ),),
+        child: Column(
+          children: [
+            HeaderContainer(title: "المفضل"),
+            SizedBox(height: 20),
 
-            decoration: BoxDecoration(
-              gradient:AppColors.blueGradient,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(25.r),
-                bottomRight: Radius.circular(25.r),
+            ToggleButtonsRow(isDoctor: isDoctor, onToggle: toggleSelection),
+
+            Padding(padding: const EdgeInsets.all(8.0), child: Divider()),
+
+            Expanded(
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return isDoctor
+                      ? DoctorsWidget()
+                      : DoctorspecializationInfo();
+                },
+                itemCount: 3,
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(height: 5.h);
+                },
               ),
             ),
-          ),
-SizedBox(
-  height: 20,
-),
-Padding(
-  padding: const EdgeInsets.all(8.0),
-  child: Row(
-    children: [ Spacer(),
-      Container(
-        width: .4*MediaQuery.sizeOf(context).width,
-        height: 40.h,
-        decoration: BoxDecoration(
-
-          color: AppColors.mainColor,
-          borderRadius: BorderRadius.circular(20.r)
+          ],
         ),
-        alignment: Alignment.center,
-        child: Text("الاطباء",style: TextStyle(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w800,
-            fontFamily: "LeagueSpartan",
-          color: AppColors.wightcolor
-        ),),
-
       ),
-      Spacer(),
-
-      Container(
-        width: .4*MediaQuery.sizeOf(context).width,
-        height: 40.h,
-        decoration: BoxDecoration(
-
-            color: AppColors.wightcolor,
-            borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(  color: AppColors.mainColor,width: 1)
-
-        ),
-        alignment: Alignment.center,
-        child: Text("الخدمات",style: TextStyle(
-            fontSize: 17.sp,
-            color: AppColors.mainColor,
-            fontWeight: FontWeight.w800,
-            fontFamily: "LeagueSpartan"
-        ),),      ),
-
-      Spacer(),
-
-    ],
-  ),
-),
-        ],),
-      ),
-
     );
   }
 }

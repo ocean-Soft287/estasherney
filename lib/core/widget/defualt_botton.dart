@@ -1,9 +1,9 @@
 
 
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/core/constants/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class DefaultButton extends StatelessWidget {
   final String text;
@@ -52,8 +52,9 @@ class DefaultButton extends StatelessWidget {
             const SizedBox(width: 10,),
             Text(
               text,
-              style: GoogleFonts.alexandria(
+              style: TextStyle(
                 fontSize: 16.sp,
+                fontFamily: Appfonts.font,
                 fontWeight: FontWeight.w400,
                 color:(!isborder)? textColor:backgroundColor,
               ),
