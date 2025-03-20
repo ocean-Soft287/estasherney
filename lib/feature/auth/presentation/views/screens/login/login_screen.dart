@@ -27,9 +27,13 @@ class LoginScreen extends StatelessWidget {
                   right: 20,
                 ),
                 width: double.infinity,
+                height: 100,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.blue.shade900, Colors.blue.shade500],
+                    colors: [
+                      Colors.blue.shade900, // شفافية للألوان
+                      Colors.blue.shade500,
+                    ],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
@@ -48,6 +52,13 @@ class LoginScreen extends StatelessWidget {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.3),
+                              offset: Offset(1, 1),
+                              blurRadius: 2,
+                            ),
+                          ],
                         ),
                       ),
                     ),
