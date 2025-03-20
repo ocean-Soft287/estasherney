@@ -1,5 +1,6 @@
 import 'package:consult_me/feature/home/presentation/views/widget/speciality_card.dart';
 import 'package:flutter/material.dart';
+
 class CustomGridView extends StatelessWidget {
   CustomGridView({super.key});
 
@@ -17,20 +18,26 @@ class CustomGridView extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, 
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1,
-          ),
-          itemCount: specialties.length,
-          itemBuilder: (context, index) {
-            return SpecialtyCard(
-              imagePath: specialties[index]["image"],
-              label: specialties[index]["label"],
-            );
-          },
+        child: Column(
+          children: [
+            GridView.builder(
+              shrinkWrap: true, 
+              physics: NeverScrollableScrollPhysics(), 
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1,
+              ),
+              itemCount: specialties.length,
+              itemBuilder: (context, index) {
+                return SpecialtyCard(
+                  imagePath: specialties[index]["image"],
+                  label: specialties[index]["label"],
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             style:
               FluidNavBarStyle(
-                barBackgroundColor: AppColors.mainColor,
+                barBackgroundColor: AppColors.mainColor.withOpacity(0.9),
 
                 iconSelectedForegroundColor: Colors.white,
                 iconUnselectedForegroundColor: Colors.black),

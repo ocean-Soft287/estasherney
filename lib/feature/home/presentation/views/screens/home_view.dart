@@ -24,7 +24,7 @@ class HomeView extends StatelessWidget {
                     Text(
                       "En",
                       style: GoogleFonts.leagueSpartan(
-                        fontSize: 10.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.accentcolor,
                       ),
@@ -32,34 +32,44 @@ class HomeView extends StatelessWidget {
                     SizedBox(width: 5.w),
                     Badge(
                       backgroundColor: AppColors.mainColor,
-                      child: Icon(
-                        Icons.notifications_outlined,
-                        size: 20.r,
-                      ),
+                      child: Icon(Icons.notifications_outlined, size: 22.r),
                     ),
                     Spacer(),
-                    Text(
-                      "مرحبًا في استشيرني، صحتك تهمنا!",
-                      style: GoogleFonts.leagueSpartan(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "!مرحبًا في استشيرني،صحتك تهمنا",
+                          style: GoogleFonts.leagueSpartan(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
                       ),
-                      textAlign: TextAlign.right,
                     ),
                   ],
                 ),
-                SizedBox(height: 10.h),
+
+                SizedBox(height: 15.h),
+
                 TextField(
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
                     hintText: "ابحث عن طبيب...",
-                    suffixIcon: Icon(Icons.search, color: Colors.grey, size: 30.sp),
+                    suffixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                      size: 30.sp,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
                 ),
+
                 SizedBox(height: 20.h),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -81,7 +91,9 @@ class HomeView extends StatelessWidget {
                     ),
                   ],
                 ),
+
                 SizedBox(height: 20.h),
+
                 SizedBox(
                   height: 50.h,
                   child: ListView(
@@ -99,7 +111,9 @@ class HomeView extends StatelessWidget {
                     ],
                   ),
                 ),
+
                 SizedBox(height: 20.h),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -121,7 +135,9 @@ class HomeView extends StatelessWidget {
                     ),
                   ],
                 ),
+
                 SizedBox(height: 20.h),
+
                 Container(
                   padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
@@ -135,6 +151,7 @@ class HomeView extends StatelessWidget {
                           Image.asset("assets/images/Group 19.png"),
                           Spacer(),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
                                 "الدكتور محمد فتحي",
@@ -164,7 +181,10 @@ class HomeView extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.white,
-                            child: Icon(Icons.message, color: Color(0xff96A7AF)),
+                            child: Icon(
+                              Icons.message,
+                              color: Color(0xff96A7AF),
+                            ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,13 +212,20 @@ class HomeView extends StatelessWidget {
                     ],
                   ),
                 ),
+
                 SizedBox(height: 20.h),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Specializations()));
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Specializations(),
+                          ),
+                        );
                       },
                       child: Text(
                         "الكل",
@@ -219,12 +246,11 @@ class HomeView extends StatelessWidget {
                     ),
                   ],
                 ),
+
                 SizedBox(height: 10.h),
 
-                SizedBox(
-                  height: 250.h, 
-                  child: CustomGridView(),),
-               
+                SizedBox(height: 260.h, child: CustomGridView()),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -246,9 +272,10 @@ class HomeView extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20.h,),
-                VitaminDTestCard()
-                
+
+                SizedBox(height: 20.h),
+
+                VitaminDTestCard(),
               ],
             ),
           ),
@@ -257,4 +284,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-

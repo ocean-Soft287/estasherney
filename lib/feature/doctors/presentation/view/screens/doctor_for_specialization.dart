@@ -147,7 +147,7 @@ class DoctorForSpecialization extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AboutAboutdoctor(),
+                                    builder: (context) => AboutDoctorScreen(),
                                   ),
                                 );
                               },
