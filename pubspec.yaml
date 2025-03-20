@@ -32,12 +32,18 @@ dependencies:
   cupertino_icons: ^1.0.8
   device_preview: ^1.2.0
   fluid_bottom_nav_bar: ^1.4.0
-
+  bloc: ^9.0.0
+  intl_utils: ^2.8.10
+  flutter_localization: ^0.2.2
+  intl: any
+  uuid: ^4.3.3
+  localization: ^2.1.1
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.9.3
   flutter_svg: ^1.1.6
   google_fonts: ^6.2.1
+  flutter_bloc: ^9.1.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -89,3 +95,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_intl:
+  enabled: true
