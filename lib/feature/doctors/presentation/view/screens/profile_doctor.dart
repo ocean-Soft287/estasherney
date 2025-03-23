@@ -10,10 +10,11 @@ class ProfileDoctor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(  
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
+                height: 220.h,
                 padding: EdgeInsets.only(
                   top: 30.h,
                   bottom: 10.h,
@@ -21,7 +22,6 @@ class ProfileDoctor extends StatelessWidget {
                   right: 20.w,
                 ),
                 width: double.infinity,
-                height: 190.h,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Colors.blue.shade900, Colors.blue.shade500],
@@ -35,82 +35,291 @@ class ProfileDoctor extends StatelessWidget {
                 ),
                 child: Stack(
                   children: [
-                      Positioned(
-                        left: 5,
-                        child: Image.asset("assets/images/Favorites-Blue.png")),
-                   Positioned(
-                  top: 0,
-                  right: 120,
-             
-                  
-                     child: Row(children: [
-                     
-                       SizedBox(width: 90.w,),
-                       Image.asset("assets/images/Group 51.png"),
-                       SizedBox(width: 4.w,),
-                       Image.asset("assets/images/Group 50.png"),
-                        SizedBox(width: 4.w,),
-                       Image.asset("assets/images/Group 52.png"),
-                         
-                     ],),
-                   ),
-                   Positioned(
-                    right: 5,
-                    child: Icon(Icons.arrow_forward_ios_outlined,color: AppColors.wightcolor,)),
                     Positioned(
-                      right: 20,
-                      top: 30,
-                      child: Image.asset('assets/images/doctor.png',height: 60,)),
-                      Positioned(
-                        top: 40,
-                        right: 100,
-                        child: Column(
+                      top: 130.h,
+                      right: 10,
+
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("د/ محمد فتحي محمد ",style: GoogleFonts.leagueSpartan(color: AppColors.wightcolor,fontSize: 16.sp,fontWeight: FontWeight.w600),),
-                           Text("جراحة الأمراض الجلدية",style: GoogleFonts.leagueSpartan(color: AppColors.wightcolor,fontSize: 14.sp,fontWeight: FontWeight.w400),),
-                          SizedBox(height: 5,),
-                           Row(
-                            children: [
-                             Container(
-                              width: 50,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: AppColors.wightcolor,
-                                borderRadius: BorderRadius.circular(16)
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.star,size: 15,),
-                                  SizedBox(width: 4,),
-                                  Text("5")
-                                ],
-                              ),
-                             ),
-                             SizedBox(width: 10,),
-                             Container(
-                              width: 50,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: AppColors.wightcolor,
-                                borderRadius: BorderRadius.circular(16)
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.chat,size: 15,),
-                                  SizedBox(width: 4,),
-                                  Text("40")
-                                ],
-                              ),
-                             )
-                            ],
-                           )
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: Colors.white,
+                              border: Border.all(color: Color(0xff00BBD3)),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 2.h,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "من الإثنين إلى السبت /- 5:00 مساءً",
+                                  style: TextStyle(
+                                    color: AppColors.accentcolor,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                                SizedBox(width: 5.w),
+                                Icon(Icons.alarm, color: Color(0xff33E4DB)),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+
+                          Container(
+                            width: 95,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: Colors.white,
+                              border: Border.all(color: Color(0xff00BBD3)),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
+                            ),
+                            child: Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      " 15 سنه",
+                                      style: TextStyle(
+                                        color: AppColors.accentcolor,
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                    Text(
+                                      "خبره ",
+                                      style: TextStyle(
+                                        color: AppColors.accentcolor,
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 5.w),
+                                Icon(
+                                  Icons.explore_outlined,
+                                  color: Color(0xff33E4DB),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
-                      ))
-                   
+                      ),
+                    ),
+                    // Favorites Icon
+                    Positioned(
+                      left: 5.w,
+                      child: Image.asset("assets/images/Favorites-Blue.png"),
+                    ),
+                    // Social Media Icons
+                    Positioned(
+                      top: 0,
+                      right: 30.w,
+                      left: 40.w,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 90.w),
+                          Image.asset("assets/images/Group 51.png"),
+                          SizedBox(width: 4.w),
+                          Image.asset("assets/images/Group 50.png"),
+                          SizedBox(width: 4.w),
+                          Image.asset("assets/images/Group 52.png"),
+                        ],
+                      ),
+                    ),
+                    // Back Arrow
+                    Positioned(
+                      right: 5.w,
+                      child: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: AppColors.wightcolor,
+                      ),
+                    ),
+                    // Doctor Image
+                    Positioned(
+                      right: 20.w,
+                      top: 30.h,
+                      child: Image.asset(
+                        'assets/images/doctor.png',
+                        height: 60.h,
+                      ),
+                    ),
+                    // Doctor Name and Details
+                    Positioned(
+                      top: 40.h,
+                      right: 100.w,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "د/ محمد فتحي محمد ",
+                            style: GoogleFonts.leagueSpartan(
+                              color: AppColors.wightcolor,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "جراحة الأمراض الجلدية",
+                            style: GoogleFonts.leagueSpartan(
+                              color: AppColors.wightcolor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(height: 5.h),
+                          Row(
+                            children: [
+                              // Chat Button
+                              Container(
+                                width: 60.w,
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  color: AppColors.wightcolor,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("40"),
+                                    SizedBox(width: 4.w),
+                                    Icon(Icons.chat, size: 15.sp),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              // Rating Button
+                              Container(
+                                width: 60.w,
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  color: AppColors.wightcolor,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("5"),
+                                    SizedBox(width: 4.w),
+                                    Icon(Icons.star, size: 15.sp),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-          )]))));
+              ),
+              SizedBox(height: 20.h),
+              // Focus Section
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "التركيز: تأثير اختلال التوازن الهرموني على حالات الجلد، مع التخصص في حب الشباب، وزيادة الشعر، واضطرابات الجلد الأخرى.",
+                      style: TextStyle(
+                        color: AppColors.accentcolor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.h),
+              // Bio Section
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "حساب تعريفي",
+                      style: TextStyle(
+                        color: AppColors.mainColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      "الدكتور [اسم الدكتور] هو [التخصص الطبي] يتمتع بخبرة تزيد عن [عدد] سنوات في مجال [مجال التخصص]. حصل على شهادته في [اسم الجامعة] وأكمل تدريبه المتقدم في [مكان التدريب أو الزمالة إن وجدت]",
+                      style: TextStyle(
+                        color: AppColors.greyColor,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.h),
+              // Expertise Section
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "الخبرة الوظيفية",
+                      style: TextStyle(
+                        color: AppColors.mainColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      "يشتهر الدكتور [اسم الدكتور] بمهاراته المتميزة في [مجال معين داخل التخصص] وحرصه الدائم على تقديم رعاية طبية متكاملة وشاملة لمرضاه. كما يحرص على متابعة أحدث التطورات الطبية والتقنيات الحديثة لضمان أفضل النتائج العلاجية",
+                      style: TextStyle(
+                        color: AppColors.greyColor,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.h),
+              // Highlights Section
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "أبرز",
+                      style: TextStyle(
+                        color: AppColors.mainColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      "بالإضافة إلى عمله السريري، يشارك الدكتور [اسم الدكتور] في الأنشطة البحثية والمؤتمرات العلمية، وساهم في نشر العديد من الأبحاث الطبية في مجلات علمية محكمة. كما أنه معروف بأسلوبه الإنساني في التعامل مع المرضى، حيث يولي اهتمامًا خاصًا براحتهم النفسية والجسدية",
+                      style: TextStyle(
+                        color: AppColors.greyColor,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.h),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
