@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../widget/doctors_widget.dart';
+import '../widget/doctorspecialization_info.dart';
+import '../widget/header_container.dart';
+import '../widget/toggle_buttons_row.dart';
 
 class Favourites extends StatelessWidget {
   const Favourites({super.key});

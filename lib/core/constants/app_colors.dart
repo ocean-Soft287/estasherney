@@ -18,9 +18,5 @@ abstract class AppColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
-  static const LinearGradient blueGradient = LinearGradient(
-    colors: [mainColor, whitegradient],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
+
 }
