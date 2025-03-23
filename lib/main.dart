@@ -1,3 +1,4 @@
+import 'package:consult_me/core/network/local/sharedprefrences.dart';
 import 'package:consult_me/feature/intial/splash_screen.dart';
 import 'package:consult_me/feature/localization/manger/localization_cubit.dart';
 import 'package:device_preview/device_preview.dart';
@@ -9,11 +10,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'feature/localization/data/localizationmodel.dart';
 import 'feature/localization/manger/localization_state.dart';
 import 'generated/l10n.dart';
-void main() {
-  runApp(DevicePreview(
-    enabled: true,
-    builder: (context) => const MyApp(),
-  ));
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter binding is initialized
+  await CacheHelper.init(); // Wait for CacheHelper to initialize
+  runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -40,13 +41,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LocalizationCubit()
-            ..appLanguage(LanguageEventEnums.initialLanguage),
+          create: (context) => LocalizationCubit()..appLanguage(LanguageEventEnums.initialLanguage),
         ),
       ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, langState) {
-          Locale locale = const Locale('ar'); // اللغة الافتراضية عربية
+          Locale locale = const Locale('ar'); // Default language is Arabic
 
           if (langState is ChangeLanguage) {
             locale = Locale(langState.languageCode);
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                locale: locale, // تحديد اللغة الافتراضية
+                locale: locale, // Set the default locale
 
                 supportedLocales: S.delegate.supportedLocales,
                 localizationsDelegates: [
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                       }
                     }
                   }
-                  return const Locale('ar'); // fallback للغة العربية
+                  return const Locale('ar'); // Fallback to Arabic
                 },
                 home: const SplashScreen(),
               );

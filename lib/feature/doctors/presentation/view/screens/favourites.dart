@@ -6,7 +6,8 @@ import '../widget/doctorspecialization_info.dart';
 import '../widget/header_container.dart';
 import '../widget/toggle_buttons_row.dart';
 
-class Favourites extends StatelessWidget {
+
+class Favourites extends StatefulWidget { // تغيير من StatelessWidget إلى StatefulWidget
   const Favourites({super.key});
 
   @override

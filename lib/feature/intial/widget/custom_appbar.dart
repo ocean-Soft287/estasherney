@@ -9,37 +9,28 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      
       backgroundColor: Colors.white,
       elevation: 0,
       automaticallyImplyLeading: false,
-      actions: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: Row(
-            children: [
-              Text(
-                "تخطي",
-                style: GoogleFonts.leagueSpartan(
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.mainColor,
-                  fontSize: 15.sp,
-                ),
+      title: Align(
+        alignment: Alignment.centerRight, 
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+              Image.asset("assets/images/Back # 4.png"),
+              SizedBox(width: 10.w,),
+            Text(
+              "تخطي",
+              style: GoogleFonts.leagueSpartan(
+                fontWeight: FontWeight.w300,
+                color: AppColors.mainColor,
+                fontSize: 15.sp,
               ),
-
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColors.mainColor,
-                ),
-              ),
-            ],
-          ),
+            ),
+          
+          ],
         ),
-      ],
+      ),
     );
   }
 

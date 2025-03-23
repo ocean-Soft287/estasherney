@@ -21,56 +21,59 @@ class HomeView extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      "En",
-                      style: GoogleFonts.leagueSpartan(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.accentcolor,
-                      ),
-                    ),
-                    SizedBox(width: 5.w),
-                    Badge(
-                      backgroundColor: AppColors.mainColor,
-                      child: Icon(
-                        Icons.notifications_outlined,
-                        size: 20.r,
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "!مرحبًا في استشيرني،صحتك تهمنا",
+                          style: GoogleFonts.leagueSpartan(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
                       ),
                     ),
                     Spacer(),
+                    Badge(
+                      backgroundColor: AppColors.mainColor,
+                      child: Icon(Icons.notifications_outlined, size: 22.r),
+                    ),
+                    SizedBox(width: 5.w),
                     Text(
-                      "مرحبًا في استشيرني، صحتك تهمنا!",
+                      "En",
                       style: GoogleFonts.leagueSpartan(
-                        fontSize: 15.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
+                        color: AppColors.accentcolor,
                       ),
-                      textAlign: TextAlign.right,
                     ),
                   ],
                 ),
-                SizedBox(height: 10.h),
+
+                SizedBox(height: 15.h),
+
                 TextField(
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
+                    fillColor: AppColors.wightcolor,
                     hintText: "ابحث عن طبيب...",
-                    suffixIcon: Icon(Icons.search, color: Colors.grey, size: 30.sp),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                      size: 30.sp,
+                    ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                   ),
                 ),
+
                 SizedBox(height: 20.h),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "الكل",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.accentcolor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
                     Text(
                       "فئات",
                       style: GoogleFonts.leagueSpartan(
@@ -79,30 +82,6 @@ class HomeView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                SizedBox(
-                  height: 50.h,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Image.asset("assets/images/Favorites.png"),
-                      SizedBox(width: 10.w),
-                      Image.asset("assets/images/Doctors.png"),
-                      SizedBox(width: 10.w),
-                      Image.asset("assets/images/Pharmacy.png"),
-                      SizedBox(width: 10.w),
-                      Image.asset("assets/images/Specialties.png"),
-                      SizedBox(width: 10.w),
-                      Image.asset("assets/images/Record.png"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
                     Text(
                       "الكل",
                       style: GoogleFonts.leagueSpartan(
@@ -111,6 +90,35 @@ class HomeView extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                  ],
+                ),
+
+                SizedBox(height: 20.h),
+
+                SizedBox(
+                  height: 50.h,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Image.asset("assets/images/Record.png"),
+                      SizedBox(width: 10.w),
+                      Image.asset("assets/images/Specialties.png"),
+                      SizedBox(width: 10.w),
+                      Image.asset("assets/images/Pharmacy.png"),
+                      SizedBox(width: 10.w),
+                      Image.asset("assets/images/Doctors.png"),
+                      SizedBox(width: 10.w),
+                      Image.asset("assets/images/Favorites.png"),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 20.h),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    
                     Text(
                       "الجدول الزمني القادم",
                       style: GoogleFonts.leagueSpartan(
@@ -119,97 +127,123 @@ class HomeView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    Text(
+                      "الكل",
+                      style: GoogleFonts.leagueSpartan(
+                         decoration: TextDecoration.lineThrough,
+                        color: AppColors.accentcolor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ],
                 ),
+
                 SizedBox(height: 20.h),
-                Container(
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade800,
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                  child: Column(
+
+              Stack(
+  children: [
+    Container(
+      height: 150.h,
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.blue.shade800,
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
                     children: [
-                      Row(
+                      Image.asset("assets/images/doctor.png"),
+                      SizedBox(width: 10.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset("assets/images/Group 19.png"),
-                          Spacer(),
-                          Column(
-                            children: [
-                              Text(
-                                "الدكتور محمد فتحي",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Text(
-                                "طب أسنان",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "الدكتور محمد فتحي",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                          SizedBox(width: 10.w),
-                          Image.asset("assets/images/doctor.png"),
-                        ],
-                      ),
-                      SizedBox(height: 20.w),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Icon(Icons.message, color: Color(0xff96A7AF)),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "الأحد 27 يونيو 2021",
-                                style: GoogleFonts.leagueSpartan(
-                                  color: Colors.white,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                "08:00 صباحًا - 10:00 صباحًا",
-                                style: GoogleFonts.leagueSpartan(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "طب أسنان",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(width: 200.w),
+          SizedBox(height: 20.w),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "الأحد 27 يونيو 2021",
+                    style: GoogleFonts.leagueSpartan(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    "08:00 صباحًا - 10:00 صباحًا",
+                    style: GoogleFonts.leagueSpartan(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.message,
+                  color: Color(0xff96A7AF),
                 ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+    
+    
+    Positioned(
+      top: 30.h,
+      left: 20.w,
+      child: Image.asset("assets/images/Group 19.png"),
+    ),
+  ],
+),
+
+
                 SizedBox(height: 20.h),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Specializations()));
-                      },
-                      child: Text(
-                        "الكل",
-                        style: GoogleFonts.leagueSpartan(
-                          color: AppColors.accentcolor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    Text(
+                     Text(
                       "التخصصات",
                       style: GoogleFonts.leagueSpartan(
                         color: AppColors.accentcolor,
@@ -217,25 +251,36 @@ class HomeView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Specializations(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "الكل",
+                        style: GoogleFonts.leagueSpartan(
+                           decoration: TextDecoration.lineThrough,
+                          color: AppColors.accentcolor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                   
                   ],
                 ),
+
                 SizedBox(height: 10.h),
 
-                SizedBox(
-                  height: 250.h, 
-                  child: CustomGridView(),),
-               
+                SizedBox(height: 260.h, child: CustomGridView()),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "الكل",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.accentcolor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
                     Text(
                       "الخدمات الطبيه",
                       style: GoogleFonts.leagueSpartan(
@@ -244,11 +289,25 @@ class HomeView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    Text(
+                      "الكل",
+                      style: GoogleFonts.leagueSpartan(
+                        decoration: TextDecoration.lineThrough,
+                        color: AppColors.accentcolor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        
+                      ),
+                    
+                    ),
+                    
+                    
                   ],
                 ),
-                SizedBox(height: 20.h,),
-                VitaminDTestCard()
-                
+
+                SizedBox(height: 20.h),
+
+                VitaminDTestCard(),
               ],
             ),
           ),
@@ -257,4 +316,3 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-
