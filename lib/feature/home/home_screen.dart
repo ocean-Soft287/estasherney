@@ -3,7 +3,7 @@ import 'package:consult_me/feature/doctors/presentation/view/screens/favourites.
 import 'package:consult_me/feature/home/presentation/views/screens/data_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/message_view.dart';
-import 'package:consult_me/feature/home/presentation/views/screens/profile_view.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/profile_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/question_view.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeView(),
     Favourites(),
     QuestionView(),
-    ProfileView(),
+    ProfileScreen(),
     DataView(),
     MessageView(),
   ];
