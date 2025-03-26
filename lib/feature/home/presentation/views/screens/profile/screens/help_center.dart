@@ -33,7 +33,7 @@ class _HelpCenterState extends State<HelpCenter> {
           ),
           child: Column(
             children: [
-              // Header section
+        
               Column(
                 children: [
                   CustomBackground(),
@@ -43,7 +43,7 @@ class _HelpCenterState extends State<HelpCenter> {
                 ],
               ),
 
-              // Content section
+            
               Expanded(
                 child:
                     isDoctor

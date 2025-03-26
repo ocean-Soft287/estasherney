@@ -2,7 +2,7 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/data_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home_view.dart';
-import 'package:consult_me/feature/home/presentation/views/screens/message_view.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/message/message_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   int currentIndex = 0;
 
   final List<Widget> screens = [
