@@ -1,4 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/about_aboutdoctor.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/doctor_for_specialization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,19 +10,19 @@ class Specializations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> specializations = [
-      {"icon": "assets/genre/heart.png", "label": "أمراض القلب"},
       {"icon": "assets/genre/skin.png", "label": "أمراض جلدية"},
-      {"icon": "assets/genre/general.png", "label": "الطب العام"},
+      {"icon": "assets/genre/heart.png", "label": "أمراض القلب"},
       {"icon": "assets/genre/women.png", "label": "أمراض النساء"},
-      {"icon": "assets/genre/teeth.png", "label": "طب الأسنان"},
+      {"icon": "assets/genre/general.png", "label": "الطب العام"},
       {"icon": "assets/genre/cancer.png", "label": "الأورام"},
-      {"icon": "assets/genre/eye_medical.png", "label": "الطب البصري"},
+      {"icon": "assets/genre/teeth.png", "label": "طب الأسنان"},
       {"icon": "assets/genre/Bones.png", "label": "عظام"},
+      {"icon": "assets/genre/eye_medical.png", "label": "الطب البصري"},
     ];
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(  
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
@@ -90,12 +91,14 @@ class Specializations extends StatelessWidget {
                             fillColor: Colors.white,
                             hintText: "ابحث",
                             hintStyle: TextStyle(color: Colors.grey),
-                            suffixIcon: Padding(
+                            prefixIcon: Padding(
                               padding: EdgeInsets.only(left: 10.w),
                               child: Icon(Icons.search, color: Colors.grey),
                             ),
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.h,
+                              horizontal: 20.w,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.r),
                               borderSide: BorderSide.none,
@@ -106,8 +109,9 @@ class Specializations extends StatelessWidget {
                     ),
                     Positioned(
                       right: 0.w,
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20.sp),
-                    ),
+                      child: Icon(Icons.arrow_forward_ios_outlined,size: 20,color: AppColors.wightcolor,)
+                      ),
+                    
                   ],
                 ),
               ),
@@ -118,7 +122,10 @@ class Specializations extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     "التخصصات",
-                    style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -126,8 +133,8 @@ class Specializations extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15.0.w),
                 child: GridView.builder(
-                  shrinkWrap: true,  
-                  physics: NeverScrollableScrollPhysics(),  
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: specializations.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -141,7 +148,7 @@ class Specializations extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DoctorForSpecialization(),
+                            builder: (context) => AboutAboutdoctor(),
                           ),
                         );
                       },
@@ -159,10 +166,10 @@ class Specializations extends StatelessWidget {
                               width: 50.w,
                               height: 50.h,
                             ),
-                            SizedBox(height: 8.h),
+                            SizedBox(height: 15.h),
                             Text(
                               specializations[index]["label"]!,
-                              style: TextStyle(fontSize: 16.sp),
+                              style: TextStyle(fontSize: 16.sp,color: AppColors.mainColor,fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
