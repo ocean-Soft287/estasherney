@@ -10,127 +10,125 @@ class NewPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.only(
-                  top: 30,
-                  bottom: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue.shade900, Colors.blue.shade500],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    top: 30,
+                    bottom: 10,
+                    left: 20,
+                    right: 20,
                   ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25),
-                  ),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Center(
-                      child: Text(
-                        ' تعيين كلمة المرور',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 40),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        ' كلمه السر',
-                        style: GoogleFonts.leagueSpartan(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        hintText: '  ........  ',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: Icon(Icons.visibility_off),
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        ' تاكيد كلمه السر',
-                        style: GoogleFonts.leagueSpartan(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        hintText: ' ........',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: Icon(Icons.visibility_off),
-                      ),
-                    ),
-
-                    SizedBox(height: 40.h),
-                    DefaultButton(
-                      text: " إنشاء كلمة مرور جديدة",
-                      function: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+      gradient: AppColors.blueGradient,
+      borderRadius: const BorderRadius.only(
+        bottomLeft: Radius.circular(25),
+        bottomRight: Radius.circular(25),
+      ),
+    ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          ' تعيين كلمة المرور',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
-                        );
-                      },
-                    ),
-                  ],
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: 40),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ' كلمه السر',
+                          style: GoogleFonts.leagueSpartan(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.greyColor,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      TextField(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          hintText: '  ........  ',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          suffixIcon: Icon(Icons.visibility_off),
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          ' تاكيد كلمه السر',
+                          style: GoogleFonts.leagueSpartan(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.greyColor,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      TextField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          hintText: ' ........',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          suffixIcon: Icon(Icons.visibility_off),
+                        ),
+                      ),
+      
+                      SizedBox(height: 40.h),
+                      DefaultButton(
+                        text: " إنشاء كلمة مرور جديدة",
+                        function: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
