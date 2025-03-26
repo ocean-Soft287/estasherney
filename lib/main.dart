@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'feature/localization/data/localizationmodel.dart';
 import 'feature/localization/manger/localization_state.dart';
+import 'feature/payment/presentation/view/screens/paynow.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
                   }
                   return const Locale('ar'); // Fallback to Arabic
                 },
-                home: const SplashScreen(),
+                home:  Paynow(),
               );
             },
           );

@@ -66,6 +66,9 @@ flutter:
     - assets/genre/
     - assets/genre/cancer.png
     - assets/icons/
+    - assets/images_svg/chat.svg
+    - assets/images_svg/confirm.svg
+    - assets/images_svg/star.svg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

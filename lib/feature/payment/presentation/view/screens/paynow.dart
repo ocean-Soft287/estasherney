@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/app_fonts.dart';
 import '../../../../../core/constants/images_svg.dart';
+import '../../../../../core/widget/defualt_botton.dart';
 
 class Paynow extends StatelessWidget {
   const Paynow({super.key});
@@ -68,10 +67,12 @@ class Paynow extends StatelessWidget {
               20.verticalSpace,
               ListTile(
                 leading:Container(
-                  height: 50,
-                  width: 50,
+                  height: 100,
+                  width: 70,
+
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+                    color: Colors.red
                   ),
                   clipBehavior: Clip.antiAlias, // لمنع تجاوز الصورة للحاوية
                   child: Image.network(
@@ -80,52 +81,125 @@ class Paynow extends StatelessWidget {
                   ),
                 ),
 
-                title: Text("د/ محمد فتحي",style: TextStyle(
-                  fontFamily: Appfonts.font,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: AppColors.mainColor
-                ),),
-                subtitle: Column(
+                title: Column(
                   children: [
-                    Text("حراجه عظام",style: TextStyle(
-                        fontFamily: Appfonts.font,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 14,
-                        color: AppColors.blackColor
-                    ),),
                     Row(
                       children: [
-                        Container(
-                          alignment: Alignment.center,
-                          width: 50.w,
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: AppColors.wightcolor,
-                            border: Border.all(color: AppColors.mainColor,width: 2)
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("30",style: TextStyle(
-                                  fontFamily: Appfonts.font,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 14,
-                                  color: AppColors.blackColor
-                              ),),
-                             SvgPicture.asset(ImagesSvg.chat),
+                        30.horizontalSpace,
+
+                        Column(
+                          children: [
+                            Text("د/ محمد فتحي",style: TextStyle(
+                              fontFamily: Appfonts.font,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: AppColors.mainColor
+                            ),),
+                            Text("حراجه عظام",style: TextStyle(
+                                fontFamily: Appfonts.font,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 14,
+                                color: AppColors.blackColor
+                            ),),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        30.horizontalSpace,
+                        Column(
+                          children: [
+
+                            Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 50.w,
+                                  height: 20.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: AppColors.wightcolor,
+                                      border: Border.all(color: AppColors.mainColor,width: 2)
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("30",style: TextStyle(
+                                          fontFamily: Appfonts.font,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 14,
+                                          color: AppColors.blackColor
+                                      ),),
+                                      SvgPicture.asset(ImagesSvg.chat,color: AppColors.mainColor,height: 13,width: 13,)
 
 
-                            ],
-                          ),
-                        )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 30,),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 50.w,
+                                  height: 20.h,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: AppColors.wightcolor,
+                                      border: Border.all(color: AppColors.mainColor,width: 2)
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("30",style: TextStyle(
+                                          fontFamily: Appfonts.font,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 14,
+                                          color: AppColors.blackColor
+                                      ),),
+                                      SvgPicture.asset(ImagesSvg.star,color: AppColors.mainColor,height: 12,width: 11,)
+
+
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+
+                        ),
                       ],
                     ),
                   ],
-
                 ),
               ),
+              Divider(),
+              Row(
+                children: [
+                  Text("التاريخ / الساعة"),
+                  Spacer(),
+                  Text("15/2 / 10:00 صباحًا"),
+
+                ],
+              ),
+              Row(
+                children: [
+                  Text("التاريخ / الساعة"),
+                  Spacer(),
+                  Text("15/2 / 10:00 صباحًا"),
+
+                ],
+              ),
+              Row(
+                children: [
+                  Text("التاريخ / الساعة"),
+                  Spacer(),
+                  Text("15/2 / 10:00 صباحًا"),
+
+                ],
+              ),
+              DefaultButton(text: "ادفع الان", function: (){},width: .9*MediaQuery.of(context).size.width,heightButton: 45,)
+
             ],
           ),
         ),
