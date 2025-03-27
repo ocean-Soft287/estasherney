@@ -1,5 +1,6 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/profile_doctor.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/bookinggs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -171,7 +172,14 @@ class AboutAboutdoctor extends StatelessWidget {
                         ),
                         SizedBox(width: 10.w),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookingScreen(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: AppColors.mainColor,
