@@ -7,8 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'feature/doctors/presentation/view/screens/doctor_rating.dart';
+import 'feature/doctors/presentation/view/screens/my_appointment.dart';
 import 'feature/localization/data/localizationmodel.dart';
 import 'feature/localization/manger/localization_state.dart';
+import 'feature/payment/presentation/view/screens/payment_methods.dart';
+import 'feature/payment/presentation/view/screens/paynow.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -76,9 +80,9 @@ class MyApp extends StatelessWidget {
                       }
                     }
                   }
-                  return const Locale('ar'); // Fallback to Arabic
+                  return const Locale('ar');
                 },
-                home: const SplashScreen(),
+                home:  MyAppointment(),
               );
             },
           );
