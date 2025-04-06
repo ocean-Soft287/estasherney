@@ -23,16 +23,12 @@ class ProfileDoctor extends StatelessWidget {
                 ),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue.shade900, Colors.blue.shade500],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(25.r),
-                    bottomRight: Radius.circular(25.r),
-                  ),
-                ),
+      gradient: AppColors.blueGradient,
+      borderRadius: const BorderRadius.only(
+        bottomLeft: Radius.circular(25),
+        bottomRight: Radius.circular(25),
+      ),
+    ),
                 child: Stack(
                   children: [
                     Positioned(

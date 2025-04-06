@@ -9,16 +9,18 @@ class YourProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildHeader(),
-            buildInfoCards(),
-            SizedBox(height: 25.h),
-            DefaultButton(text: "تحديث الملف الشخصي", function: () {}),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildHeader(),
+              buildInfoCards(),
+              SizedBox(height: 25.h),
+              DefaultButton(text: "تحديث الملف الشخصي", function: () {}),
+            ],
+          ),
         ),
       ),
     );
