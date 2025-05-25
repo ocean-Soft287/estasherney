@@ -1,12 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../../../core/constants/app_fonts.dart';
-import '../../../../../core/constants/images_svg.dart';
 import '../widget/confirmation_widget.dart';
-
 class ConfirmPayment extends StatelessWidget {
   const ConfirmPayment({super.key});
 

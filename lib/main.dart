@@ -7,17 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'feature/doctors/presentation/view/screens/doctor_rating.dart';
-import 'feature/doctors/presentation/view/screens/my_appointment.dart';
 import 'feature/localization/data/localizationmodel.dart';
 import 'feature/localization/manger/localization_state.dart';
-import 'feature/payment/presentation/view/screens/payment_methods.dart';
-import 'feature/payment/presentation/view/screens/paynow.dart';
 import 'generated/l10n.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter binding is initialized
-  await CacheHelper.init(); // Wait for CacheHelper to initialize
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
 }
 
@@ -45,12 +41,15 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LocalizationCubit()..appLanguage(LanguageEventEnums.initialLanguage),
+          create:
+              (context) =>
+                  LocalizationCubit()
+                    ..appLanguage(LanguageEventEnums.initialLanguage),
         ),
       ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, langState) {
-          Locale locale = const Locale('ar'); // Default language is Arabic
+          Locale locale = const Locale('ar');
 
           if (langState is ChangeLanguage) {
             locale = Locale(langState.languageCode);
@@ -63,7 +62,7 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                locale: locale, // Set the default locale
+                locale: locale,
 
                 supportedLocales: S.delegate.supportedLocales,
                 localizationsDelegates: [
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
                   }
                   return const Locale('ar');
                 },
-                home:  MyAppointment(),
+                home: SplashScreen(),
               );
             },
           );

@@ -16,7 +16,7 @@ class ProfileDoctor extends StatelessWidget {
               Container(
                 height: 220.h,
                 padding: EdgeInsets.only(
-                  top: 30.h,
+                  top: 15.h,
                   bottom: 10.h,
                   left: 20.w,
                   right: 20.w,
@@ -133,11 +133,11 @@ class ProfileDoctor extends StatelessWidget {
                     Positioned(
                       right: 5.w,
                       child: Icon(
-                        Icons.arrow_forward_ios_outlined,
+                        Icons.arrow_back_ios_outlined,
                         color: AppColors.wightcolor,
                       ),
                     ),
-                    // Doctor Image
+                    
                     Positioned(
                       right: 20.w,
                       top: 30.h,
@@ -172,7 +172,7 @@ class ProfileDoctor extends StatelessWidget {
                           SizedBox(height: 5.h),
                           Row(
                             children: [
-                              // Chat Button
+                             
                               Container(
                                 width: 60.w,
                                 height: 30.h,
@@ -190,7 +190,7 @@ class ProfileDoctor extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(width: 10.w),
-                              // Rating Button
+                          
                               Container(
                                 width: 60.w,
                                 height: 30.h,
@@ -216,102 +216,163 @@ class ProfileDoctor extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.h),
+             
               // Focus Section
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "التركيز: تأثير اختلال التوازن الهرموني على حالات الجلد، مع التخصص في حب الشباب، وزيادة الشعر، واضطرابات الجلد الأخرى.",
-                      style: TextStyle(
-                        color: AppColors.accentcolor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
-              // Bio Section
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "حساب تعريفي",
-                      style: TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "الدكتور [اسم الدكتور] هو [التخصص الطبي] يتمتع بخبرة تزيد عن [عدد] سنوات في مجال [مجال التخصص]. حصل على شهادته في [اسم الجامعة] وأكمل تدريبه المتقدم في [مكان التدريب أو الزمالة إن وجدت]",
-                      style: TextStyle(
-                        color: AppColors.greyColor,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
-              // Expertise Section
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "الخبرة الوظيفية",
-                      style: TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "يشتهر الدكتور [اسم الدكتور] بمهاراته المتميزة في [مجال معين داخل التخصص] وحرصه الدائم على تقديم رعاية طبية متكاملة وشاملة لمرضاه. كما يحرص على متابعة أحدث التطورات الطبية والتقنيات الحديثة لضمان أفضل النتائج العلاجية",
-                      style: TextStyle(
-                        color: AppColors.greyColor,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
-              // Highlights Section
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "أبرز",
-                      style: TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "بالإضافة إلى عمله السريري، يشارك الدكتور [اسم الدكتور] في الأنشطة البحثية والمؤتمرات العلمية، وساهم في نشر العديد من الأبحاث الطبية في مجلات علمية محكمة. كما أنه معروف بأسلوبه الإنساني في التعامل مع المرضى، حيث يولي اهتمامًا خاصًا براحتهم النفسية والجسدية",
-                      style: TextStyle(
-                        color: AppColors.greyColor,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
+TweenAnimationBuilder<double>(
+  tween: Tween(begin: -50.0, end: 0.0),
+  duration: const Duration(milliseconds: 600),
+  curve: Curves.easeOut,
+  builder: (context, value, child) {
+    return Transform.translate(
+      offset: Offset(value, 0),
+      child: Opacity(
+        opacity: (50 + value) / 50,
+        child: child,
+      ),
+    );
+  },
+  child: Padding(
+    padding: EdgeInsets.symmetric(horizontal: 20.w),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "التركيز: تأثير اختلال التوازن الهرموني على حالات الجلد، مع التخصص في حب الشباب، وزيادة الشعر، واضطرابات الجلد الأخرى.",
+          style: TextStyle(
+            color: AppColors.accentcolor,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+SizedBox(height: 20.h),
+
+// Bio Section
+TweenAnimationBuilder<double>(
+  tween: Tween(begin: -50.0, end: 0.0),
+  duration: const Duration(milliseconds: 700),
+  curve: Curves.easeOut,
+  builder: (context, value, child) {
+    return Transform.translate(
+      offset: Offset(value, 0),
+      child: Opacity(
+        opacity: (50 + value) / 50,
+        child: child,
+      ),
+    );
+  },
+  child: Padding(
+    padding: EdgeInsets.symmetric(horizontal: 20.w),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "حساب تعريفي",
+          style: TextStyle(
+            color: AppColors.mainColor,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Text(
+          "الدكتور [اسم الدكتور] هو [التخصص الطبي] يتمتع بخبرة تزيد عن [عدد] سنوات في مجال [مجال التخصص]. حصل على شهادته في [اسم الجامعة] وأكمل تدريبه المتقدم في [مكان التدريب أو الزمالة إن وجدت]",
+          style: TextStyle(
+            color: AppColors.greyColor,
+            fontSize: 14.sp,
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+SizedBox(height: 20.h),
+
+// Expertise Section
+TweenAnimationBuilder<double>(
+  tween: Tween(begin: -50.0, end: 0.0),
+  duration: const Duration(milliseconds: 800),
+  curve: Curves.easeOut,
+  builder: (context, value, child) {
+    return Transform.translate(
+      offset: Offset(value, 0),
+      child: Opacity(
+        opacity: (50 + value) / 50,
+        child: child,
+      ),
+    );
+  },
+  child: Padding(
+    padding: EdgeInsets.symmetric(horizontal: 20.w),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "الخبرة الوظيفية",
+          style: TextStyle(
+            color: AppColors.mainColor,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Text(
+          "يشتهر الدكتور [اسم الدكتور] بمهاراته المتميزة في [مجال معين داخل التخصص] وحرصه الدائم على تقديم رعاية طبية متكاملة وشاملة لمرضاه. كما يحرص على متابعة أحدث التطورات الطبية والتقنيات الحديثة لضمان أفضل النتائج العلاجية",
+          style: TextStyle(
+            color: AppColors.greyColor,
+            fontSize: 14.sp,
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+SizedBox(height: 20.h),
+
+// Highlights Section
+TweenAnimationBuilder<double>(
+  tween: Tween(begin: -50.0, end: 0.0),
+  duration: const Duration(milliseconds: 900),
+  curve: Curves.easeOut,
+  builder: (context, value, child) {
+    return Transform.translate(
+      offset: Offset(value, 0),
+      child: Opacity(
+        opacity: (50 + value) / 50,
+        child: child,
+      ),
+    );
+  },
+  child: Padding(
+    padding: EdgeInsets.symmetric(horizontal: 20.w),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "أبرز",
+          style: TextStyle(
+            color: AppColors.mainColor,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Text(
+          "بالإضافة إلى عمله السريري، يشارك الدكتور [اسم الدكتور] في الأنشطة البحثية والمؤتمرات العلمية، وساهم في نشر العديد من الأبحاث الطبية في مجلات علمية محكمة. كما أنه معروف بأسلوبه الإنساني في التعامل مع المرضى، حيث يولي اهتمامًا خاصًا براحتهم النفسية والجسدية",
+          style: TextStyle(
+            color: AppColors.greyColor,
+            fontSize: 14.sp,
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+SizedBox(height: 20.h),
+
             ],
           ),
         ),

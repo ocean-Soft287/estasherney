@@ -44,7 +44,7 @@ class _PageOneState extends State<PageOne> with SingleTickerProviderStateMixin {
                 children: [
                   SizedBox(height: 20.h),
 
-                
+                 
                   AnimatedOpacity(
                     duration: Duration(milliseconds: 800),
                     opacity: _opacity,
@@ -62,29 +62,37 @@ class _PageOneState extends State<PageOne> with SingleTickerProviderStateMixin {
 
                   SizedBox(height: 50.h),
 
-            
-                  Text(
-                    "اختر طبيبك",
-                    style: GoogleFonts.leagueSpartan(
-                      color: AppColors.mainColor,
-                      fontSize: constraints.maxWidth > 600 ? 24.sp : 20.sp,
-                      fontWeight: FontWeight.w600,
+                 
+                  AnimatedSlide(
+                    offset: Offset(_opacity == 1.0 ? 0 : -1.0, 0), // Text moves from left to right
+                    duration: Duration(milliseconds: 800),
+                    child: Text(
+                      "اختر طبيبك",
+                      style: GoogleFonts.leagueSpartan(
+                        color: AppColors.mainColor,
+                        fontSize: constraints.maxWidth > 600 ? 24.sp : 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
 
                   SizedBox(height: 25.h),
 
-                 
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "يمكنك تصفح قائمة الأطباء المتخصصين، قراءة التقييمات، وحجز موعدك بسهولة تامة. صحتك تستحق الأفضل",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.textcColor,
-                        fontSize: constraints.maxWidth > 600 ? 16.sp : 12.sp,
-                        fontWeight: FontWeight.w300,
+                  
+                  AnimatedSlide(
+                    offset: Offset(_opacity == 1.0 ? 0 : -1.0, 0), 
+                    duration: Duration(milliseconds: 800),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "يمكنك تصفح قائمة الأطباء المتخصصين، قراءة التقييمات، وحجز موعدك بسهولة تامة. صحتك تستحق الأفضل",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.textcColor,
+                          fontSize: constraints.maxWidth > 600 ? 16.sp : 12.sp,
+                          fontWeight: FontWeight.w300,
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                      textAlign: TextAlign.right,
                     ),
                   ),
                 ],

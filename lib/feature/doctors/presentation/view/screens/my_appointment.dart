@@ -1,4 +1,5 @@
 import 'package:consult_me/core/constants/images_svg.dart';
+import 'package:consult_me/feature/payment/presentation/view/screens/payment_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -74,10 +75,11 @@ class MyAppointment extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Row(
+                                          
                                           children: [
                                             Container(
-                                              width: 70.w,
-                                              height: 70.h,
+                                              width: 50.w,
+                                              height: 50.h,
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                               ),
@@ -246,7 +248,9 @@ class MyAppointment extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    DefaultButton(text: 'ادفع', function: (){},width: .3*MediaQuery.of(context).size.width,heightButton: 30.h,),
+                    DefaultButton(text: 'ادفع', function: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentMethods()));
+                    },width: .3*MediaQuery.of(context).size.width,heightButton: 30.h,),
                     DefaultButton(text: 'الغاء', function: (){},width: .3*MediaQuery.of(context).size.width,heightButton: 30.h,)
 
 

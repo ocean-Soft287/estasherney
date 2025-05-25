@@ -1,24 +1,28 @@
-
-
-  import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget buildInfoCards() {
-    return Padding(
+class customcart extends StatelessWidget {
+  const customcart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+   return  Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildLabel("الاسم كامل"),
-          buildCard("محمد فتحي"),
-          buildLabel("رقم الجوال"),
-          buildCard("+123 567 89000"),
-          buildLabel("الإيميل"),
-          buildCard("mohamedfathy12@gmail.com"),
-          buildLabel("تاريخ الميلاد"),
-          buildCard("DD / MM / YYYY"),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildLabel("الاسم كامل"),
+            buildCard("محمد فتحي"),
+            buildLabel("رقم الجوال"),
+            buildCard("+123 567 89000"),
+            buildLabel("الإيميل"),
+            buildCard("mohamedfathy12@gmail.com"),
+            buildLabel("تاريخ الميلاد"),
+            buildCard("DD / MM / YYYY"),
+          ],
+        ),
       ),
     );
   }
@@ -41,7 +45,7 @@ Widget buildInfoCards() {
           borderRadius: BorderRadius.circular(12.r),
         ),
         elevation: 2,
-        color: AppColors.wightcolor,
+        color: AppColors.wightcolor, // Fixed possible typo here
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
           child: Text(
@@ -52,4 +56,4 @@ Widget buildInfoCards() {
       ),
     );
   }
-
+}

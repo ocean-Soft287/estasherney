@@ -9,9 +9,9 @@ class AboutAboutdoctor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -19,13 +19,13 @@ class AboutAboutdoctor extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                 width: double.infinity,
                 height: 190.h,
-               decoration: BoxDecoration(
-      gradient: AppColors.blueGradient,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(25),
-        bottomRight: Radius.circular(25),
-      ),
-    ),
+                decoration: BoxDecoration(
+                  gradient: AppColors.blueGradient,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  ),
+                ),
                 child: Stack(
                   children: [
                     Column(
@@ -88,14 +88,14 @@ class AboutAboutdoctor extends StatelessWidget {
                     ),
                     Positioned(
                       right: 0.w,
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20.sp),
+                      child: Icon(Icons.arrow_back_ios, color: Colors.white, size: 20.sp),
                     ),
                   ],
                 ),
               ),
               SizedBox(height: 20.h),
 
-            
+             
               Padding(
                 padding: EdgeInsets.all(10.w),
                 child: Row(
@@ -115,86 +115,106 @@ class AboutAboutdoctor extends StatelessWidget {
                   ],
                 ),
               ),
+
               SizedBox(height: 20.h),
 
+             
               Column(
                 children: List.generate(
                   10,
-                  (index) => Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 40.r,
-                          backgroundImage: AssetImage("assets/images/Mask Group (3).png"),
-                        ),
-                        SizedBox(width: 10.w),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
+                  (index) => TweenAnimationBuilder<Offset>(
+                    duration: Duration(milliseconds: 800 + index * 100),
+                    tween: Tween<Offset>(
+                      begin: Offset(-1.5, 0),
+                      end: Offset.zero,
+                    ),
+                    curve: Curves.easeOut,
+                    builder: (context, offset, child) {
+                      return Transform.translate(
+                        offset: Offset(offset.dx * 50.w, 0),
+                        child: child,
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 40.r,
+                            backgroundImage: AssetImage("assets/images/Mask Group (3).png"),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileDoctor(),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "د/ محمد فتحي",
+                                    style: TextStyle(
+                                      color: AppColors.mainColor,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    "أمراض القلب",
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: AppColors.greyColor,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.favorite_border,
+                                          color: AppColors.mainColor, size: 20.sp),
+                                      SizedBox(width: 10.w),
+                                      Icon(Icons.calendar_month,
+                                          color: AppColors.mainColor, size: 20.sp),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          ElevatedButton(
+                            onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProfileDoctor(),
+                                  builder: (context) => BookingScreen(),
                                 ),
                               );
                             },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "د/ محمد فتحي",
-                                  style: TextStyle(
-                                    color: AppColors.mainColor,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  "أمراض القلب",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: AppColors.greyColor,
-                                  ),
-                                ),
-                                SizedBox(height: 8.h),
-                                Row(
-                                  children: [
-                                    Icon(Icons.favorite_border, color: AppColors.mainColor, size: 20.sp),
-                                    SizedBox(width: 10.w),
-                                    Icon(Icons.calendar_month, color: AppColors.mainColor, size: 20.sp),
-                                  ],
-                                )
-                              ],
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: AppColors.mainColor,
+                              side: BorderSide(color: AppColors.mainColor, width: 2.w),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.r)),
+                              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
                             ),
+                            child: Text("احجز الآن"),
                           ),
-                        ),
-                        SizedBox(width: 10.w),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BookingScreen(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: AppColors.mainColor,
-                            side: BorderSide(color: AppColors.mainColor, width: 2.w),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
-                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-                          ),
-                          child: Text("احجز الآن"),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 20.h), // Extra spacing for smooth scrolling
+
+              SizedBox(height: 20.h), 
             ],
           ),
         ),

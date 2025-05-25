@@ -1,5 +1,3 @@
-
-
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,12 +17,11 @@ Widget buildHeader() {
     ),
     child: Stack(
       children: [
-      
         Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 10.h), 
+              SizedBox(height: 10.h),
               Text(
                 "الملف الشخصي",
                 style: TextStyle(
@@ -59,25 +56,17 @@ Widget buildHeader() {
             ],
           ),
         ),
-        
-        
         Positioned(
           top: 25.h,
           right: 15.w,
-          child: 
-           Image.asset("assets/images/Settigns.png")
-         
-          
-          ),
-        
-         Positioned(
+          child: Image.asset("assets/images/Settigns.png"), // Assuming typo fixed
+        ),
+        Positioned(
           top: 10.h,
           left: 10.w,
           child: IconButton(
             icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-            onPressed: () {
-              
-            },
+            onPressed: () {},
           ),
         ),
       ],

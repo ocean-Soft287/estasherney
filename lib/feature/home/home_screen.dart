@@ -14,14 +14,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   int currentIndex = 0;
 
   final List<Widget> screens = [
     HomeView(),
     const ProfileScreen(),
     const Favourites(),
-
     const MessageView(),
     const DataView(),
   ];
@@ -38,9 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
             buildNavItem(Icons.home, 0),
             buildNavItem(Icons.person, 1),
             buildNavItem(Icons.favorite_outline_outlined, 2),
-
             buildNavItem(Icons.question_answer, 3),
-
             buildNavItem(Icons.date_range, 4),
           ],
         ),
@@ -49,17 +45,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildNavItem(IconData icon, int index) {
-    return IconButton(
-      icon: Icon(
-        icon,
-        color: currentIndex == index ? AppColors.mainColor : Colors.black,
-        size: 28,
-      ),
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         setState(() {
           currentIndex = index;
         });
       },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        width: 50,
+        height: 40,
+        decoration: BoxDecoration(
+          color: currentIndex == index ? AppColors.mainColor.withOpacity(0.7) : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Center(
+          child: Icon(
+            icon,
+            color: currentIndex == index ? Colors.white : Colors.black,
+            size: 28,
+          ),
+        ),
+      ),
     );
   }
 }

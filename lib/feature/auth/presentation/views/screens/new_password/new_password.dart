@@ -5,8 +5,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class NewPassword extends StatelessWidget {
+class NewPassword extends StatefulWidget {
   const NewPassword({super.key});
+
+  @override
+  _NewPasswordState createState() => _NewPasswordState();
+}
+
+class _NewPasswordState extends State<NewPassword> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(-1.0, 0.0), // Slide from left
+      end: Offset.zero, // End at original position
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Reset and restart the animation every time the screen is displayed
+    _controller.reset();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,28 +67,31 @@ class NewPassword extends StatelessWidget {
                   ),
                   width: double.infinity,
                   decoration: BoxDecoration(
-      gradient: AppColors.blueGradient,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(25),
-        bottomRight: Radius.circular(25),
-      ),
-    ),
+                    gradient: AppColors.blueGradient,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                  ),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Center(
-                        child: Text(
-                          ' تعيين كلمة المرور',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            ' تعيين كلمة المرور',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
                       Positioned(
                         right: 0,
-                        child: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                        child: Icon(Icons.arrow_back_ios, color: Colors.white),
                       ),
                     ],
                   ),
@@ -63,12 +104,15 @@ class NewPassword extends StatelessWidget {
                     children: [
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          ' كلمه السر',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            ' كلمه السر',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -88,12 +132,15 @@ class NewPassword extends StatelessWidget {
                       SizedBox(height: 10.h),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          ' تاكيد كلمه السر',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            ' تاكيد كلمه السر',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -111,7 +158,6 @@ class NewPassword extends StatelessWidget {
                           suffixIcon: Icon(Icons.visibility_off),
                         ),
                       ),
-      
                       SizedBox(height: 40.h),
                       DefaultButton(
                         text: " إنشاء كلمة مرور جديدة",

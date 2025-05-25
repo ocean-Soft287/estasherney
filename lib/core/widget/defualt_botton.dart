@@ -1,5 +1,3 @@
-
-
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/constants/app_fonts.dart';
 import 'package:flutter/material.dart';
@@ -14,34 +12,34 @@ class DefaultButton extends StatelessWidget {
   final Widget? icon;
   final double? heightButton;
   final bool isborder;
-  final double?width;
+  final double? width;
   final double? radius;
   const DefaultButton({
     super.key,
     required this.text,
     required this.function,
-    this.backgroundColor =AppColors.mainColor ,
+    this.backgroundColor = AppColors.mainColor,
     this.textColor = Colors.white,
     this.hasIcon = false,
-    this.isborder=false,
+    this.isborder = false,
     this.icon,
-    this.heightButton, this.width, this.radius,
+    this.heightButton,
+    this.width,
+    this.radius,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color:(!isborder)? backgroundColor:textColor,
-        borderRadius: BorderRadius.circular(radius??18.0.r),
-        border: (!isborder)?Border.all(
-          color: backgroundColor
-        ):Border.all()
+        color: (!isborder) ? backgroundColor : textColor,
+        borderRadius: BorderRadius.circular(radius ?? 18.0.r),
+        border: (!isborder) ? Border.all(color: backgroundColor) : Border.all(),
       ),
-      width:width ?? 0.5*MediaQuery.sizeOf(context).width,
-      height:heightButton?? 45.h,
+      width: width ?? 0.5 * MediaQuery.sizeOf(context).width,
+      height: heightButton ?? 45.h,
       child: GestureDetector(
-        onTap:() {
+        onTap: () {
           function();
         },
 
@@ -49,14 +47,14 @@ class DefaultButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (hasIcon && icon != null) icon!,
-            const SizedBox(width: 10,),
+            const SizedBox(width: 10),
             Text(
               text,
               style: TextStyle(
                 fontSize: 16.sp,
                 fontFamily: Appfonts.font,
                 fontWeight: FontWeight.w400,
-                color:(!isborder)? textColor:backgroundColor,
+                color: (!isborder) ? textColor : backgroundColor,
               ),
             ),
           ],

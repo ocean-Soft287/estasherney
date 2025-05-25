@@ -16,7 +16,7 @@ class YourProfile extends StatelessWidget {
           child: Column(
             children: [
               buildHeader(),
-              buildInfoCards(),
+              customcart(),
               SizedBox(height: 25.h),
               DefaultButton(text: "تحديث الملف الشخصي", function: () {}),
             ],

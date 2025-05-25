@@ -33,13 +33,13 @@ class Specializations extends StatelessWidget {
                 ),
                 width: double.infinity,
                 height: 190.h,
-               decoration: BoxDecoration(
-      gradient: AppColors.blueGradient,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(25),
-        bottomRight: Radius.circular(25),
-      ),
-    ),
+                decoration: BoxDecoration(
+                  gradient: AppColors.blueGradient,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  ),
+                ),
                 child: Stack(
                   children: [
                     Column(
@@ -104,9 +104,12 @@ class Specializations extends StatelessWidget {
                     ),
                     Positioned(
                       right: 0.w,
-                      child: Icon(Icons.arrow_forward_ios_outlined,size: 20,color: AppColors.wightcolor,)
+                      child: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 20,
+                        color: AppColors.wightcolor,
                       ),
-                    
+                    ),
                   ],
                 ),
               ),
@@ -138,35 +141,53 @@ class Specializations extends StatelessWidget {
                     childAspectRatio: 1.1,
                   ),
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AboutAboutdoctor(),
-                          ),
+                    return TweenAnimationBuilder<Offset>(
+                      duration: Duration(milliseconds: 800 + index * 100),
+                      tween: Tween<Offset>(
+                        begin: Offset(-1.5, 0),
+                        end: Offset.zero,
+                      ),
+                      curve: Curves.easeOut,
+                      builder: (context, offset, child) {
+                        return Transform.translate(
+                          offset: Offset(offset.dx * 50.w, 0),
+                          child: child,
                         );
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.r),
-                          border: Border.all(color: AppColors.mainColor),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              specializations[index]["icon"]!,
-                              width: 50.w,
-                              height: 50.h,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AboutAboutdoctor(),
                             ),
-                            SizedBox(height: 15.h),
-                            Text(
-                              specializations[index]["label"]!,
-                              style: TextStyle(fontSize: 16.sp,color: AppColors.mainColor,fontWeight: FontWeight.w600),
-                            ),
-                          ],
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20.r),
+                            border: Border.all(color: AppColors.mainColor),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                specializations[index]["icon"]!,
+                                width: 50.w,
+                                height: 50.h,
+                              ),
+                              SizedBox(height: 15.h),
+                              Text(
+                                specializations[index]["label"]!,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: AppColors.mainColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

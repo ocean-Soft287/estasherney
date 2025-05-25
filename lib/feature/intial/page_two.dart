@@ -44,7 +44,6 @@ class _PageTwoState extends State<PageTwo> with SingleTickerProviderStateMixin {
                 children: [
                   SizedBox(height: 20.h),
 
-                 
                   AnimatedOpacity(
                     duration: Duration(milliseconds: 800),
                     opacity: _opacity,
@@ -62,29 +61,37 @@ class _PageTwoState extends State<PageTwo> with SingleTickerProviderStateMixin {
 
                   SizedBox(height: 50.h),
 
-               
-                  Text(
-                    "جدولة مواعيدك",
-                    style: GoogleFonts.leagueSpartan(
-                      color: AppColors.mainColor,
-                      fontSize: constraints.maxWidth > 600 ? 24.sp : 20.sp,
-                      fontWeight: FontWeight.w600,
+                
+                  AnimatedSlide(
+                    offset: Offset(_opacity == 1.0 ? 0 : -1.0, 0), // Text slides in from left to right
+                    duration: Duration(milliseconds: 800),
+                    child: Text(
+                      "جدولة مواعيدك",
+                      style: GoogleFonts.leagueSpartan(
+                        color: AppColors.mainColor,
+                        fontSize: constraints.maxWidth > 600 ? 24.sp : 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
 
                   SizedBox(height: 25.h),
 
-           
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "يمكنك حجز مواعيدك الطبية وإدارتها بكل سهولة، في الوقت الذي يناسبك. صحتك أولويتنا",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.textcColor,
-                        fontSize: constraints.maxWidth > 600 ? 16.sp : 12.sp,
-                        fontWeight: FontWeight.w300,
+                 
+                  AnimatedSlide(
+                    offset: Offset(_opacity == 1.0 ? 0 : -1.0, 0), // Text slides in from left to right
+                    duration: Duration(milliseconds: 800),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "يمكنك حجز مواعيدك الطبية وإدارتها بكل سهولة، في الوقت الذي يناسبك. صحتك أولويتنا",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.textcColor,
+                          fontSize: constraints.maxWidth > 600 ? 16.sp : 12.sp,
+                          fontWeight: FontWeight.w300,
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                      textAlign: TextAlign.right,
                     ),
                   ),
                 ],

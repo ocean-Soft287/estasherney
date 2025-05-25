@@ -87,6 +87,7 @@ class VitaminDTestCard extends StatelessWidget {
               right: 50.w,
               child: Image.asset(
                 "assets/images/Rectangle 154.png",
+                fit: BoxFit.cover,
                 width: 123.w, 
                 height: 106.h, 
               ),

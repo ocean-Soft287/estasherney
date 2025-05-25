@@ -1,6 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/Specializations.dart';
 import 'package:consult_me/feature/home/presentation/views/widget/custom_grid_view.dart';
+import 'package:consult_me/feature/home/presentation/views/widget/custom_list_view.dart';
 import 'package:consult_me/feature/home/presentation/views/widget/custom_vitamin_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,13 +102,13 @@ class HomeView extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     children: [
                       Image.asset("assets/images/Record.png"),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: 5.w),
                       Image.asset("assets/images/Specialties.png"),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: 5.w),
                       Image.asset("assets/images/Pharmacy.png"),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: 5.w),
                       Image.asset("assets/images/Doctors.png"),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: 5.w),
                       Image.asset("assets/images/Favorites.png"),
                     ],
                   ),
@@ -118,7 +119,6 @@ class HomeView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    
                     Text(
                       "الجدول الزمني القادم",
                       style: GoogleFonts.leagueSpartan(
@@ -130,7 +130,7 @@ class HomeView extends StatelessWidget {
                     Text(
                       "الكل",
                       style: GoogleFonts.leagueSpartan(
-                         decoration: TextDecoration.lineThrough,
+                        decoration: TextDecoration.lineThrough,
                         color: AppColors.accentcolor,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
@@ -140,110 +140,14 @@ class HomeView extends StatelessWidget {
                 ),
 
                 SizedBox(height: 20.h),
+                CustomListView(),
 
-              Stack(
-  children: [
-    Container(
-      height: 150.h,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.blue.shade800,
-        borderRadius: BorderRadius.circular(15.r),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset("assets/images/doctor.png"),
-                      SizedBox(width: 10.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "الدكتور محمد فتحي",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Text(
-                            "طب أسنان",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(width: 200.w),
-          SizedBox(height: 20.w),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "الأحد 27 يونيو 2021",
-                    style: GoogleFonts.leagueSpartan(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    "08:00 صباحًا - 10:00 صباحًا",
-                    style: GoogleFonts.leagueSpartan(
-                      color: Colors.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.message,
-                  color: Color(0xff96A7AF),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-    
-    
-    Positioned(
-      top: 30.h,
-      left: 20.w,
-      child: Image.asset("assets/images/Group 19.png"),
-    ),
-  ],
-),
-
-
-                SizedBox(height: 20.h),
+                SizedBox(height: 10.h),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text(
+                    Text(
                       "التخصصات",
                       style: GoogleFonts.leagueSpartan(
                         color: AppColors.accentcolor,
@@ -263,14 +167,13 @@ class HomeView extends StatelessWidget {
                       child: Text(
                         "الكل",
                         style: GoogleFonts.leagueSpartan(
-                           decoration: TextDecoration.lineThrough,
+                          decoration: TextDecoration.lineThrough,
                           color: AppColors.accentcolor,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
-                   
                   ],
                 ),
 
@@ -296,12 +199,8 @@ class HomeView extends StatelessWidget {
                         color: AppColors.accentcolor,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        
                       ),
-                    
                     ),
-                    
-                    
                   ],
                 ),
 

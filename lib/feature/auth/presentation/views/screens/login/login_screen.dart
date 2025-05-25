@@ -7,12 +7,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(-1.0, 0.0), 
+      end: Offset.zero, 
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+   
+    _controller.reset();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
@@ -30,29 +68,32 @@ class LoginScreen extends StatelessWidget {
                   width: double.infinity,
                   height: 100,
                   decoration: BoxDecoration(
-      gradient: AppColors.blueGradient,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(25),
-        bottomRight: Radius.circular(25),
-      ),
-    ),
+                    gradient: AppColors.blueGradient,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                  ),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Center(
-                        child: Text(
-                          'تسجيل دخول',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.3),
-                                offset: Offset(1, 1),
-                                blurRadius: 2,
-                              ),
-                            ],
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            'تسجيل دخول',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  offset: Offset(1, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -74,36 +115,45 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          'مرحبا',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.mainColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            'مرحبا',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.mainColor,
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(height: 10.w),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          'سجل دخولك للوصول إلى خدماتك الصحية بكل سهولة وأمان',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 14,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            'سجّل دخولك  للوصول إلى خدماتك الصحية بكل سهولة وأمان. صحتك تبدأ هنا',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 14,
+                              color: AppColors.greyColor,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
-                          textAlign: TextAlign.right,
                         ),
                       ),
                       SizedBox(height: 40.h),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          'البريد الإلكتروني أو رقم الجوال',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            'البريد الإلكتروني أو رقم الجوال',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -122,12 +172,15 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: 10.h),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          'كلمه السر',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            'كلمه السر',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -156,17 +209,19 @@ class LoginScreen extends StatelessWidget {
                         },
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            ' نسيت كلمه السر',
-                            style: GoogleFonts.leagueSpartan(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.greyColor,
+                          child: SlideTransition(
+                            position: _slideAnimation,
+                            child: Text(
+                              ' نسيت كلمه السر',
+                              style: GoogleFonts.leagueSpartan(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.greyColor,
+                              ),
                             ),
                           ),
                         ),
                       ),
-
                       SizedBox(height: 30.h),
                       DefaultButton(
                         text: "تسجيل الدخول",
@@ -192,21 +247,27 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               );
                             },
+                            child: SlideTransition(
+                              position: _slideAnimation,
+                              child: Text(
+                                "سجل الآن",
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.greyColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SlideTransition(
+                            position: _slideAnimation,
                             child: Text(
-                              "سجل الآن",
+                              "ليس لديك حساب؟",
                               style: GoogleFonts.leagueSpartan(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w300,
                                 color: AppColors.greyColor,
                               ),
-                            ),
-                          ),
-                          Text(
-                            "ليس لديك حساب؟",
-                            style: GoogleFonts.leagueSpartan(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.greyColor,
                             ),
                           ),
                         ],

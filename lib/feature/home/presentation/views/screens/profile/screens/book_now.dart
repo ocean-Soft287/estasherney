@@ -1,12 +1,14 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/constants/app_fonts.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/doctor_rating.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/my_appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ResetBooKNow extends StatelessWidget {
-   ResetBooKNow({super.key});
+  ResetBooKNow({super.key});
 
-  
   final List<String> doctors = List.generate(5, (index) => "د/ محمد فتحي");
 
   @override
@@ -54,18 +56,17 @@ class ResetBooKNow extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.h),
-              
+
               Padding(
                 padding: EdgeInsets.all(12),
                 child: ListView.builder(
                   itemCount: doctors.length,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(), 
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Card(
                       color: AppColors.wightcolor,
                       shape: RoundedRectangleBorder(
-                        
                         borderRadius: BorderRadius.circular(12),
                       ),
                       margin: EdgeInsets.only(bottom: 15),
@@ -74,12 +75,13 @@ class ResetBooKNow extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          
                             Row(
                               children: [
                                 CircleAvatar(
                                   radius: 30,
-                                  backgroundImage: AssetImage("assets/images/doctor.png"), 
+                                  backgroundImage: AssetImage(
+                                    "assets/images/doctor.png",
+                                  ),
                                 ),
                                 SizedBox(width: 10),
                                 Column(
@@ -95,41 +97,79 @@ class ResetBooKNow extends StatelessWidget {
                                     ),
                                     Text(
                                       "جراحة الأمراض الجلدية",
-                                      style: TextStyle(fontSize: 14, color: Colors.black),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
                                 Spacer(),
                                 Row(
                                   children: [
-                                    Icon(Icons.star, color: AppColors.mainColor, size: 18),
+                                    Icon(
+                                      Icons.star,
+                                      color: AppColors.mainColor,
+                                      size: 18,
+                                    ),
                                     Text("4.5"),
                                     SizedBox(width: 5),
-                                    Icon(Icons.favorite_border, color:AppColors.mainColor),
+                                    Icon(
+                                      Icons.favorite_border,
+                                      color: AppColors.mainColor,
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
                             SizedBox(height: 12),
 
-           
                             Wrap(
                               spacing: 8,
                               runSpacing: 8,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                     Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>MyAppointment (),
+                                      ),
+                                    );
+
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.mainColor,
                                   ),
-                                  child: Text("تأكيد الحجز", style: TextStyle(color: Colors.white)),
+                                  child: Text(
+                                    "تأكيد الحجز",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                                 OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DoctorRating(),
+                                      ),
+                                    );
+                                  },
                                   child: Text("إضافة تقييم"),
                                 ),
                               ],
                             ),
+                            SizedBox(width: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+
+                              Text("القيمه:",
+                              style: GoogleFonts.leagueSpartan(color:AppColors.mainColor,fontSize: 20),),
+                              Text("400",
+                              style: GoogleFonts.leagueSpartan(color: Colors.black,fontSize: 15),)
+                            ],
+                          )
                           ],
                         ),
                       ),

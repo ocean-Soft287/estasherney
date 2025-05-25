@@ -5,12 +5,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(-1.0, 0.0), // Slide from left
+      end: Offset.zero, // End at original position
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Reset and restart the animation every time the screen is displayed
+    _controller.reset();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+    return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
@@ -29,22 +67,25 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   width: double.infinity,
                   decoration: BoxDecoration(
-      gradient: AppColors.blueGradient,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(25),
-        bottomRight: Radius.circular(25),
-      ),
-    ),
+                    gradient: AppColors.blueGradient,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                  ),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Center(
-                        child: Text(
-                          ' حساب جديد',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            ' حساب جديد',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -61,17 +102,17 @@ class RegisterScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                     
-                      
-                      
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          'الاسم كامل ',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            'الاسم كامل ',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -90,12 +131,15 @@ class RegisterScreen extends StatelessWidget {
                       SizedBox(height: 5.h),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          'كلمه السر',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            'كلمه السر',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -113,15 +157,18 @@ class RegisterScreen extends StatelessWidget {
                           suffixIcon: Icon(Icons.visibility_off),
                         ),
                       ),
-                       SizedBox(height: 5.h),
+                      SizedBox(height: 5.h),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          ' الايميل',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            ' الايميل',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -136,18 +183,20 @@ class RegisterScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
-                          
                         ),
                       ),
-                       SizedBox(height: 5.h),
+                      SizedBox(height: 5.h),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          ' رقم الجوال',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            ' رقم الجوال',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -162,18 +211,20 @@ class RegisterScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
-                         
                         ),
                       ),
-                       SizedBox(height: 5.h),
+                      SizedBox(height: 5.h),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          ' تاريخ الميلاد',
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.greyColor,
+                        child: SlideTransition(
+                          position: _slideAnimation,
+                          child: Text(
+                            ' تاريخ الميلاد',
+                            style: GoogleFonts.leagueSpartan(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.greyColor,
+                            ),
                           ),
                         ),
                       ),
@@ -188,15 +239,10 @@ class RegisterScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
-                        
                         ),
                       ),
-                     
-                        
-                      
-                      
                       SizedBox(height: 20.h),
-                      DefaultButton(text:" انشاء حساب",function:(){}),
+                      DefaultButton(text: " انشاء حساب", function: () {}),
                       SizedBox(height: 50.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -210,21 +256,27 @@ class RegisterScreen extends StatelessWidget {
                                 ),
                               );
                             },
+                            child: SlideTransition(
+                              position: _slideAnimation,
+                              child: Text(
+                                "تسجيل الدخول",
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.greyColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SlideTransition(
+                            position: _slideAnimation,
                             child: Text(
-                              "تسجيل الدخول",
+                              "هل لديك حساب بالفعل؟",
                               style: GoogleFonts.leagueSpartan(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w300,
                                 color: AppColors.greyColor,
                               ),
-                            ),
-                          ),
-                          Text(
-                            "هل لديك حساب بالفعل؟",
-                            style: GoogleFonts.leagueSpartan(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.greyColor,
                             ),
                           ),
                         ],

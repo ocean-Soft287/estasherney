@@ -1,5 +1,5 @@
+import 'package:consult_me/feature/payment/presentation/view/widget/confirmation_widget.dart';
 import 'package:consult_me/feature/payment/presentation/view/widget/paymentinfo_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,7 +29,9 @@ class PaymentDetailWidget extends StatelessWidget {
         10.verticalSpace,
         DefaultButton(
           text: "ادفع الان",
-          function: () {},
+          function: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>ConfirmationWidget()));
+          },
           width: .9 * MediaQuery.of(context).size.width,
           heightButton: 45,
         ),

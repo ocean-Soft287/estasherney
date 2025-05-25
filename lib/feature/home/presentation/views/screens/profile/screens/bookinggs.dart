@@ -506,26 +506,12 @@ class _BookingScreenState extends State<BookingScreen> {
                         if (selected) setState(() => gender = "أنثى");
                       },
                     ),
-                    SizedBox(width: 10.w),
-                    ChoiceChip(
-                      selectedColor: AppColors.mainColor,
-                      label: Text(
-                        "طفل",
-                        style: GoogleFonts.leagueSpartan(
-                          color: AppColors.blackColor,
-                        ),
-                      ),
-
-                      selected: gender == "طفل",
-                      onSelected: (selected) {
-                        if (selected) setState(() => gender = "طفل");
-                      },
-                    ),
                   ],
                 ),
               ),
 
-              SizedBox(height: 10.h),
+            
+              SizedBox(height: 10),
 
               Padding(
                 padding: const EdgeInsets.all(10),
@@ -539,6 +525,82 @@ class _BookingScreenState extends State<BookingScreen> {
                   maxLines: 3,
                   onChanged:
                       (value) => setState(() => problemDescription = value),
+                ),
+              ),
+                SizedBox(height: 10.h),
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                   Container(
+          width: 100,
+          height: 70,
+          decoration: BoxDecoration(
+            color: Colors.white, // Background color of the container
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), 
+                blurRadius: 10, 
+                offset: Offset(0, 5), 
+              ),
+            ],
+          ),
+          child: Card(
+            elevation: 5, 
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15), 
+            ),
+            color: Colors.white, 
+            shadowColor: Colors.black.withOpacity(0.3), 
+            child: Center(
+              child: Text(
+                "اضافه ملفات", 
+                style: GoogleFonts.leagueSpartan(
+                  color: Colors.black, // Text color
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+        ),
+            
+    
+                    SizedBox(width: 20),
+                   Container(
+          width: 100,
+          height: 70,
+          decoration: BoxDecoration(
+            color: Colors.white, // Background color of the container
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), 
+                blurRadius: 10, 
+                offset: Offset(0, 5), 
+              ),
+            ],
+          ),
+          child: Card(
+            elevation: 5, 
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15), 
+            ),
+            color: Colors.white, 
+            shadowColor: Colors.black.withOpacity(0.3), 
+            child: Center(
+              child: Text(
+                " اضافه صوره", 
+                style: GoogleFonts.leagueSpartan(
+                  color: Colors.black, 
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+        ),
+                  ],
                 ),
               ),
 
