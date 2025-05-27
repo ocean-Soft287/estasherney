@@ -1,12 +1,267 @@
+import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/doctor/home/presentation/screens/Additionaloptions/presentation/screens/setting_screen.dart';
+import 'package:consult_me/doctor/home/presentation/screens/help/presentation/screens/help_screen_gride.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class AdditionalOption extends StatelessWidget {
+class AdditionalOption extends StatefulWidget {
   const AdditionalOption({super.key});
 
   @override
+  State<AdditionalOption> createState() => _AdditionalOptionState();
+}
+
+class _AdditionalOptionState extends State<AdditionalOption> {
+  bool isSwitched = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.deepPurple,
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
+                  SizedBox(width: 80.w),
+                  Text(
+                    'خيارات إضافية',
+                    style: GoogleFonts.leagueSpartan(
+                      color: AppColors.mainColor,
+                      fontSize: 20.sp,
+                    ),
+                  ),
+                  Spacer(),
+                  Image.asset("assets/images/Group 111.png"),
+                ],
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                width: 354.w,
+                height: 54.h,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: const Color(0xff14C8C7),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color(0xff14C8C7)),
+                ),
+                child: Row(
+                  children: [
+                    Image.asset("assets/images/Group (12).png"),
+                    SizedBox(width: 10.w),
+                    Text(
+                      'تشغيل الإشعارات',
+                      style: GoogleFonts.leagueSpartan(
+                        color: AppColors.mainColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Spacer(),
+                    Switch(
+                      value: isSwitched,
+                      onChanged: (value) {
+                        setState(() {
+                          isSwitched = value;
+                        });
+                      },
+                      activeColor: AppColors.mainColor,
+                      activeTrackColor: Colors.grey,
+                      inactiveThumbColor: AppColors.mainColor,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GrideScreen()),
+                  );
+                },
+                child: Container(
+                  width: 354.w,
+                  height: 54.h,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color(0xff14C8C7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color(0xff14C8C7)),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset("assets/images/Vector (24).png"),
+                      SizedBox(width: 10.w),
+                      Text(
+                        'سياسة الخصوصية',
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingScreen()),
+                  );
+                },
+                child: Container(
+                  width: 354.w,
+                  height: 54.h,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color(0xff14C8C7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color(0xff14C8C7)),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset("assets/images/Group 103.png"),
+                      SizedBox(width: 10.w),
+                      Text(
+                        'الإعدادات',
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GrideScreen()),
+                  );
+                },
+                child: Container(
+                  width: 354.w,
+                  height: 54.h,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color(0xff14C8C7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color(0xff14C8C7)),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset("assets/images/Group 107.png"),
+                      SizedBox(width: 10.w),
+                      Text(
+                        'محفظتي',
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GrideScreen()),
+                  );
+                },
+                child: Container(
+                  width: 354.w,
+                  height: 54.h,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color(0xff14C8C7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color(0xff14C8C7)),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset("assets/images/Group (13).png"),
+                      SizedBox(width: 10.w),
+                      Text(
+                        'مشاركة',
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GrideScreen()),
+                  );
+                },
+                child: Container(
+                  width: 354.w,
+                  height: 54.h,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color(0xff14C8C7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color(0xff14C8C7)),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, color: Colors.white),
+                      SizedBox(width: 10.w),
+                      Text(
+                        'تسجيل خروج',
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

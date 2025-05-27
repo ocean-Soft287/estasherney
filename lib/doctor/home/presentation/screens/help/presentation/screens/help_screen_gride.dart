@@ -1,3 +1,4 @@
+import 'package:consult_me/doctor/home/presentation/screens/help/presentation/screens/fqa_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,8 +19,14 @@ class GrideScreen extends StatelessWidget {
               fontSize: 20.sp,
             ),
           ),
-          centerTitle: true,
-          leading: const Icon(Icons.arrow_forward, color: Colors.white),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Image.asset("assets/images/Group 111.png"),
+            ),
+          ],
+
+          leading: const Icon(Icons.arrow_back_ios, color: Colors.white),
         ),
         body: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -28,6 +35,49 @@ class GrideScreen extends StatelessWidget {
             crossAxisSpacing: 10.w,
             mainAxisSpacing: 10.h,
             children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FAQScreen()),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 6,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/images/Group 111.png",
+                        width: 40.w,
+                        height: 40.h,
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        "الأسئلة الشائعة للمستخدمين",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.leagueSpartan(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
               Container(
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
@@ -35,7 +85,7 @@ class GrideScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.black.withOpacity(0.2),
                       blurRadius: 6,
                       offset: const Offset(0, 4),
                     ),
@@ -51,7 +101,7 @@ class GrideScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      "الأسئلة الشائعة للمستخدمين",
+                      "الأسئلة الشائعة للأطباء",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.leagueSpartan(
                         fontSize: 14.sp,
@@ -70,77 +120,7 @@ class GrideScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      blurRadius: 6,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/images/Group 111.png",
-                      width: 40.w,
-                      height: 40.h,
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "فيديوهات إرشادية",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.cairo(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Container(
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      blurRadius: 6,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/images/Group 111.png",
-                      width: 40.w,
-                      height: 40.h,
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "الأسئلة الشائعة للأطباء",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.cairo(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Container(
-                padding: EdgeInsets.all(12.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.black.withOpacity(0.2),
                       blurRadius: 6,
                       offset: const Offset(0, 4),
                     ),
@@ -158,7 +138,7 @@ class GrideScreen extends StatelessWidget {
                     Text(
                       "طرق الدفع - الأسئلة الشائعة للمستخدمين",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.leagueSpartan(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
@@ -168,7 +148,6 @@ class GrideScreen extends StatelessWidget {
                 ),
               ),
 
-              // Card 5
               Container(
                 padding: EdgeInsets.all(12.w),
                 decoration: BoxDecoration(
@@ -176,7 +155,7 @@ class GrideScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.black.withOpacity(0.2),
                       blurRadius: 6,
                       offset: const Offset(0, 4),
                     ),
@@ -194,7 +173,7 @@ class GrideScreen extends StatelessWidget {
                     Text(
                       "طرق الدفع - الأسئلة الشائعة للأطباء",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.leagueSpartan(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
@@ -204,20 +183,6 @@ class GrideScreen extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(vertical: 15.h),
-          color: Colors.blue,
-          child: Center(
-            child: Text(
-              'Message Us',
-              style: GoogleFonts.cairo(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           ),
         ),
       ),
