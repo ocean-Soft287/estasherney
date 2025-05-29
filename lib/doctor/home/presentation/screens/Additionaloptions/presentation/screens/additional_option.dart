@@ -1,4 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/doctor/home/presentation/screens/Additionaloptions/presentation/screens/case_screen.dart';
 import 'package:consult_me/doctor/home/presentation/screens/Additionaloptions/presentation/screens/setting_screen.dart';
 import 'package:consult_me/doctor/home/presentation/screens/help/presentation/screens/help_screen_gride.dart';
 import 'package:flutter/material.dart';
@@ -158,7 +159,7 @@ class _AdditionalOptionState extends State<AdditionalOption> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => GrideScreen()),
+                    MaterialPageRoute(builder: (context) => CaseScreen()),
                   );
                 },
                 child: Container(
@@ -228,10 +229,7 @@ class _AdditionalOptionState extends State<AdditionalOption> {
               padding: const EdgeInsets.all(10),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => GrideScreen()),
-                  );
+                  showLogoutDialog(context);
                 },
                 child: Container(
                   width: 354.w,
@@ -264,4 +262,75 @@ class _AdditionalOptionState extends State<AdditionalOption> {
       ),
     );
   }
+}
+
+void showLogoutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder:
+        (context) => AlertDialog(
+          backgroundColor: const Color(0xFFD9D9D9),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.logout, size: 60.sp, color: AppColors.mainColor),
+              SizedBox(height: 16.h),
+              Text(
+                "هل تريد تسجيل الخروج؟",
+                style: GoogleFonts.leagueSpartan(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.mainColor,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF131874),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "العودة",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.wightcolor,
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.red),
+                        backgroundColor: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "تسجيل الخروج",
+                        style: GoogleFonts.leagueSpartan(
+                          color: Colors.red,
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+  );
 }

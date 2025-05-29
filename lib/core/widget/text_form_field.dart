@@ -1,5 +1,4 @@
-
-
+import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +9,8 @@ class CustomTextFormField extends StatefulWidget {
   final String? hintText;
   final Widget? prefix;
   final Widget? subfix;
+  final Color textcolor;
+
   final dynamic obscureText;
   final FormFieldValidator<String>? validator;
   final Color fillColor;
@@ -18,6 +19,7 @@ class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
     this.controller,
+    this.textcolor = AppColors.mainColor,
     this.textInputType = TextInputType.text,
     this.hintText,
     this.prefix,
@@ -26,7 +28,7 @@ class CustomTextFormField extends StatefulWidget {
     this.obscureText,
     this.fillColor = const Color(0xffEEEEEE),
     this.borderColor = const Color(0xff131874),
-    this.paddingN=8
+    this.paddingN = 8,
   });
 
   @override
@@ -37,28 +39,27 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(vertical:  widget.paddingN),
+      padding: EdgeInsets.symmetric(vertical: widget.paddingN),
       child: TextFormField(
         style: GoogleFonts.alexandria(
-          color:Colors.white,
+          color: Colors.white,
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-        ) ,
+        ),
         controller: widget.controller,
         decoration: InputDecoration(
           suffixIcon: widget.subfix,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4.0),
-
           ),
 
           hintText: widget.hintText,
           hintStyle: GoogleFonts.alexandria(
-            color:Colors.white,
+            color: widget.textcolor,
             fontSize: 14.sp,
             fontWeight: FontWeight.w400,
           ),
-          fillColor: widget.fillColor, 
+          fillColor: widget.fillColor,
           filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4.0),
@@ -73,13 +74,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: widget.borderColor),
           ),
-          contentPadding:
-          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 0.0,
+            horizontal: 12.0,
+          ),
           prefixIcon: widget.prefix,
         ),
         keyboardType: widget.textInputType,
         validator: widget.validator,
-      
+
         obscureText: widget.obscureText == null ? false : widget.obscureText,
       ),
     );

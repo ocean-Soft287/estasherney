@@ -32,6 +32,7 @@ dependencies:
   bloc: ^9.0.0
   cupertino_icons: ^1.0.8
   custom_rating_bar: ^3.0.0
+  flutter_native_splash:
   device_preview: ^1.2.0
   fluid_bottom_nav_bar: ^1.4.0
   flutter:

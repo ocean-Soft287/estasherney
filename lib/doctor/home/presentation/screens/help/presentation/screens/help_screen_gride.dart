@@ -26,7 +26,12 @@ class GrideScreen extends StatelessWidget {
             ),
           ],
 
-          leading: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(12.0),
