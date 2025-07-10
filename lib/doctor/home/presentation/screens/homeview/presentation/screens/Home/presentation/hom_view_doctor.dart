@@ -1,12 +1,15 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/home/presentation/screens/chat/presentation/screens/chat_screen.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Calendar.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/appointment_screen.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/widget/custom_header.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomViewDoctor extends StatelessWidget {
-  const HomViewDoctor({super.key});
+  final LoginModel user;
+  const HomViewDoctor({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -29,44 +32,9 @@ class HomViewDoctor extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                right: screenWidth * 0.025,
-                left: screenWidth * 0.025,
-              ),
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/images/image (8).png",
-                    width: screenWidth * 0.25,
-                    height: screenWidth * 0.25,
-                  ),
-                  SizedBox(width: screenWidth * 0.03),
-                  Column(
-                    children: [
-                      Text(
-                        "دكتورة علا عادل",
-                        style: GoogleFonts.leagueSpartan(
-                          color: AppColors.mainColor,
-                          fontSize: screenWidth * 0.035,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Text(
-                        " طب الأطفال",
-                        style: GoogleFonts.leagueSpartan(
-                          color: AppColors.mainColor,
-                          fontSize: screenWidth * 0.03,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                  Icon(Icons.favorite_outline, color: AppColors.mainColor),
-                ],
-              ),
-            ),
+            
+            CustomHeader(user: user),
+
             SizedBox(height: screenHeight * 0.02),
             Center(
               child: Text(
@@ -173,9 +141,7 @@ class HomViewDoctor extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatSceeens(),
-                    ),
+                    MaterialPageRoute(builder: (context) => ChatSceeens()),
                   );
                 },
                 child: Container(

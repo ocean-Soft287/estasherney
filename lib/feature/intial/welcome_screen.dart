@@ -1,6 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/widget/defualt_botton.dart';
-import 'package:consult_me/doctor/home/home_view.dart';
+import 'package:consult_me/doctor/auth/data/model/login_model.dart';
+import 'package:consult_me/doctor/auth/presentation/pages/login_page_screen.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/login_screen.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/register/register_screen.dart';
 import 'package:consult_me/feature/home/home_screen.dart';
@@ -9,7 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+
+  const WelcomeScreen({super.key,});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -162,7 +164,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   function: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreenDoctor()),
+                      MaterialPageRoute(builder: (context) => LoginPageScreen()),
                     );
                   },
                 ),

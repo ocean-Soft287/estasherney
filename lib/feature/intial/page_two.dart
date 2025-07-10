@@ -1,11 +1,13 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/feature/intial/widget/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PageTwo extends StatefulWidget {
-  const PageTwo({super.key});
+ 
+  const PageTwo({super.key,});
 
   @override
   _PageTwoState createState() => _PageTwoState();

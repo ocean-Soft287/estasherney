@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PageOne extends StatefulWidget {
-  const PageOne({super.key});
+  
+  const PageOne({super.key,});
 
   @override
   _PageOneState createState() => _PageOneState();
