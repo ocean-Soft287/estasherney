@@ -2,6 +2,7 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_state.dart';
+import 'package:consult_me/doctor/auth/presentation/pages/widget/custom_forgetpassword.dart';
 import 'package:consult_me/doctor/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -275,22 +276,29 @@ class _LoginPageScreenState extends State<LoginPageScreen>
                 
                              
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Checkbox(
-                                    value: rememberMe,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        rememberMe = value!;
-                                      });
-                                    },
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value: rememberMe,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            rememberMe = value!;
+                                          });
+                                        },
+                                      ),
+                                      Text(
+                                        "تذكرني",
+                                        style: GoogleFonts.leagueSpartan(
+                                          fontSize: 14.sp,
+                                          color: AppColors.greyColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    "تذكرني",
-                                    style: GoogleFonts.leagueSpartan(
-                                      fontSize: 14.sp,
-                                      color: AppColors.greyColor,
-                                    ),
-                                  ),
+                                CustomForgetpassword(),
+
                                 ],
                               ),
                               SizedBox(height: 30.h),

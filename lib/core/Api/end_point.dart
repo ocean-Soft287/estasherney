@@ -4,7 +4,9 @@ class EndPoint {
   /// auth
 
   static String logindoctor = "$baseUrl/api/Doctor/login";
+  static String forgetpassworddoctor = "$baseUrl/api/Doctor/forgotpassword";
   //appointment
   static String getTodayAppointments = "$baseUrl/api/Doctor/getDoctorAppointmentsToday";
+  static String resetpassworddoctor = "$baseUrl/api/Doctor/resetpassword";
  
 }

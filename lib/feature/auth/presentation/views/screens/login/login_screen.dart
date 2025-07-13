@@ -201,12 +201,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NewPassword(),
-                            ),
-                          );
+                          
                         },
                         child: Align(
                           alignment: Alignment.centerRight,

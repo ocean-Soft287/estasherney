@@ -3,7 +3,7 @@ import 'package:consult_me/core/Api/end_point.dart';
 import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/core/error/fauiluire.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
-import 'package:consult_me/doctor/auth/data/repo/login_repo.dart';
+import 'package:consult_me/doctor/auth/data/repo/login/login_repo.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
-import 'package:consult_me/doctor/auth/data/repo/login_repo.dart';
+import 'package:consult_me/doctor/auth/data/repo/login/login_repo.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {

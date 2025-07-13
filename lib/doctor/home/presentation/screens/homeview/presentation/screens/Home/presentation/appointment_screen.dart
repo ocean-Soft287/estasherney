@@ -409,7 +409,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
             }
           }
 
-          return const SizedBox(); // fallback in case no state matches
+          return const SizedBox(); 
         },
       ),
     );

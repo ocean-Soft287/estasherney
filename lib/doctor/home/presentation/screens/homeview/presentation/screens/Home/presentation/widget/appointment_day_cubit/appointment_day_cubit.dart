@@ -5,7 +5,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   final AppointmentRepo appointmentRepo;
 
   AppointmentCubit(this.appointmentRepo) : super(AppointmentInitial()) {
-    getTodayAppointments(); // هنا بنادي على الدالة تلقائيًا
+    getTodayAppointments(); 
   }
 
   Future<void> getTodayAppointments() async {
