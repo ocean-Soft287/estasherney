@@ -1,6 +1,8 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_state.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentdoctor_future_cubit/appointment_future_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -264,38 +266,113 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Lottie.asset(
-          "assets/lottie/Animation - 1746698444784.json",
-          width: 180.w,
-          height: 180.h,
-        ),
-        Text(
-          "ليس لديك مواعيد اليوم",
-          style: GoogleFonts.leagueSpartan(
-            color: AppColors.mainColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        Text(
-          "قم بتحديث أيام وساعات عملك",
-          style: GoogleFonts.leagueSpartan(
-            color: const Color(0xff747474),
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        Text(
-          "لتستقبل المواعيد المختلفة",
-          style: GoogleFonts.leagueSpartan(
-            color: const Color(0xff747474),
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
+    return BlocProvider(
+      create: (_) => GetIt.I<AppointmentFutureCubit>(),
+      child: BlocConsumer<AppointmentFutureCubit, ApointmentFutureState>(
+        listener: (context, state) {
+          if (state is AppointmentFutureFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error.split('\n').first)),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is AppointmentLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state is AppointmentFutureFailure) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Lottie.asset(
+                    "assets/lottie/Animation - 1746698444784.json", // أو أي صورة خطأ عندك
+                    width: 180.w,
+                    height: 180.h,
+                  ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    "حدث خطأ أثناء تحميل المواعيد",
+                    style: GoogleFonts.leagueSpartan(
+                      color: Colors.red,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    state.error,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.leagueSpartan(
+                      color: Colors.grey,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (state is AppointmentFutureSuccess) {
+            if (state.appointments.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Lottie.asset(
+                      "assets/lottie/Animation - 1746698444784.json",
+                      width: 180.w,
+                      height: 180.h,
+                    ),
+                    Text(
+                      "ليس لديك مواعيد اليوم",
+                      style: GoogleFonts.leagueSpartan(
+                        color: AppColors.mainColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      "قم بتحديث أيام وساعات عملك",
+                      style: GoogleFonts.leagueSpartan(
+                        color: const Color(0xff747474),
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      "لتستقبل المواعيد المختلفة",
+                      style: GoogleFonts.leagueSpartan(
+                        color: const Color(0xff747474),
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: state.appointments.length,
+                itemBuilder: (context, index) {
+                  final appointment = state.appointments[index];
+                  return ListTile(
+                    leading: const Icon(Icons.calendar_today),
+                    title: Text(appointment.name ?? "مريض غير معروف"),
+                    subtitle: Text(
+                      "الحالة: ${appointment.status ?? "غير معروف"}",
+                    ),
+                  );
+                },
+              );
+            }
+          }
+
+          return const SizedBox(); 
+        },
+      ),
     );
   }
 }
