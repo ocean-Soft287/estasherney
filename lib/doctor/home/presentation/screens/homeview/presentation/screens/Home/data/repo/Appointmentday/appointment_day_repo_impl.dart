@@ -2,7 +2,7 @@ import 'package:consult_me/core/Api/dio_concumer.dart';
 import 'package:consult_me/core/Api/end_point.dart';
 import 'package:consult_me/core/error/fauiluire.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/models/appointment_day_model.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointment_day_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/Appointmentday/appointment_day_repo.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 

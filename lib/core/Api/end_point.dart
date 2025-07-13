@@ -8,5 +8,6 @@ class EndPoint {
   //appointment
   static String getTodayAppointments = "$baseUrl/api/Doctor/getDoctorAppointmentsToday";
   static String resetpassworddoctor = "$baseUrl/api/Doctor/resetpassword";
+  static String getDoctorFutureAppointments = "$baseUrl/api/Doctor/getDoctorFutureAppointments";
  
 }

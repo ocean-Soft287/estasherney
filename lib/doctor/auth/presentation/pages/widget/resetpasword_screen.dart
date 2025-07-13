@@ -51,14 +51,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         appBar: AppBar(
           title: Text(
             'إعادة تعيين كلمة السر',
-            style: GoogleFonts.leagueSpartan(fontSize: 20.sp),
+            style: GoogleFonts.leagueSpartan(fontSize: 20.sp,
+            color: AppColors.mainColor),
           ),
         ),
         body: BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
          listener: (context, state) {
   if (state is ResetPasswordSuccess) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(state.message)),
+      SnackBar(content: Text("تم إعادة تعيين كلمة السر بنجاح")),
     );
     Navigator.pushAndRemoveUntil(
       context,

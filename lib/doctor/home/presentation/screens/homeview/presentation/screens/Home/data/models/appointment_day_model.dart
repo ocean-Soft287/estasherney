@@ -10,4 +10,10 @@ class AppointmentModel {
       status: json['status'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'status': status,
+    };
+  }
 }

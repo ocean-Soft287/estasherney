@@ -9,8 +9,8 @@ import 'package:consult_me/doctor/auth/data/repo/resetpassword/resetpassword_rep
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/resetpassword/resetpasword_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/fotgetpassword/forgetpassword_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointment_day_repo.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointment_day_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/Appointmentday/appointment_day_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/Appointmentday/appointment_day_repo_impl.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/widget/appointment_day_cubit/appointment_day_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
