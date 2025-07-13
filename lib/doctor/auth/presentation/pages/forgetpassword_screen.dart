@@ -1,7 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/fotgetpassword/forgetpassword_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/fotgetpassword/forgettpasword_state.dart';
-import 'package:consult_me/doctor/auth/presentation/pages/widget/resetpasword_screen.dart';
+import 'package:consult_me/doctor/auth/presentation/pages/resetpasword_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

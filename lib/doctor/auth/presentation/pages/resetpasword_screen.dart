@@ -68,7 +68,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   } else if (state is ResetPasswordFailure) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(state.error)),
+      SnackBar(content: Text("رمز غير صالح أو منتهي الصلاحية")),
     );
   }
 },

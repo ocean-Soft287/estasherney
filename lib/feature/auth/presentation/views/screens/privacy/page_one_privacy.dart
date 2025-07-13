@@ -1,7 +1,6 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/widget/defualt_botton.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/privacy/page_two_privacy.dart';
-import 'package:consult_me/feature/auth/presentation/views/widget/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';

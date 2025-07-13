@@ -272,8 +272,9 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
         listener: (context, state) {
           if (state is AppointmentFutureFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error.split('\n').first)),
-            );
+              SnackBar(content: Text(state.error),
+           )      
+      );
           }
         },
         builder: (context, state) {

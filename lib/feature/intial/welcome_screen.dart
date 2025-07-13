@@ -1,6 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/widget/defualt_botton.dart';
-import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/auth/presentation/pages/login_page_screen.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/login_screen.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/register/register_screen.dart';

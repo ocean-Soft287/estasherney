@@ -1,9 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/widget/defualt_botton.dart';
-import 'package:consult_me/feature/auth/presentation/views/screens/new_password/new_password.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/privacy/page_one_privacy.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/register/register_screen.dart';
-import 'package:consult_me/feature/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';

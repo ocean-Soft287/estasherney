@@ -36,7 +36,7 @@ class _CustomHeaderState extends State<CustomHeader> {
       child: Row(
         children: [
           Image.network(
-           imageUrl!??"assets/images/Bot-Blue-Small (1).png",
+           imageUrl!?? "assets/images/Bot-Blue-Small (1).png",
             width: screenWidth * 0.25,
             height: screenWidth * 0.25,
           ),
