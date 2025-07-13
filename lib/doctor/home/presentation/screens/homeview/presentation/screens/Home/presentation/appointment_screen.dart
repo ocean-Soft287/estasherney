@@ -1,6 +1,6 @@
 import 'package:consult_me/core/constants/app_colors.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/widget/appointment_day_cubit/appointment_day_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/widget/appointment_day_cubit/appointment_day_state.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
