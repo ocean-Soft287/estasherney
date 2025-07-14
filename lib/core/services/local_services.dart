@@ -11,10 +11,13 @@ import 'package:consult_me/doctor/auth/presentation/logic/cubit/resetpassword/re
 import 'package:consult_me/doctor/auth/presentation/logic/fotgetpassword/forgetpassword_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/Appointmentday/appointment_day_repo.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/Appointmentday/appointment_day_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointpast/appointment_past_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointpast/appointment_past_repo_impl.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/doctorfuturAppointment/doctor_future_appointment_repo.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/doctorfuturAppointment/doctor_future_appointment_repo_impl.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentpast/appointment_past_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -66,5 +69,10 @@ sl.registerFactory(() => ResetPasswordCubit(sl<ResetPasswordRepo>()));
   );
 
   sl.registerFactory(() => AppointmentFutureCubit(sl<DoctorFutureAppointmentRepo>()));
+  //past appointment
+  sl.registerLazySingleton<PastAppointmentRepo>(
+    () => AppointmentPastRepoImpl(dioConsumer: sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => PastAppointmentCubit(sl<PastAppointmentRepo>()));
 
 }

@@ -5,7 +5,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
   final AppointmentRepo appointmentRepo;
 
   AppointmentCubit(this.appointmentRepo) : super(AppointmentInitial()) {
-    getTodayAppointments(); 
+    getTodayAppointments();
   }
 
   Future<void> getTodayAppointments() async {
@@ -13,8 +13,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     final result = await appointmentRepo.getTodayAppointments();
     result.fold(
       (failure) => emit(AppointmentFailure(failure.message)),
-      (appointments) => emit(AppointmentSuccess(appointments)),
+      (model) => emit(AppointmentSuccess(model)),
     );
   }
 }
-

@@ -9,5 +9,6 @@ class EndPoint {
   static String getTodayAppointments = "$baseUrl/api/Doctor/getDoctorAppointmentsToday";
   static String resetpassworddoctor = "$baseUrl/api/Doctor/resetpassword";
   static String getDoctorFutureAppointments = "$baseUrl/api/Doctor/getDoctorFutureAppointments";
+  static String getDoctorPastAppointments = "$baseUrl/api/Doctor/getDoctorPastAppointments";
  
 }

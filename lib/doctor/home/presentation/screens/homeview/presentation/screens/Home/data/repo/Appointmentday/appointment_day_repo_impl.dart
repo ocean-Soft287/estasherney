@@ -12,23 +12,25 @@ class AppointmentRepoImpl implements AppointmentRepo {
   AppointmentRepoImpl({required this.dio});
 
   @override
-  Future<Either<Failure, List<AppointmentModel>>> getTodayAppointments() async {
+  Future<Either<Failure, AppointmentModel>> getTodayAppointments() async {
     try {
       final response = await dio.get(EndPoint.getTodayAppointments);
 
-      if (response is List) {
-        final appointments = response
-            .map((json) => AppointmentModel.fromJson(json))
-            .toList()
-            .cast<AppointmentModel>();
-        return Right(appointments);
+      // ✅ لطباعة الريسبونس في التيرمنال
+      print("🟢 API Response: $response");
+
+      if (response is Map<String, dynamic>) {
+        final model = AppointmentModel.fromJson(response);
+        return Right(model);
       } else {
-        return Left(ServerFailure('Unexpected response format'));
+        return Left(ServerFailure('تنسيق غير متوقع من السيرفر'));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.message ?? 'Unknown error'));
+      print("🔴 Dio Error: ${e.message}");
+      return Left(ServerFailure(e.message ?? 'حدث خطأ غير متوقع'));
     } catch (e) {
-      return Left(ServerFailure('خطأ أثناء تحميل المواعيد'));
+      print("🔴 General Error: $e");
+      return Left(ServerFailure('حدث خطأ أثناء تحميل المواعيد'));
     }
   }
 }

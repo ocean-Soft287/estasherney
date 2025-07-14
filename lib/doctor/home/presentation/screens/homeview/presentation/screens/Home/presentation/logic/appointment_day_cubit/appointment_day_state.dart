@@ -7,13 +7,11 @@ class AppointmentInitial extends AppointmentState {}
 class AppointmentLoading extends AppointmentState {}
 
 class AppointmentSuccess extends AppointmentState {
-  final List<AppointmentModel> appointments;
-
-  AppointmentSuccess(this.appointments);
+  final AppointmentModel model;
+  AppointmentSuccess(this.model);
 }
 
 class AppointmentFailure extends AppointmentState {
-  final String error;
-
-  AppointmentFailure(this.error);
+  final String message;
+  AppointmentFailure(this.message);
 }

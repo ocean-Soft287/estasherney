@@ -3,6 +3,8 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_state.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentdoctor_future_cubit/appointment_future_state.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentpast/appointment_past_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentpast/appointment_past_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -249,12 +251,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ? PreviousOrdersEmptyWidget()
                   : selectedIndex == 1
                   ? CurrentAppointmentsScreen()
-                  : ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return CanceledOrderCard();
-                    },
-                  ),
+                  : CanceledOrderCard(),
         ),
       ],
     );
@@ -366,6 +363,44 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
 class CurrentAppointmentsScreen extends StatelessWidget {
   const CurrentAppointmentsScreen({super.key});
 
+  String getTimeRemainingText(String date, String startTime, String endTime) {
+    try {
+      final start = DateTime.parse(
+        "$date ${startTime.length == 5 ? '$startTime:00' : startTime}",
+      );
+      final end = DateTime.parse(
+        "$date ${endTime.length == 5 ? '$endTime:00' : endTime}",
+      );
+
+      final now = DateTime.now();
+
+      if (now.isAfter(end)) return "الموعد انتهى";
+
+      if (now.isAfter(start) && now.isBefore(end)) return "الموعد جاري الآن";
+
+      final diff = start.difference(now);
+      final hours = diff.inHours;
+      final minutes = diff.inMinutes.remainder(60);
+
+      return "المتبقي: ${hours} ساعة و ${minutes} دقيقة";
+    } catch (e) {
+      return "خطأ في توقيت الموعد";
+    }
+  }
+
+  IconData getSessionIcon(String type) {
+    switch (type.toLowerCase()) {
+      case 'video':
+        return Icons.videocam;
+      case 'chat':
+        return Icons.chat;
+      case 'call':
+        return Icons.call;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -379,32 +414,17 @@ class CurrentAppointmentsScreen extends StatelessWidget {
 
           if (state is AppointmentFailure) {
             return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Lottie.asset(
-                    "assets/lottie/Animation - 1746698444784.json",
-                    width: 180.w,
-                    height: 180.h,
-                  ),
-                  SizedBox(height: 10.h),
-
-                  Text(
-                    "No Past paid and selected appointments found.",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.leagueSpartan(
-                      color: AppColors.mainColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
+              child: Text(
+                state.message,
+                style: TextStyle(color: Colors.red, fontSize: 16.sp),
               ),
             );
           }
 
           if (state is AppointmentSuccess) {
-            if (state.appointments.isEmpty) {
+            final appointments = state.model.data;
+
+            if (appointments.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -416,7 +436,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                     ),
                     Text(
                       "ليس لديك مواعيد اليوم",
-                      style: GoogleFonts.leagueSpartan(
+                      style: TextStyle(
                         color: AppColors.mainColor,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
@@ -424,7 +444,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                     ),
                     Text(
                       "قم بتحديث أيام وساعات عملك",
-                      style: GoogleFonts.leagueSpartan(
+                      style: TextStyle(
                         color: AppColors.mainColor,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
@@ -432,7 +452,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                     ),
                     Text(
                       "لتستقبل المواعيد المختلفة",
-                      style: GoogleFonts.leagueSpartan(
+                      style: TextStyle(
                         color: AppColors.mainColor,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
@@ -441,24 +461,206 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                   ],
                 ),
               );
-            } else {
-              return ListView.builder(
-                itemCount: state.appointments.length,
-                itemBuilder: (context, index) {
-                  final appointment = state.appointments[index];
-                  return ListTile(
-                    leading: const Icon(Icons.calendar_today),
-                    title: Text(appointment.name ?? "مريض غير معروف"),
-                    subtitle: Text(
-                      "الحالة: ${appointment.status ?? "غير معروف"}",
-                    ),
-                  );
-                },
-              );
             }
+
+            return ListView.builder(
+              padding: const EdgeInsets.only(top: 10),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: appointments.length,
+              itemBuilder: (context, index) {
+                final item = appointments[index];
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 6,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xffD9D9D9)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            const CircleAvatar(
+                              backgroundColor: Colors.blueGrey,
+                              child: Icon(Icons.person, color: Colors.black),
+                            ),
+                            SizedBox(width: 8.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.fullName,
+                                  style: TextStyle(
+                                    color: AppColors.mainColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      getSessionIcon(item.sessionType),
+                                      color: AppColors.mainColor,
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Text(
+                                      item.sessionType,
+                                      style: TextStyle(
+                                        color: AppColors.mainColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                "السجلات",
+                                style: TextStyle(
+                                  color: AppColors.mainColor,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8.h),
+                        const Divider(),
+                        SizedBox(height: 5.h),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: AppColors.wightcolor,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: AppColors.mainColor),
+                              ),
+                              child: Text(
+                                "متابعة",
+                                style: TextStyle(
+                                  color: const Color(0xff747474),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: AppColors.wightcolor,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: AppColors.mainColor),
+                              ),
+                              child: Text(
+                                item.gender,
+                                style: TextStyle(
+                                  color: const Color(0xff747474),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: AppColors.wightcolor,
+                                border: Border.all(color: AppColors.mainColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Text(
+                                "${item.age} سنة",
+                                style: TextStyle(
+                                  color: const Color(0xff747474),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8.h),
+                        const Divider(),
+                        SizedBox(height: 8.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "الزمن",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    getTimeRemainingText(
+                                      item.date,
+                                      item.slotStartTime,
+                                      item.slotEndTime,
+                                    ),
+
+                                    style: TextStyle(
+                                      color: AppColors.mainColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 30.w),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "حالة الدفع",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    item.status,
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
           }
 
-          return const SizedBox();
+          return const SizedBox.shrink();
         },
       ),
     );
@@ -468,200 +670,265 @@ class CurrentAppointmentsScreen extends StatelessWidget {
 class CanceledOrderCard extends StatelessWidget {
   const CanceledOrderCard({super.key});
 
+  String getTimeRemainingText(String date, String startTime, String endTime) {
+    try {
+      final start = DateTime.parse(
+        "$date ${startTime.length == 5 ? '$startTime:00' : startTime}",
+      );
+      final end = DateTime.parse(
+        "$date ${endTime.length == 5 ? '$endTime:00' : endTime}",
+      );
+
+      final now = DateTime.now();
+
+      if (now.isAfter(end)) return "الموعد انتهى";
+
+      if (now.isAfter(start) && now.isBefore(end)) return "الموعد جاري الآن";
+
+      final diff = start.difference(now);
+      final hours = diff.inHours;
+      final minutes = diff.inMinutes.remainder(60);
+
+      return "المتبقي: ${hours} ساعة و ${minutes} دقيقة";
+    } catch (e) {
+      return "خطأ في توقيت الموعد";
+    }
+  }
+
+  IconData getSessionIcon(String type) {
+    switch (type.toLowerCase()) {
+      case 'video':
+        return Icons.videocam;
+      case 'chat':
+        return Icons.chat;
+      case 'call':
+        return Icons.call;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xffD9D9D9)),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  backgroundColor: Colors.blueGrey,
-                  child: Icon(Icons.person, color: Colors.black),
-                ),
-                SizedBox(width: 8.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "ليلي محمد",
-                      style: TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+    return BlocProvider(
+      create:
+          (context) =>
+              GetIt.instance<PastAppointmentCubit>()..getPastAppointments(),
+      child: BlocConsumer<PastAppointmentCubit, PastAppointmentState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is PastAppointmentLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is PastAppointmentFailure) {
+            return Center(child: Text(state.error));
+          } else if (state is PastAppointmentSuccess) {
+            final appointments = state.appointments;
+
+            if (appointments.isEmpty) {
+              return const Center(child: Text("لا يوجد مواعيد سابقة."));
+            }
+
+            return ListView.builder(
+              padding: const EdgeInsets.only(top: 10),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: appointments.length,
+              itemBuilder: (context, index) {
+                final item = appointments[index];
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 6,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xffD9D9D9)),
                     ),
-                    Row(
+                    child: Column(
                       children: [
-                        Icon(Icons.home, color: AppColors.mainColor),
-                        SizedBox(width: 4.w),
-                        Text(
-                          "رساله",
-                          style: TextStyle(
-                            color: AppColors.mainColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        Row(
+                          children: [
+                            const CircleAvatar(
+                              backgroundColor: Colors.blueGrey,
+                              child: Icon(Icons.person, color: Colors.black),
+                            ),
+                            SizedBox(width: 8.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.fullName,
+                                  style: TextStyle(
+                                    color: AppColors.mainColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      getSessionIcon(item.sessionType),
+                                      color: AppColors.mainColor,
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Text(
+                                      item.sessionType,
+                                      style: TextStyle(
+                                        color: AppColors.mainColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                "السجلات",
+                                style: TextStyle(
+                                  color: AppColors.mainColor,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8.h),
+                        const Divider(),
+                        SizedBox(height: 5.h),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: AppColors.wightcolor,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: AppColors.mainColor),
+                              ),
+                              child: Text(
+                                "متابعة",
+                                style: TextStyle(
+                                  color: Color(0xff747474),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: AppColors.wightcolor,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(color: AppColors.mainColor),
+                              ),
+                              child: Text(
+                                item.gender,
+                                style: TextStyle(
+                                  color: Color(0xff747474),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Container(
+                              padding: const EdgeInsets.all(7),
+                              decoration: BoxDecoration(
+                                color: AppColors.wightcolor,
+                                border: Border.all(color: AppColors.mainColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Text(
+                                "${item.age} سنة",
+                                style: TextStyle(
+                                  color: Color(0xff747474),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8.h),
+                        const Divider(),
+                        SizedBox(height: 8.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "الزمن",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    getTimeRemainingText(
+                                      item.date,
+                                      item.slotStartTime,
+                                      item.slotEndTime,
+                                    ),
+                                    style: TextStyle(
+                                      color: AppColors.mainColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(width: 30.w),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "حالة الدفع",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    item.status,
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const Spacer(),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    "السجلات",
-                    style: TextStyle(
-                      color: AppColors.mainColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 8.h),
-            const Divider(),
-            SizedBox(height: 5.h),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    "متابعه",
-                    style: TextStyle(
-                      color: AppColors.wightcolor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20.w),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    "انثي",
-                    style: TextStyle(
-                      color: AppColors.wightcolor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 30),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    "٢٨سنه",
-                    style: TextStyle(
-                      color: AppColors.wightcolor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 8.h),
-            const Divider(),
-            SizedBox(height: 8.h),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        "الزمن",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 9, 9, 10),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "21-3",
-                        style: TextStyle(
-                          color: AppColors.mainColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 20.w),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        "حاله الموعد",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 9, 9, 10),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "تم بنجاح",
-                        style: TextStyle(
-                          color: AppColors.mainColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 20.w),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        "حاله الدفع",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 9, 9, 10),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "تم الانتهاء",
-                        style: TextStyle(
-                          color: AppColors.mainColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                );
+              },
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
       ),
     );
   }

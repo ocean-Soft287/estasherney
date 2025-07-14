@@ -3,5 +3,5 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 import 'package:dartz/dartz.dart';
 
 abstract class AppointmentRepo {
-  Future<Either<Failure, List<AppointmentModel>>> getTodayAppointments();
+  Future<Either<Failure, AppointmentModel>> getTodayAppointments();
 }

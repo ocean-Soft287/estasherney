@@ -1,14 +1,14 @@
-class AppointmentModel {
- final String message;
+class PastAppointmentModel {
+  final String message;
   final List<PastAppointmentData> data;
 
-  AppointmentModel({
+  PastAppointmentModel({
     required this.message,
     required this.data,
   });
 
-  factory AppointmentModel.fromJson(Map<String, dynamic> json) {
-    return AppointmentModel(
+  factory PastAppointmentModel.fromJson(Map<String, dynamic> json) {
+    return PastAppointmentModel(
       message: json['message'],
       data: List<PastAppointmentData>.from(
         json['data'].map((x) => PastAppointmentData.fromJson(x)),
@@ -16,6 +16,7 @@ class AppointmentModel {
     );
   }
 }
+
 class PastAppointmentData {
   final int id;
   final int doctorId;
@@ -25,7 +26,7 @@ class PastAppointmentData {
   final String slotStartTime;
   final String slotEndTime;
   final String sessionType;
-  final String? documentPath; // 👈 هنا
+  final String documentPath;
   final String status;
   final String whoIsPatient;
   final int age;
@@ -41,7 +42,7 @@ class PastAppointmentData {
     required this.slotStartTime,
     required this.slotEndTime,
     required this.sessionType,
-    required this.documentPath, 
+    required this.documentPath,
     required this.status,
     required this.whoIsPatient,
     required this.age,
@@ -59,7 +60,7 @@ class PastAppointmentData {
       slotStartTime: json['slotStartTime'],
       slotEndTime: json['slotEndTime'],
       sessionType: json['sessionType'],
-      documentPath: json['documentPath'], // 👈 هنا
+      documentPath: json['documentPath'],
       status: json['status'],
       whoIsPatient: json['whoIsPatient'],
       age: json['age'],
