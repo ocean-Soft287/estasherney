@@ -30,7 +30,7 @@ class LoginCubit extends Cubit<LoginState> {
       (data) async {
         user = data;
 
-        // حفظ البيانات في SharedPreferences
+       
         await SharedPreferencesService.write(
             SharedPreferencesService.token, data.token);
         await SharedPreferencesService.write(
@@ -38,10 +38,10 @@ class LoginCubit extends Cubit<LoginState> {
         await SharedPreferencesService.write(
             SharedPreferencesService.picture, data.doctorImage);
 
-        // حفظ بيانات المستخدم بالكامل
+        
         await SharedPreferencesService.saveUserData(data.toJson());
 
-        // حفظ الإيميل والباسورد فقط إذا كان rememberMe مفعّل
+      
         if (rememberMe) {
           await SharedPreferencesService.write(
               SharedPreferencesService.email, email);
