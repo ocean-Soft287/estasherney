@@ -269,14 +269,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
     return BlocProvider(
       create: (_) => GetIt.I<AppointmentFutureCubit>(),
       child: BlocConsumer<AppointmentFutureCubit, ApointmentFutureState>(
-        listener: (context, state) {
-          if (state is AppointmentFutureFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error),
-           )      
-      );
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is AppointmentLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -293,20 +286,12 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                     height: 180.h,
                   ),
                   SizedBox(height: 10.h),
+
                   Text(
-                    "حدث خطأ أثناء تحميل المواعيد",
-                    style: GoogleFonts.leagueSpartan(
-                      color: Colors.red,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    state.error,
+                    "No Past paid and selected appointments found.",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.leagueSpartan(
-                      color: Colors.grey,
+                      color: AppColors.mainColor,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -338,7 +323,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                     Text(
                       "قم بتحديث أيام وساعات عملك",
                       style: GoogleFonts.leagueSpartan(
-                        color: const Color(0xff747474),
+                        color: AppColors.mainColor,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
                       ),
@@ -371,7 +356,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
             }
           }
 
-          return const SizedBox(); 
+          return const SizedBox();
         },
       ),
     );
@@ -386,13 +371,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => GetIt.I<AppointmentCubit>(),
       child: BlocConsumer<AppointmentCubit, AppointmentState>(
-        listener: (context, state) {
-          if (state is AppointmentFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error.split('\n').first)),
-            );
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is AppointmentLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -404,25 +383,17 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Lottie.asset(
-                    "assets/lottie/Animation - 1746698444784.json", // أو أي صورة خطأ عندك
+                    "assets/lottie/Animation - 1746698444784.json",
                     width: 180.w,
                     height: 180.h,
                   ),
                   SizedBox(height: 10.h),
+
                   Text(
-                    "حدث خطأ أثناء تحميل المواعيد",
-                    style: GoogleFonts.leagueSpartan(
-                      color: Colors.red,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    state.error,
+                    "No Past paid and selected appointments found.",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.leagueSpartan(
-                      color: Colors.grey,
+                      color: AppColors.mainColor,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -454,7 +425,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                     Text(
                       "قم بتحديث أيام وساعات عملك",
                       style: GoogleFonts.leagueSpartan(
-                        color: const Color(0xff747474),
+                        color: AppColors.mainColor,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
                       ),
@@ -462,7 +433,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                     Text(
                       "لتستقبل المواعيد المختلفة",
                       style: GoogleFonts.leagueSpartan(
-                        color: const Color(0xff747474),
+                        color: AppColors.mainColor,
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
                       ),
@@ -487,7 +458,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
             }
           }
 
-          return const SizedBox(); 
+          return const SizedBox();
         },
       ),
     );
