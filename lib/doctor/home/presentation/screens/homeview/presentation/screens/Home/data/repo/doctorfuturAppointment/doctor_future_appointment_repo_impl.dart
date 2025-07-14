@@ -10,18 +10,17 @@ class DoctorFutureAppointmentRepoImpl implements DoctorFutureAppointmentRepo {
   final DioConsumer dioConsumer;
 
   DoctorFutureAppointmentRepoImpl({required this.dioConsumer});
+
   @override
-  Future<Either<Failure, List<DoctorFutureAppointmentmodel>>>
-  getFuturedoctorAppointments() async {
+  Future<Either<Failure, DoctorFutureAppointmentmodel>>
+      getFuturedoctorAppointments() async {
     try {
       final responce = await dioConsumer.get(
         EndPoint.getDoctorFutureAppointments,
       );
-      if (responce is List) {
-        final data = responce
-            .map((json) => DoctorFutureAppointmentmodel.fromJson(json))
-            .toList()
-            .cast<DoctorFutureAppointmentmodel>();
+
+      if (responce is Map<String, dynamic>) {
+        final data = DoctorFutureAppointmentmodel.fromJson(responce);
         return Right(data);
       } else {
         return Left(ServerFailure('Unexpected response format'));
@@ -31,7 +30,5 @@ class DoctorFutureAppointmentRepoImpl implements DoctorFutureAppointmentRepo {
     } catch (e) {
       return Left(ServerFailure('خطأ أثناء تحميل المواعيد'));
     }
-  
-   // return Left(ServerFailure('Unknown error'));
   }
 }

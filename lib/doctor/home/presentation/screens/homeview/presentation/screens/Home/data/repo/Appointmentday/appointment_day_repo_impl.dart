@@ -16,8 +16,8 @@ class AppointmentRepoImpl implements AppointmentRepo {
     try {
       final response = await dio.get(EndPoint.getTodayAppointments);
 
-      // ✅ لطباعة الريسبونس في التيرمنال
-      print("🟢 API Response: $response");
+     
+      print("API Response: $response");
 
       if (response is Map<String, dynamic>) {
         final model = AppointmentModel.fromJson(response);
@@ -26,10 +26,10 @@ class AppointmentRepoImpl implements AppointmentRepo {
         return Left(ServerFailure('تنسيق غير متوقع من السيرفر'));
       }
     } on DioException catch (e) {
-      print("🔴 Dio Error: ${e.message}");
+      print("Dio Error: ${e.message}");
       return Left(ServerFailure(e.message ?? 'حدث خطأ غير متوقع'));
     } catch (e) {
-      print("🔴 General Error: $e");
+      print("General Error: $e");
       return Left(ServerFailure('حدث خطأ أثناء تحميل المواعيد'));
     }
   }

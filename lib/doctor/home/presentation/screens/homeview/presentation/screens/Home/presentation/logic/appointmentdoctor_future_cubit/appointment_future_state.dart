@@ -3,14 +3,17 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 abstract class ApointmentFutureState {}
 
 class AppointmentFutureInitial extends ApointmentFutureState {}
+
 class AppointmentFutureLoading extends ApointmentFutureState {}
+
 class AppointmentFutureSuccess extends ApointmentFutureState {
-  final List<DoctorFutureAppointmentmodel> appointments;
+  final DoctorFutureAppointmentmodel model;
 
-  AppointmentFutureSuccess(this.appointments);
+  AppointmentFutureSuccess(this.model);
 }
-class AppointmentFutureFailure extends ApointmentFutureState {
-  final String error;
 
-  AppointmentFutureFailure(this.error);
+class AppointmentFutureFailure extends ApointmentFutureState {
+  final String message;
+
+  AppointmentFutureFailure(this.message);
 }

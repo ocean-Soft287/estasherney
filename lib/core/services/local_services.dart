@@ -15,9 +15,12 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointpast/appointment_past_repo_impl.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/doctorfuturAppointment/doctor_future_appointment_repo.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/doctorfuturAppointment/doctor_future_appointment_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/searchAppointment/searchappoinment_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/searchAppointment/searchappointment_repo.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentpast/appointment_past_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/searchappoint/searchAppontment_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -74,5 +77,11 @@ sl.registerFactory(() => ResetPasswordCubit(sl<ResetPasswordRepo>()));
     () => AppointmentPastRepoImpl(dioConsumer: sl<DioConsumer>()),
   );
   sl.registerFactory(() => PastAppointmentCubit(sl<PastAppointmentRepo>()));
-
+//serch appointment
+  sl.registerLazySingleton<SearchAppointmentRepo>(
+    () => SearchAppointmentRepoImpl(dio: sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => SearchAppointmentCubit(sl<SearchAppointmentRepo>()));
+  //appointment day
+ 
 }
