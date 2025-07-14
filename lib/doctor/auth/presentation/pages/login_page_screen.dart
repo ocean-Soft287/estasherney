@@ -1,5 +1,4 @@
 import 'package:consult_me/core/constants/app_colors.dart';
-import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_state.dart';
 import 'package:consult_me/doctor/auth/presentation/pages/widget/custom_forgetpassword.dart';

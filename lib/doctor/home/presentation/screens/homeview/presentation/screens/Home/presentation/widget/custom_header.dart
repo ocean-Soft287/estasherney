@@ -18,9 +18,9 @@ class _CustomHeaderState extends State<CustomHeader> {
 
   @override
   void initState() {
-    imageUrl = widget.user.doctorImage ?? '';
-    firstname = widget.user.name ?? 'Ahmed ';
-    specialist = widget.user.specialization ?? 'طب الأطفال';
+    imageUrl = widget.user.doctorImage;
+    firstname = widget.user.name;
+    specialist = widget.user.specialization;
     super.initState();
 
   }
@@ -36,7 +36,7 @@ class _CustomHeaderState extends State<CustomHeader> {
       child: Row(
         children: [
           Image.network(
-           imageUrl!?? "assets/images/Bot-Blue-Small (1).png",
+           imageUrl!,
             width: screenWidth * 0.25,
             height: screenWidth * 0.25,
           ),
