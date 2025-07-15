@@ -1,14 +1,14 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/screens/available_online.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/choose_clinic.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/available_times.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/calender_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 
-class AvailableTimes extends StatelessWidget {
+class CalendarScreens extends StatelessWidget {
   final LoginModel user;
-  const AvailableTimes({super.key, required this.user});
+  const CalendarScreens({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -38,26 +38,28 @@ class AvailableTimes extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Divider(),
-            SizedBox(height: 20.h),
+            SizedBox(height: 50.h),
             Padding(
               padding: EdgeInsets.only(
                 left: screenWidth * 0.05,
                 right: screenWidth * 0.05,
               ),
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
+                      
+                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ChooseClinic()),
+                        MaterialPageRoute(builder: (context) => AvailableTimes(user: user,)),
                       );
+
                     },
                     child: Container(
                       padding: EdgeInsets.all(screenWidth * 0.025),
-                      width: screenWidth * 0.5,
-                      height: screenWidth * 0.3,
+                      width: screenWidth * 0.4,
+                      height: screenWidth * 0.4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: AppColors.mainColor,
@@ -66,15 +68,15 @@ class AvailableTimes extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "assets/images/Group (6).png",
+                            "assets/images/Vector (24).png",
                             width: screenWidth * 0.15,
                           ),
                           SizedBox(height: screenWidth * 0.05),
                           Text(
-                            "متوفر في عيادة ",
+                            "الأوقات المتاحة",
                             style: GoogleFonts.leagueSpartan(
                               color: AppColors.wightcolor,
-                              fontSize: screenWidth * 0.02,
+                              fontSize: screenWidth * 0.045,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -82,18 +84,18 @@ class AvailableTimes extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: screenWidth * 0.06),
+                  SizedBox(width: screenWidth * 0.03),
                   InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AvailableOnline(user: user,)),
+                        MaterialPageRoute(builder: (context) => CalinderDay()),
                       );
                     },
                     child: Container(
                       padding: EdgeInsets.all(screenWidth * 0.025),
-                      width: screenWidth * 0.5,
-                      height: screenWidth * 0.3,
+                      width: screenWidth * 0.4,
+                      height: screenWidth * 0.4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: AppColors.mainColor,
@@ -102,15 +104,15 @@ class AvailableTimes extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "assets/images/Group 80.png",
+                            "assets/images/Group (5).png",
                             width: screenWidth * 0.15,
                           ),
                           SizedBox(height: screenWidth * 0.05),
                           Text(
-                            "متوفر عبر الأنترنت",
+                            "التقويم",
                             style: GoogleFonts.leagueSpartan(
                               color: AppColors.wightcolor,
-                              fontSize: screenWidth * 0.02,
+                              fontSize: screenWidth * 0.045,
                               fontWeight: FontWeight.w700,
                             ),
                           ),

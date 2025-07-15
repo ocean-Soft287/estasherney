@@ -9,18 +9,24 @@ import 'package:consult_me/doctor/auth/data/repo/resetpassword/resetpassword_rep
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/resetpassword/resetpasword_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/fotgetpassword/forgetpassword_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/Appointmentday/appointment_day_repo.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/Appointmentday/appointment_day_repo_impl.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointpast/appointment_past_repo.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/appointpast/appointment_past_repo_impl.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/doctorfuturAppointment/doctor_future_appointment_repo.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/doctorfuturAppointment/doctor_future_appointment_repo_impl.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/searchAppointment/searchappoinment_repo_impl.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/data/repo/searchAppointment/searchappointment_repo.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointment_day_cubit/appointment_day_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/appointmentpast/appointment_past_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/logic/searchappoint/searchAppontment_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/Appointmentday/appointment_day_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/Appointmentday/appointment_day_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/appointpast/appointment_past_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/appointpast/appointment_past_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/doctorfuturAppointment/doctor_future_appointment_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/doctorfuturAppointment/doctor_future_appointment_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/searchAppointment/searchappoinment_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/searchAppointment/searchappointment_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointment_day_cubit/appointment_day_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointmentpast/appointment_past_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/searchappoint/searchAppontment_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/data/repo/availabledoctor/doctor_available_request_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/data/repo/availabledoctor/doctor_vailable_request_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/data/repo/price/price_repo.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/data/repo/price/price_repo_impl.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_cubit.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/pricedoctor/price_doctor_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -82,6 +88,16 @@ sl.registerFactory(() => ResetPasswordCubit(sl<ResetPasswordRepo>()));
     () => SearchAppointmentRepoImpl(dio: sl<DioConsumer>()),
   );
   sl.registerFactory(() => SearchAppointmentCubit(sl<SearchAppointmentRepo>()));
-  //appointment day
+  //DOCTOR AVAILABILITY
+  sl.registerLazySingleton<AddAvailabilityRepo>(  
+    () => DoctorAvailbleRequestRepoImpl(dioConsumer: sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => AddAvailabilityCubit(sl<AddAvailabilityRepo>()));  
+ //price
+  sl.registerLazySingleton<PriceRepo>(
+    () => PriceRepoImpl(dioConsumer: sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => PriceCubit(sl<PriceRepo>()));
+
  
 }

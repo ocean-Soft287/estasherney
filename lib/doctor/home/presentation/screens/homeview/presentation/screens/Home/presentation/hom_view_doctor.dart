@@ -1,9 +1,9 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/home/presentation/screens/chat/presentation/screens/chat_screen.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Calendar.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/widget/custom_header.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/appointment_screen.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/screens/Calendar.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/widget/custom_header.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/screens/appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -97,7 +97,7 @@ class HomViewDoctor extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CalendarScreens(),
+                          builder: (context) => CalendarScreens(user: user,),
                         ),
                       );
                     },

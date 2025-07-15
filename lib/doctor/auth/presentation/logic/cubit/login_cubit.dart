@@ -30,23 +30,36 @@ class LoginCubit extends Cubit<LoginState> {
       (data) async {
         user = data;
 
-       
         await SharedPreferencesService.write(
-            SharedPreferencesService.token, data.token);
+          SharedPreferencesService.token,
+          data.token,
+        );
         await SharedPreferencesService.write(
-            SharedPreferencesService.firstName, data.name);
+          SharedPreferencesService.firstName,
+          data.name,
+        );
         await SharedPreferencesService.write(
-            SharedPreferencesService.picture, data.doctorImage);
+          SharedPreferencesService.picture,
+          data.doctorImage,
+        );
 
-        
+        // ✅ حفظ examenPrice
+        await SharedPreferencesService.write(
+          SharedPreferencesService.examenPrice,
+          data.examenPrice.toString(),
+        );
+
         await SharedPreferencesService.saveUserData(data.toJson());
 
-      
         if (rememberMe) {
           await SharedPreferencesService.write(
-              SharedPreferencesService.email, email);
+            SharedPreferencesService.email,
+            email,
+          );
           await SharedPreferencesService.write(
-              SharedPreferencesService.password, password);
+            SharedPreferencesService.password,
+            password,
+          );
         }
 
         emit(AuthSuccess(data: data));

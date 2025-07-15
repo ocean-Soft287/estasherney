@@ -15,4 +15,6 @@ class EndPoint {
       "$baseUrl/api/Doctor/getDoctorPastAppointments";
   static String searchPatient =
       "$baseUrl/api/Doctor/searchAppointmentsByPatientName";
+      static String getDoctoravaibilty = "$baseUrl/api/Doctor/addAvailability";
+      static String doctorprice = "$baseUrl/api/Doctor/doctorMoneyByPercentage";
 }

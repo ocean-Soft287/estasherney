@@ -9,6 +9,7 @@ class SharedPreferencesService {
   static const String lastName = "lastName";
   static const String picture = "picture";
   static const String userKey = "user";
+  static const String examenPrice = "examenPrice";
 
   static Future<void> write(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -40,6 +41,7 @@ class SharedPreferencesService {
       lastName,
       picture,
       userKey,
+      examenPrice,
     ];
 
     for (var key in keys) {

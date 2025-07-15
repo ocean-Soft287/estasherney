@@ -1,5 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/appointment_screen.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/screens/appointment_screen.dart';
 import 'package:consult_me/doctor/home/presentation/screens/myclinic/presentation/screens/clinic_doctor.dart';
 import 'package:consult_me/doctor/home/presentation/screens/myclinic/presentation/screens/view_all_clinic.dart';
 import 'package:flutter/material.dart';
