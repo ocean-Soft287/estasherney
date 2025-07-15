@@ -26,7 +26,8 @@ class AppointmentScreen extends StatelessWidget {
           create: (context) => GetIt.I<SearchAppointmentCubit>(),
           child: BlocBuilder<SearchAppointmentCubit, SearchAppointmentState>(
             builder: (context, state) {
-              final isSearching = state is SearchAppointmentSuccess ||
+              final isSearching =
+                  state is SearchAppointmentSuccess ||
                   state is SearchAppointmentLoading ||
                   state is SearchAppointmentFailure;
 
@@ -34,7 +35,6 @@ class AppointmentScreen extends StatelessWidget {
                 children: [
                   SizedBox(height: 30.h),
 
-                  
                   Padding(
                     padding: EdgeInsets.only(right: 20.h),
                     child: Row(
@@ -57,14 +57,11 @@ class AppointmentScreen extends StatelessWidget {
                   Divider(),
                   SizedBox(height: 10.h),
 
-
                   CustomSearch(),
 
                   SizedBox(height: 10.h),
 
-                 
-                  if (!isSearching)
-                    const Expanded(child: OrdersScreen()), 
+                  if (!isSearching) const Expanded(child: OrdersScreen()),
                 ],
               );
             },
@@ -225,6 +222,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
 class PreviousOrdersEmptyWidget extends StatelessWidget {
   const PreviousOrdersEmptyWidget({super.key});
+
   String getTimeRemainingText(String date, String startTime, String endTime) {
     try {
       final start = DateTime.parse(
@@ -237,7 +235,6 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
       final now = DateTime.now();
 
       if (now.isAfter(end)) return "الموعد انتهى";
-
       if (now.isAfter(start) && now.isBefore(end)) return "الموعد جاري الآن";
 
       final diff = start.difference(now);
@@ -260,6 +257,41 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
         return Icons.call;
       default:
         return Icons.help_outline;
+    }
+  }
+
+  String getSessionNameArabic(String type) {
+    switch (type.toLowerCase()) {
+      case 'video':
+        return 'فيديو';
+      case 'chat':
+        return 'محادثة';
+      case 'call':
+        return 'اتصال';
+      default:
+        return 'غير معروف';
+    }
+  }
+
+  String getArabicPaymentStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'paid':
+        return 'تم الدفع';
+      case 'unpaid':
+        return 'لم يتم الدفع';
+      default:
+        return 'غير معروف';
+    }
+  }
+
+  String getArabicGender(String gender) {
+    switch (gender.toLowerCase()) {
+      case 'male':
+        return 'ذكر';
+      case 'female':
+        return 'أنثى';
+      default:
+        return 'غير محدد';
     }
   }
 
@@ -370,7 +402,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xffD9D9D9)),
+                      border: Border.all(color: Colors.blueGrey),
                     ),
                     child: Column(
                       children: [
@@ -393,7 +425,6 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Icon(
                                       getSessionIcon(item.sessionType),
@@ -401,7 +432,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                                     ),
                                     SizedBox(width: 4.w),
                                     Text(
-                                      item.sessionType,
+                                      getSessionNameArabic(item.sessionType),
                                       style: TextStyle(
                                         color: AppColors.mainColor,
                                         fontSize: 16.sp,
@@ -441,7 +472,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                               child: Text(
                                 "متابعة",
                                 style: TextStyle(
-                                  color: const Color(0xff747474),
+                                  color: Color(0xff747474),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -456,9 +487,9 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                                 border: Border.all(color: AppColors.mainColor),
                               ),
                               child: Text(
-                                item.gender,
+                                getArabicGender(item.gender),
                                 style: TextStyle(
-                                  color: const Color(0xff747474),
+                                  color: Color(0xff747474),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -475,7 +506,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                               child: Text(
                                 "${item.age} سنة",
                                 style: TextStyle(
-                                  color: const Color(0xff747474),
+                                  color: Color(0xff747474),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -506,7 +537,6 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                                       item.slotStartTime,
                                       item.slotEndTime,
                                     ),
-
                                     style: TextStyle(
                                       color: AppColors.mainColor,
                                       fontSize: 16.sp,
@@ -530,7 +560,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(
-                                    item.status,
+                                    getArabicPaymentStatus(item.status),
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: 16.sp,
@@ -572,7 +602,6 @@ class CurrentAppointmentsScreen extends StatelessWidget {
       final now = DateTime.now();
 
       if (now.isAfter(end)) return "الموعد انتهى";
-
       if (now.isAfter(start) && now.isBefore(end)) return "الموعد جاري الآن";
 
       final diff = start.difference(now);
@@ -595,6 +624,41 @@ class CurrentAppointmentsScreen extends StatelessWidget {
         return Icons.call;
       default:
         return Icons.help_outline;
+    }
+  }
+
+  String getSessionNameArabic(String type) {
+    switch (type.toLowerCase()) {
+      case 'video':
+        return 'فيديو';
+      case 'chat':
+        return 'محادثة';
+      case 'call':
+        return 'اتصال';
+      default:
+        return 'غير معروف';
+    }
+  }
+
+  String getArabicPaymentStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'paid':
+        return 'تم الدفع';
+      case 'unpaid':
+        return 'لم يتم الدفع';
+      default:
+        return 'غير معروف';
+    }
+  }
+
+  String getArabicGender(String gender) {
+    switch (gender.toLowerCase()) {
+      case 'male':
+        return 'ذكر';
+      case 'female':
+        return 'أنثى';
+      default:
+        return 'غير محدد';
     }
   }
 
@@ -705,7 +769,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xffD9D9D9)),
+                      border: Border.all(color: Colors.blueGrey),
                     ),
                     child: Column(
                       children: [
@@ -728,7 +792,6 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Icon(
                                       getSessionIcon(item.sessionType),
@@ -736,7 +799,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                                     ),
                                     SizedBox(width: 4.w),
                                     Text(
-                                      item.sessionType,
+                                      getSessionNameArabic(item.sessionType),
                                       style: TextStyle(
                                         color: AppColors.mainColor,
                                         fontSize: 16.sp,
@@ -776,7 +839,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                               child: Text(
                                 "متابعة",
                                 style: TextStyle(
-                                  color: const Color(0xff747474),
+                                  color: Color(0xff747474),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -791,9 +854,9 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                                 border: Border.all(color: AppColors.mainColor),
                               ),
                               child: Text(
-                                item.gender,
+                                getArabicGender(item.gender),
                                 style: TextStyle(
-                                  color: const Color(0xff747474),
+                                  color: Color(0xff747474),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -810,7 +873,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                               child: Text(
                                 "${item.age} سنة",
                                 style: TextStyle(
-                                  color: const Color(0xff747474),
+                                  color: Color(0xff747474),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -841,7 +904,6 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                                       item.slotStartTime,
                                       item.slotEndTime,
                                     ),
-
                                     style: TextStyle(
                                       color: AppColors.mainColor,
                                       fontSize: 16.sp,
@@ -865,7 +927,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(
-                                    item.status,
+                                    getArabicPaymentStatus(item.status),
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: 16.sp,
@@ -903,11 +965,9 @@ class CanceledOrderCard extends StatelessWidget {
       final end = DateTime.parse(
         "$date ${endTime.length == 5 ? '$endTime:00' : endTime}",
       );
-
       final now = DateTime.now();
 
       if (now.isAfter(end)) return "الموعد انتهى";
-
       if (now.isAfter(start) && now.isBefore(end)) return "الموعد جاري الآن";
 
       final diff = start.difference(now);
@@ -930,6 +990,41 @@ class CanceledOrderCard extends StatelessWidget {
         return Icons.call;
       default:
         return Icons.help_outline;
+    }
+  }
+
+  String getSessionNameArabic(String type) {
+    switch (type.toLowerCase()) {
+      case 'video':
+        return 'فيديو';
+      case 'chat':
+        return 'محادثة';
+      case 'call':
+        return 'اتصال';
+      default:
+        return 'غير معروف';
+    }
+  }
+
+  String getArabicPaymentStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'paid':
+        return 'تم الدفع';
+      case 'unpaid':
+        return 'لم يتم الدفع';
+      default:
+        return 'غير معروف';
+    }
+  }
+
+  String getArabicGender(String gender) {
+    switch (gender.toLowerCase()) {
+      case 'male':
+        return 'ذكر';
+      case 'female':
+        return 'أنثى';
+      default:
+        return 'غير محدد';
     }
   }
 
@@ -991,7 +1086,7 @@ class CanceledOrderCard extends StatelessWidget {
             return ListView.builder(
               padding: const EdgeInsets.only(top: 10),
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+
               itemCount: appointments.length,
               itemBuilder: (context, index) {
                 final item = appointments[index];
@@ -1005,7 +1100,7 @@ class CanceledOrderCard extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xffD9D9D9)),
+                      border: Border.all(color: Colors.blueGrey),
                     ),
                     child: Column(
                       children: [
@@ -1018,7 +1113,6 @@ class CanceledOrderCard extends StatelessWidget {
                             SizedBox(width: 8.w),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
                                   item.fullName,
@@ -1029,8 +1123,6 @@ class CanceledOrderCard extends StatelessWidget {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Icon(
                                       getSessionIcon(item.sessionType),
@@ -1038,7 +1130,7 @@ class CanceledOrderCard extends StatelessWidget {
                                     ),
                                     SizedBox(width: 4.w),
                                     Text(
-                                      item.sessionType,
+                                      getSessionNameArabic(item.sessionType),
                                       style: TextStyle(
                                         color: AppColors.mainColor,
                                         fontSize: 16.sp,
@@ -1093,7 +1185,7 @@ class CanceledOrderCard extends StatelessWidget {
                                 border: Border.all(color: AppColors.mainColor),
                               ),
                               child: Text(
-                                item.gender,
+                                getArabicGender(item.gender),
                                 style: TextStyle(
                                   color: Color(0xff747474),
                                   fontSize: 16.sp,
@@ -1152,7 +1244,6 @@ class CanceledOrderCard extends StatelessWidget {
                                 ],
                               ),
                             ),
-
                             SizedBox(width: 30.w),
                             Expanded(
                               child: Column(
@@ -1167,7 +1258,7 @@ class CanceledOrderCard extends StatelessWidget {
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(
-                                    item.status,
+                                    getArabicPaymentStatus(item.status),
                                     style: TextStyle(
                                       color: Colors.green,
                                       fontSize: 16.sp,

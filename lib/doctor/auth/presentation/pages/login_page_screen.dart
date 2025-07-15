@@ -2,7 +2,7 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_state.dart';
 import 'package:consult_me/doctor/auth/presentation/pages/widget/custom_forgetpassword.dart';
-import 'package:consult_me/doctor/home/home_view.dart';
+import 'package:consult_me/doctor/privacy/presentation/screens/privacy_one_doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,7 +86,7 @@ class _LoginPageScreenState extends State<LoginPageScreen>
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeScreenDoctor(user:state.data),
+                  builder: (context) => PrivacyOneDoctor(user:state.data),
                 ),
               );
             } else if (state is AuthFailure) {

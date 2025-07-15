@@ -11,6 +11,13 @@ class SharedPreferencesService {
   static const String userKey = "user";
   static const String examenPrice = "examenPrice";
 
+  static const String specialization = "specialization";
+  static const String nationalID = "nationalID";
+  static const String gender = "gender";
+  static const String doctorPersentage = "doctorPersentage";
+  static const String yearsOfExperience = "yearsOfExperience";
+  static const String doctorCertificate = "doctorCertificate";
+
   static Future<void> write(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);
@@ -42,6 +49,12 @@ class SharedPreferencesService {
       picture,
       userKey,
       examenPrice,
+      specialization,
+      nationalID,
+      gender,
+      doctorPersentage,
+      yearsOfExperience,
+      doctorCertificate,
     ];
 
     for (var key in keys) {
@@ -54,13 +67,18 @@ class SharedPreferencesService {
     await prefs.clear();
   }
 
-  // تخزين بيانات المستخدم
   static Future<void> saveUserData(Map<String, dynamic> userJson) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(userKey, json.encode(userJson));
+
+    await write(specialization, userJson['specialization'] ?? '');
+    await write(nationalID, userJson['nationalID'] ?? '');
+    await write(gender, userJson['gender'] ?? '');
+    await write(doctorPersentage, userJson['doctorPersentage'].toString());
+    await write(yearsOfExperience, userJson['yearsOfExperience'].toString());
+    await write(doctorCertificate, userJson['doctorCertificate'] ?? '');
   }
 
-  // قراءة بيانات المستخدم
   static Future<Map<String, dynamic>?> getUserData() async {
     final prefs = await SharedPreferences.getInstance();
     final userString = prefs.getString(userKey);
@@ -72,5 +90,52 @@ class SharedPreferencesService {
       }
     }
     return null;
+  }
+
+ 
+
+  static Future<String?> getDoctorName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(firstName);
+  }
+
+  static Future<String?> getDoctorImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(picture);
+  }
+
+  static Future<String?> getDoctorSpecialization() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(specialization);
+  }
+
+  static Future<String?> getDoctorNationalID() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(nationalID);
+  }
+
+  static Future<String?> getDoctorExamenPrice() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(examenPrice);
+  }
+
+  static Future<String?> getDoctorGender() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(gender);
+  }
+
+  static Future<String?> getDoctorPercentage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(doctorPersentage);
+  }
+
+  static Future<String?> getDoctorExperienceYears() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(yearsOfExperience);
+  }
+
+  static Future<String?> getDoctorCertificateImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(doctorCertificate);
   }
 }
