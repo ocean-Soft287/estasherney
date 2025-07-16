@@ -6,14 +6,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomSearch extends StatelessWidget {
+class CustomSearch extends StatefulWidget {
   CustomSearch({super.key});
+
+  @override
+  State<CustomSearch> createState() => _CustomSearchState();
+}
+
+class _CustomSearchState extends State<CustomSearch> {
   final TextEditingController searchController = TextEditingController();
 
   String getTimeRemainingText(String date, String startTime, String endTime) {
     try {
-      final start = DateTime.parse("$date ${startTime.length == 5 ? '$startTime:00' : startTime}");
-      final end = DateTime.parse("$date ${endTime.length == 5 ? '$endTime:00' : endTime}");
+      final start = DateTime.parse(
+        "$date ${startTime.length == 5 ? '$startTime:00' : startTime}",
+      );
+      final end = DateTime.parse(
+        "$date ${endTime.length == 5 ? '$endTime:00' : endTime}",
+      );
       final now = DateTime.now();
 
       if (now.isAfter(end)) return "الموعد انتهى";
@@ -55,6 +65,9 @@ class CustomSearch extends StatelessWidget {
                 child: TextFormField(
                   controller: searchController,
                   onChanged: (value) {
+                    setState(() {
+                      searchController.text = value;
+                    });
                     final cubit = context.read<SearchAppointmentCubit>();
                     if (value.trim().isEmpty) {
                       cubit.clearSearch();
@@ -69,6 +82,20 @@ class CustomSearch extends StatelessWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
+                    suffixIcon:
+                        searchController.text.isNotEmpty
+                            ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  searchController.text = '';
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.clear,
+                                color: AppColors.mainColor,
+                              ),
+                            )
+                            : null,
                     prefixIcon: Icon(Icons.search, color: AppColors.mainColor),
                     fillColor: AppColors.greyColor,
                     border: OutlineInputBorder(
@@ -90,7 +117,10 @@ class CustomSearch extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.filter_alt_outlined, color: AppColors.mainColor),
+                      Icon(
+                        Icons.filter_alt_outlined,
+                        color: AppColors.mainColor,
+                      ),
                       SizedBox(width: 4.w),
                       Text(
                         "الفلترة",
@@ -114,7 +144,6 @@ class CustomSearch extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (state is SearchAppointmentFailure) {
               return Center(child: Text("خطأ: ${state.error}"));
-            
             } else if (state is SearchAppointmentSuccess) {
               final appointments = state.appointments;
 
@@ -122,89 +151,136 @@ class CustomSearch extends StatelessWidget {
                 return const Center(child: Text("لا يوجد نتائج."));
               }
 
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: appointments.length,
-                itemBuilder: (context, index) {
-                  final item = appointments[index];
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.58,
+                child: ListView.builder(
+                  itemCount: appointments.length,
+                  itemBuilder: (context, index) {
+                    final item = appointments[index];
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xffD9D9D9)),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 6,
                       ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              const CircleAvatar(
-                                backgroundColor: Colors.blueGrey,
-                                child: Icon(Icons.person, color: Colors.black),
-                              ),
-                              SizedBox(width: 8.w),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(item.fullName, style: TextStyle(color: AppColors.mainColor, fontSize: 16.sp, fontWeight: FontWeight.w500)),
-                                  Row(
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xffD9D9D9)),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                const CircleAvatar(
+                                  backgroundColor: Colors.blueGrey,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.fullName,
+                                      style: TextStyle(
+                                        color: AppColors.mainColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          getSessionIcon(item.sessionType),
+                                          color: AppColors.mainColor,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(
+                                          item.sessionType,
+                                          style: TextStyle(
+                                            color: AppColors.mainColor,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    "السجلات",
+                                    style: TextStyle(
+                                      color: AppColors.mainColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(),
+                            Row(
+                              children: [
+                                buildChip("متابعة"),
+                                SizedBox(width: 10.w),
+                                buildChip(item.gender.toString()),
+                                SizedBox(width: 10.w),
+                                buildChip("${item.age} سنة"),
+                              ],
+                            ),
+                            const Divider(),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
                                     children: [
-                                      Icon(getSessionIcon(item.sessionType), color: AppColors.mainColor),
-                                      SizedBox(width: 4.w),
-                                      Text(item.sessionType, style: TextStyle(color: AppColors.mainColor, fontSize: 16.sp, fontWeight: FontWeight.w500)),
+                                      const Text("الزمن"),
+                                      Text(
+                                        getTimeRemainingText(
+                                          item.date,
+                                          item.slotStartTime,
+                                          item.slotEndTime,
+                                        ),
+                                        style: TextStyle(
+                                          color: AppColors.mainColor,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              const Spacer(),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text("السجلات", style: TextStyle(color: AppColors.mainColor, fontSize: 16.sp, fontWeight: FontWeight.w500)),
-                              ),
-                            ],
-                          ),
-                          const Divider(),
-                          Row(
-                            children: [
-                              buildChip("متابعة"),
-                              SizedBox(width: 10.w),
-                              buildChip(item.gender.toString()),
-                              SizedBox(width: 10.w),
-                              buildChip("${item.age} سنة"),
-                            ],
-                          ),
-                          const Divider(),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    const Text("الزمن"),
-                                    Text(getTimeRemainingText(item.date, item.slotStartTime, item.slotEndTime),
-                                        style: TextStyle(color: AppColors.mainColor, fontSize: 16.sp, fontWeight: FontWeight.w500)),
-                                  ],
                                 ),
-                              ),
-                              SizedBox(width: 30.w),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    const Text("حالة الدفع"),
-                                    Text(item.status.toString(),
-                                        style: TextStyle(color: Colors.green, fontSize: 16.sp, fontWeight: FontWeight.w500)),
-                                  ],
+                                SizedBox(width: 30.w),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      const Text("حالة الدفع"),
+                                      Text(
+                                        item.status.toString(),
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
             }
 
@@ -225,7 +301,11 @@ class CustomSearch extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(color: const Color(0xff747474), fontSize: 16.sp, fontWeight: FontWeight.w500),
+        style: TextStyle(
+          color: const Color(0xff747474),
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

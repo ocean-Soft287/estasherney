@@ -1,10 +1,15 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/widget/defualt_botton.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/data/models/post_available_request.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/widget/custom_price.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/widget/custom_price_screen.dart';
+import 'package:consult_me/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AvailableOnline extends StatelessWidget {
@@ -18,127 +23,133 @@ class AvailableOnline extends StatelessWidget {
         body: Padding(
           padding: EdgeInsets.all(16.0.w),
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 30.h),
-                Row(
-                  children: [
-                    Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
-                    SizedBox(width: 60.w),
-                    Text(
-                      "متوفر عبر الانترنت",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.mainColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700,
+            child: BlocProvider(
+              create: (context) => GetIt.I<AddAvailabilityCubit>(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 30.h),
+                  Row(
+                    children: [
+                      Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
+                      SizedBox(width: 60.w),
+                      Text(
+                        "متوفر عبر الانترنت",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10.h),
-                Divider(),
-                SizedBox(height: 10.h),
-                SizedBox(height: 8.h),
-                Row(
-                  children: [
-                    Text(
-                      'التوافر',
-                      style: TextStyle(
-                        color: AppColors.mainColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700,
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+                  Divider(),
+                  SizedBox(height: 10.h),
+                  SizedBox(height: 8.h),
+                  Row(
+                    children: [
+                      Text(
+                        'التوافر',
+                        style: TextStyle(
+                          color: AppColors.mainColor,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                      textAlign: TextAlign.right,
-                    ),
 
-                    Spacer(),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff14C8C7),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 10.h,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        'إضافة',
-                        style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10.h),
-                Divider(),
-                SizedBox(height: 25.h),
-                ConsultationMethodScreen(),
-                SizedBox(height: 10.h),
-                Divider(),
-                TimeSelectorOnline(user: user),
-                SizedBox(height: 20.h),
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.access_time, color: AppColors.mainColor),
-                        SizedBox(width: 4),
-                        Text(
-                          'المدة الزمنية1س',
-                          style: GoogleFonts.leagueSpartan(
-                            color: AppColors.mainColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
+                      Spacer(),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff14C8C7),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 10.h,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
                           ),
                         ),
-                      ],
-                    ),
-                    Spacer(),
-                    CustomPriceScreen(price: user.examenPrice.toDouble()),
-                  ],
-                ),
-                SizedBox(height: 30.h),
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3), // changes position of shadow
+                        onPressed: () {},
+                        child: Text(
+                          'إضافة',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                          ),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+                  Divider(),
+                  SizedBox(height: 25.h),
+                  ConsultationMethodScreen(),
+                  SizedBox(height: 10.h),
+                  Divider(),
+                  TimeSelectorOnline(user: user),
+                  SizedBox(height: 20.h),
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.access_time, color: AppColors.mainColor),
+                          SizedBox(width: 4),
+                          Text(
+                            'المدة الزمنية1س',
+                            style: GoogleFonts.leagueSpartan(
+                              color: AppColors.mainColor,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      CustomPriceScreen(price: user.examenPrice.toDouble()),
+                    ],
+                  ),
+                  SizedBox(height: 30.h),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: DefaultButton(
+                        width: 258,
+
+                        text: "إعادة تعيين",
+
+                        backgroundColor: Colors.white,
+
+                        textColor: AppColors.mainColor,
+                        function: () {},
+                      ),
                     ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Center(
                     child: DefaultButton(
+                      text: "حفظ",
                       width: 258,
+                      backgroundColor: Color(0xff14C8C7),
 
-                      text: "إعادة تعيين",
-
-                      backgroundColor: Colors.white,
-
-                      textColor: AppColors.mainColor,
+                      textColor: Colors.white,
                       function: () {},
                     ),
                   ),
-                ),
-                SizedBox(height: 20.h),
-                Center(
-                  child: DefaultButton(
-                    text: "حفظ",
-                    width: 258,
-                    backgroundColor: Color(0xff14C8C7),
-
-                    textColor: Colors.white,
-                    function: () {},
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -264,8 +275,17 @@ class TimeSelectorOnline extends StatefulWidget {
 }
 
 class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
-  final List<String> days = ['س', 'ج', 'خ', 'ر', 'ث', 'ن', 'ح'];
-
+  String? startDate, endDate, timeSession;
+  bool isDateSelected = false;
+  static const Map<String, String> days = {
+    'س': 'Sunday',
+    'ج': 'Monday',
+    'خ': 'Tuesday',
+    'ر': 'Wednesday',
+    'ث': 'Thursday',
+    'ن': 'Friday',
+    'ح': 'Saturday',
+  };
   final List<String> times = List.generate(24, (index) {
     final hour = index;
     return '${hour.toString().padLeft(2, '0')}:00';
@@ -319,17 +339,44 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children:
-              days.map((day) {
-                final bool isSelected = selectedDays.contains(day);
+              days.entries.map((day) {
+                final bool isSelected = selectedDays.contains(day.key);
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 3.0),
                   child: InkWell(
                     onTap: () {
                       setState(() {
                         if (isSelected) {
-                          selectedDays.remove(day);
+                          selectedDays.remove(day.key);
                         } else {
-                          selectedDays.add(day);
+                          selectedDays.add(day.key);
+                          isDateSelected = true;
+                          if (isDateSelected) {
+                            if (startDate != null &&
+                                endDate != null &&
+                                timeSession != null) {
+                              /// cubit
+                              context.read<AddAvailabilityCubit>().addDay(
+                                DayAvailability(
+                                  startTime: '',
+                                  endTime: '',
+                                  consultationDurationMinutes: 0,
+                                  consultationPrice: 0,
+                                ),
+                                day.value,
+                              );
+                              startDate = endDate = timeSession = null;
+                              isDateSelected = false;
+                            } else {
+                              if (startDate == null) {
+                                Text("Please select a start date");
+                              } else if (endDate == null) {
+                                Text("Please select an end date");
+                              } else if (timeSession == null) {
+                                Text("Please select a time session");
+                              }
+                            }
+                          }
                         }
                       });
                     },
@@ -337,7 +384,7 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
                       backgroundColor:
                           isSelected ? AppColors.mainColor : Colors.white,
                       child: Text(
-                        day,
+                        day.key,
                         style: TextStyle(
                           color:
                               isSelected ? Colors.white : AppColors.mainColor,
@@ -360,6 +407,7 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
               onChanged: (val) {
                 setState(() {
                   startTime = val!;
+                  debugPrint(startTime);
                 });
               },
             ),
@@ -404,7 +452,7 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
   }
 
   Widget _buildDropdown({
-    required String value,
+    required String? value,
     required List<String> items,
     required ValueChanged<String?> onChanged,
     String Function(String)? displayConverter,
@@ -421,12 +469,17 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
             color: AppColors.mainColor,
             size: 35,
           ),
-          value: value,
+          value: value ?? 'Select Time',
+          hint: value == null ? Text('Select Time') : Text(value),
           items:
               items
                   .map(
                     (item) => DropdownMenuItem(
                       value: item,
+                      onTap:
+                          () => setState(() {
+                            onChanged(item);
+                          }),
                       child: Text(
                         displayConverter != null
                             ? displayConverter(item)
