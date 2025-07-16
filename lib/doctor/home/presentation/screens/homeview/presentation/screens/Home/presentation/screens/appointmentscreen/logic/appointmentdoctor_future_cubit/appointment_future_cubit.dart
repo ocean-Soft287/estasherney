@@ -6,7 +6,7 @@ class AppointmentFutureCubit extends Cubit<ApointmentFutureState> {
   final DoctorFutureAppointmentRepo doctorFutureAppointmentRepo;
 
   AppointmentFutureCubit(this.doctorFutureAppointmentRepo)
-      : super(AppointmentFutureInitial()) {
+    : super(AppointmentFutureInitial()) {
     getFuturedoctorAppointments();
   }
 

@@ -3,19 +3,24 @@ import 'package:consult_me/core/widget/defualt_botton.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/data/models/post_available_request.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/widget/custom_price.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_state.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/widget/custom_price_screen.dart';
-import 'package:consult_me/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AvailableOnline extends StatelessWidget {
+class AvailableOnline extends StatefulWidget {
   final LoginModel user;
   const AvailableOnline({super.key, required this.user});
 
+  @override
+  State<AvailableOnline> createState() => _AvailableOnlineState();
+}
+
+class _AvailableOnlineState extends State<AvailableOnline> {
+  final GlobalKey<_TimeSelectorOnlineState> timeSelectorKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,7 +51,6 @@ class AvailableOnline extends StatelessWidget {
                   SizedBox(height: 10.h),
                   Divider(),
                   SizedBox(height: 10.h),
-                  SizedBox(height: 8.h),
                   Row(
                     children: [
                       Text(
@@ -56,9 +60,7 @@ class AvailableOnline extends StatelessWidget {
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w700,
                         ),
-                        textAlign: TextAlign.right,
                       ),
-
                       Spacer(),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -88,7 +90,14 @@ class AvailableOnline extends StatelessWidget {
                   ConsultationMethodScreen(),
                   SizedBox(height: 10.h),
                   Divider(),
-                  TimeSelectorOnline(user: user),
+                  TimeSelectorOnline(
+                    key: timeSelectorKey,
+                    user: widget.user,
+                    onTimeChanged: () {
+                      setState(() {});
+                    },
+                  ),
+
                   SizedBox(height: 20.h),
                   Row(
                     children: [
@@ -97,56 +106,144 @@ class AvailableOnline extends StatelessWidget {
                           Icon(Icons.access_time, color: AppColors.mainColor),
                           SizedBox(width: 4),
                           Text(
-                            'المدة الزمنية1س',
+                            'المدة الزمنية: ${timeSelectorKey.currentState?.calculateDurationInMinutes() ?? 'غير محددة'} دقيقة',
+
                             style: GoogleFonts.leagueSpartan(
                               color: AppColors.mainColor,
-                              fontSize: 16.sp,
+                              fontSize: 10.sp,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ],
                       ),
                       Spacer(),
-                      CustomPriceScreen(price: user.examenPrice.toDouble()),
+                      CustomPriceScreen(
+                        price: widget.user.examenPrice.toDouble(),
+                      ),
                     ],
                   ),
                   SizedBox(height: 30.h),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3), // changes position of shadow
+                  BlocConsumer<AddAvailabilityCubit, AddAvailabilityState>(
+                    listener: (context, state) {
+                      if (state is AddAvailabilitySuccess) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('تم حفظ التوافر بنجاح')),
+                        );
+                        Navigator.of(context).pop();
+                      } else if (state is AddAvailabilityFailure) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(state.error)));
+                      }
+                    },
+                    builder: (context, state) {
+                      final cubit = context.read<AddAvailabilityCubit>();
+                      final selectorState = timeSelectorKey.currentState;
+
+                      return Column(
+                        children: [
+                          Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: DefaultButton(
+                                width: 258,
+                                text: "إعادة تعيين",
+                                backgroundColor: Colors.white,
+                                textColor: AppColors.mainColor,
+                                function: () {
+                                  cubit.weeklyAvailability.days.clear();
+                                  selectorState?.resetAll();
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("تمت إعادة التعيين"),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
+                          SizedBox(height: 20.h),
+                          Center(
+                            child:
+                                state is AddAvailabilityLoading
+                                    ? const CircularProgressIndicator(
+                                      color: Color(0xff14C8C7),
+                                    )
+                                    : DefaultButton(
+                                      text: "حفظ",
+                                      width: 258,
+                                      backgroundColor: const Color(0xff14C8C7),
+                                      textColor: Colors.white,
+                                      function: () {
+                                        if (selectorState != null) {
+                                          final saved =
+                                              selectorState.getSavedDays();
+
+                                          if (saved.isEmpty) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "يرجى إضافة توافر ليوم واحد على الأقل",
+                                                ),
+                                              ),
+                                            );
+                                          } else if (!selectorState
+                                                  .isCallSelected &&
+                                              !selectorState.isVideoSelected) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "يرجى اختيار نوع الاستشارة: فيديو أو مكالمة",
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            cubit.weeklyAvailability.days
+                                                .clear();
+                                            cubit.weeklyAvailability.days
+                                                .addAll(saved);
+
+                                            final schedule = Schedule(
+                                              startDate: DateTime.now(),
+                                              endDate: DateTime.now().add(
+                                                Duration(days: 7),
+                                              ),
+                                              weeklyAvailability:
+                                                  cubit.weeklyAvailability,
+                                              availableConsultationTypes:
+                                                  selectorState
+                                                      .getSelectedConsultationType(),
+                                            );
+
+                                            debugPrint(
+                                              "Request JSON: ${schedule.toJson()}",
+                                            );
+                                            cubit.addAvailability(schedule);
+                                          }
+                                        }
+                                      },
+                                    ),
+                          ),
+                          SizedBox(height: 30.h),
                         ],
-                      ),
-                      child: DefaultButton(
-                        width: 258,
-
-                        text: "إعادة تعيين",
-
-                        backgroundColor: Colors.white,
-
-                        textColor: AppColors.mainColor,
-                        function: () {},
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  Center(
-                    child: DefaultButton(
-                      text: "حفظ",
-                      width: 258,
-                      backgroundColor: Color(0xff14C8C7),
-
-                      textColor: Colors.white,
-                      function: () {},
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -158,22 +255,16 @@ class AvailableOnline extends StatelessWidget {
   }
 }
 
-class ConsultationMethodScreen extends StatefulWidget {
+class ConsultationMethodScreen extends StatelessWidget {
   const ConsultationMethodScreen({super.key});
 
   @override
-  State<ConsultationMethodScreen> createState() =>
-      _ConsultationMethodScreenState();
-}
-
-class _ConsultationMethodScreenState extends State<ConsultationMethodScreen> {
-  bool phoneCourt = true;
-  bool creative = true;
-  bool inbox = false;
-  bool chat = false;
-
-  @override
   Widget build(BuildContext context) {
+    final methods = [
+      {'label': 'مكالمة هاتفية', 'icon': Icons.call},
+      {'label': 'فيديو', 'icon': Icons.videocam},
+    ];
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Column(
@@ -181,82 +272,52 @@ class _ConsultationMethodScreenState extends State<ConsultationMethodScreen> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'طريقة الاستشارة',
-                  style: GoogleFonts.leagueSpartan(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.mainColor,
-                  ),
-                ),
-                Icon(Icons.delete, color: AppColors.mainColor),
-              ],
+            child: Text(
+              'طريقة الاستشارة',
+              style: GoogleFonts.leagueSpartan(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: AppColors.mainColor,
+              ),
             ),
           ),
           SizedBox(height: 16.h),
-
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _buildOption(
-                  label: 'مكالمة هاتفية',
-                  icon: Icons.call,
-                  value: phoneCourt,
-                  onChanged: (val) => setState(() => phoneCourt = val),
-                ),
-                _buildOption(
-                  label: 'فيديو',
-                  icon: Icons.call,
-                  value: creative,
-                  onChanged: (val) => setState(() => creative = val),
-                ),
-                _buildOption(
-                  label: 'دردشة',
-                  icon: Icons.chat_bubble_outline,
-                  value: chat,
-                  onChanged: (val) => setState(() => chat = val),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildOption({
-    required String label,
-    required IconData icon,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return Container(
-      width: 150.w,
-      height: 50.h,
-
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.r)),
-      child: Row(
-        children: [
-          Icon(icon, size: 17, color: AppColors.mainColor),
-          SizedBox(width: 2.h),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10.sp),
-          ),
-
-          Transform.scale(
-            scale: 0.7,
-            child: Switch(
-              value: value,
-              onChanged: onChanged,
-              activeColor: AppColors.mainColor,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              children:
+                  methods.map((method) {
+                    return Container(
+                      width: 150.w,
+                      height: 50.h,
+                      margin: EdgeInsets.symmetric(horizontal: 4.w),
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        color: AppColors.mainColor.withOpacity(0.1),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            method['icon'] as IconData,
+                            size: 18,
+                            color: AppColors.mainColor,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            method['label'] as String,
+                            style: TextStyle(fontSize: 12.sp),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.check_circle,
+                            color: AppColors.mainColor,
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
             ),
           ),
         ],
@@ -265,19 +326,58 @@ class _ConsultationMethodScreenState extends State<ConsultationMethodScreen> {
   }
 }
 
+Widget _buildOption({
+  required String label,
+  required IconData icon,
+  required bool value,
+  required ValueChanged<bool> onChanged,
+}) {
+  return Container(
+    width: 150.w,
+    height: 50.h,
+
+    margin: EdgeInsets.symmetric(horizontal: 4.w),
+    padding: EdgeInsets.symmetric(horizontal: 12),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12.r),
+      color: AppColors.mainColor.withOpacity(0.1),
+    ),
+    child: Row(
+      children: [
+        Icon(icon, size: 17, color: AppColors.mainColor),
+        SizedBox(width: 2.h),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 10.sp),
+        ),
+
+        Transform.scale(
+          scale: 0.7,
+          child: Switch(
+            value: value,
+            onChanged: onChanged,
+            activeColor: AppColors.mainColor,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 class TimeSelectorOnline extends StatefulWidget {
   final LoginModel user;
+  final VoidCallback? onTimeChanged;
 
-  const TimeSelectorOnline({super.key, required this.user});
+  const TimeSelectorOnline({super.key, required this.user, this.onTimeChanged});
 
   @override
   _TimeSelectorOnlineState createState() => _TimeSelectorOnlineState();
 }
 
 class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
-  String? startDate, endDate, timeSession;
-  bool isDateSelected = false;
-  static const Map<String, String> days = {
+  final Map<String, String> days = {
     'س': 'Sunday',
     'ج': 'Monday',
     'خ': 'Tuesday',
@@ -286,11 +386,11 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
     'ن': 'Friday',
     'ح': 'Saturday',
   };
-  final List<String> times = List.generate(24, (index) {
-    final hour = index;
-    return '${hour.toString().padLeft(2, '0')}:00';
-  });
 
+  final List<String> times = List.generate(
+    24,
+    (index) => '${index.toString().padLeft(2, '0')}:00',
+  );
   final List<String> durations = [
     '15 دقيقة',
     '20 دقيقة',
@@ -298,35 +398,49 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
     '60 دقيقة',
   ];
 
-  late String startTime;
-  late String endTime;
-  late String selectedMoney;
-  late String selectedDuration;
-  late Set<String> selectedDays;
+  String? selectedDayKey;
+  String? startTime;
+  String? endTime;
+  String? selectedDuration;
+  bool isCallSelected = false;
+  bool isVideoSelected = false;
 
-  @override
-  void initState() {
-    super.initState();
-    startTime = times[18]; // 18:00 => 6:00 PM
-    endTime = times[20]; // 20:00 => 8:00 PM
-    selectedMoney = '';
-    selectedDuration = durations.first;
-    selectedDays = {'س', 'ث'};
+  final Map<String, Map<String, String>> selectedDaysData = {};
+
+  void resetAll() {
+    setState(() {
+      selectedDaysData.clear();
+      selectedDayKey = null;
+      startTime = null;
+      endTime = null;
+      selectedDuration = null;
+      isCallSelected = false;
+      isVideoSelected = false;
+    });
   }
 
-  String convertToAmPm(String time24) {
-    final parts = time24.split(':');
-    int hour = int.parse(parts[0]);
-    final minute = parts[1];
-    final period = hour >= 12 ? 'PM' : 'AM';
+  Map<String, DayAvailability> getSavedDays() {
+    final Map<String, DayAvailability> result = {};
+    selectedDaysData.forEach((arabicKey, values) {
+      final englishDay = days[arabicKey]!;
+      result[englishDay] = DayAvailability(
+        startTime: values['startTime']!,
+        endTime: values['endTime']!,
+        consultationDurationMinutes: _durationToInt(values['duration']!),
+        consultationPrice: widget.user.examenPrice.toDouble(),
+      );
+    });
+    return result;
+  }
 
-    if (hour == 0) {
-      hour = 12;
-    } else if (hour > 12) {
-      hour -= 12;
+  List<String> getSelectedConsultationType() {
+    List<String> result = ['Chat'];
+    if (isCallSelected) {
+      result.add('Call');
+    } else if (isVideoSelected) {
+      result.add('Video');
     }
-
-    return '$hour:$minute $period';
+    return result;
   }
 
   @override
@@ -334,60 +448,57 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Icon(Icons.delete, color: AppColors.mainColor),
         SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children:
               days.entries.map((day) {
-                final bool isSelected = selectedDays.contains(day.key);
+                final isSelected = selectedDayKey == day.key;
+                final isFilled = selectedDaysData.containsKey(day.key);
+
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 3.0),
                   child: InkWell(
                     onTap: () {
+                      if (!_validateCurrentDayInputs()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'وقت النهاية يجب أن يكون بعد وقت البداية',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
                       setState(() {
-                        if (isSelected) {
-                          selectedDays.remove(day.key);
+                        selectedDayKey = day.key;
+                        if (isFilled) {
+                          final existing = selectedDaysData[day.key]!;
+                          startTime = existing['startTime'];
+                          endTime = existing['endTime'];
+                          selectedDuration = existing['duration'];
                         } else {
-                          selectedDays.add(day.key);
-                          isDateSelected = true;
-                          if (isDateSelected) {
-                            if (startDate != null &&
-                                endDate != null &&
-                                timeSession != null) {
-                              /// cubit
-                              context.read<AddAvailabilityCubit>().addDay(
-                                DayAvailability(
-                                  startTime: '',
-                                  endTime: '',
-                                  consultationDurationMinutes: 0,
-                                  consultationPrice: 0,
-                                ),
-                                day.value,
-                              );
-                              startDate = endDate = timeSession = null;
-                              isDateSelected = false;
-                            } else {
-                              if (startDate == null) {
-                                Text("Please select a start date");
-                              } else if (endDate == null) {
-                                Text("Please select an end date");
-                              } else if (timeSession == null) {
-                                Text("Please select a time session");
-                              }
-                            }
-                          }
+                          startTime = null;
+                          endTime = null;
+                          selectedDuration = null;
                         }
                       });
                     },
                     child: CircleAvatar(
                       backgroundColor:
-                          isSelected ? AppColors.mainColor : Colors.white,
+                          isFilled
+                              ? Colors.green
+                              : isSelected
+                              ? AppColors.mainColor
+                              : Colors.white,
                       child: Text(
                         day.key,
                         style: TextStyle(
                           color:
-                              isSelected ? Colors.white : AppColors.mainColor,
+                              isFilled || isSelected
+                                  ? Colors.white
+                                  : AppColors.mainColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -397,64 +508,158 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
               }).toList(),
         ),
         SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildDropdown(
-              value: startTime,
-              items: times,
-              displayConverter: convertToAmPm,
-              onChanged: (val) {
-                setState(() {
-                  startTime = val!;
-                  debugPrint(startTime);
-                });
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text('-', style: TextStyle(fontSize: 18)),
-            ),
-            _buildDropdown(
-              value: endTime,
-              items: times,
-              displayConverter: convertToAmPm,
-              onChanged: (val) {
-                setState(() {
-                  endTime = val!;
-                });
-              },
-            ),
-          ],
-        ),
-        SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildDropdown(
-              value: selectedDuration,
-              items: durations,
-              onChanged: (val) {
-                setState(() {
-                  selectedDuration = val!;
-                });
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text('-', style: TextStyle(fontSize: 18)),
-            ),
-            CustomPrice(user: widget.user),
-          ],
-        ),
+        if (selectedDayKey != null)
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildDropdown(
+                    value: startTime,
+                    items: times,
+                    onChanged:
+                        (val) => setState(() {
+                          startTime = val;
+                          _autoSaveDay();
+                          widget.onTimeChanged?.call();
+                        }),
+                    hint: 'وقت البداية',
+                    displayConverter: _convertToAmPm,
+                  ),
+                  Text('-', style: TextStyle(fontSize: 18)),
+                  _buildDropdown(
+                    value: endTime,
+                    items: times,
+                    onChanged:
+                        (val) => setState(() {
+                          endTime = val;
+                          _autoSaveDay();
+                          widget.onTimeChanged?.call();
+                        }),
+                    hint: 'وقت النهاية',
+                    displayConverter: _convertToAmPm,
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildDropdown(
+                    value: selectedDuration,
+                    items: durations,
+                    onChanged:
+                        (val) => setState(() {
+                          selectedDuration = val;
+                          _autoSaveDay();
+                          widget.onTimeChanged?.call();
+                        }),
+                    hint: 'المدة الزمنية',
+                  ),
+                  Text('-', style: TextStyle(fontSize: 18)),
+                  Text(
+                    "السعر: ${widget.user.examenPrice} ج.م",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.mainColor,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildOption(
+                    label: 'مكالمة',
+                    icon: Icons.call,
+                    value: isCallSelected,
+                    onChanged: (val) {
+                      setState(() {
+                        isCallSelected = val;
+                        if (val) isVideoSelected = false;
+                      });
+                    },
+                  ),
+                  _buildOption(
+                    label: 'فيديو',
+                    icon: Icons.videocam,
+                    value: isVideoSelected,
+                    onChanged: (val) {
+                      setState(() {
+                        isVideoSelected = val;
+                        if (val) isCallSelected = false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
       ],
     );
+  }
+
+  void _autoSaveDay() {
+    if (selectedDayKey != null &&
+        startTime != null &&
+        endTime != null &&
+        selectedDuration != null) {
+      final start = int.tryParse(startTime!.split(":").first) ?? 0;
+      final end = int.tryParse(endTime!.split(":").first) ?? 0;
+
+      if (end <= start) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('وقت النهاية يجب أن يكون بعد وقت البداية')),
+        );
+        return;
+      }
+
+      selectedDaysData[selectedDayKey!] = {
+        'startTime': startTime!,
+        'endTime': endTime!,
+        'duration': selectedDuration!,
+      };
+    }
+  }
+
+  bool _validateCurrentDayInputs() {
+    if (startTime == null || endTime == null) return true;
+    final start = int.tryParse(startTime!.split(":").first) ?? 0;
+    final end = int.tryParse(endTime!.split(":").first) ?? 0;
+    return end > start;
+  }
+
+  int _durationToInt(String durationText) {
+    return int.tryParse(durationText.split(' ').first) ?? 15;
+  }
+
+  String _convertToAmPm(String time24) {
+    final parts = time24.split(':');
+    int hour = int.parse(parts[0]);
+    final minute = parts[1];
+    final period = hour >= 12 ? 'PM' : 'AM';
+    if (hour == 0)
+      hour = 12;
+    else if (hour > 12)
+      hour -= 12;
+    return '$hour:$minute $period';
+  }
+
+  int? calculateDurationInMinutes() {
+    if (startTime == null || endTime == null) return null;
+    final startHour = int.tryParse(startTime!.split(":")[0]) ?? 0;
+    final endHour = int.tryParse(endTime!.split(":")[0]) ?? 0;
+
+    final duration = (endHour - startHour) * 60;
+    return duration > 0 ? duration : null;
   }
 
   Widget _buildDropdown({
     required String? value,
     required List<String> items,
     required ValueChanged<String?> onChanged,
+    String? hint,
     String Function(String)? displayConverter,
   }) {
     return Expanded(
@@ -464,30 +669,18 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
         child: DropdownButton<String>(
           isExpanded: true,
           underline: SizedBox(),
-          icon: Icon(
-            Icons.keyboard_arrow_down,
-            color: AppColors.mainColor,
-            size: 35,
-          ),
-          value: value ?? 'Select Time',
-          hint: value == null ? Text('Select Time') : Text(value),
+          hint: Text(hint ?? ''),
+          value: value,
+          icon: Icon(Icons.keyboard_arrow_down, color: AppColors.mainColor),
           items:
-              items
-                  .map(
-                    (item) => DropdownMenuItem(
-                      value: item,
-                      onTap:
-                          () => setState(() {
-                            onChanged(item);
-                          }),
-                      child: Text(
-                        displayConverter != null
-                            ? displayConverter(item)
-                            : item,
-                      ),
-                    ),
-                  )
-                  .toList(),
+              items.map((item) {
+                return DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    displayConverter != null ? displayConverter(item) : item,
+                  ),
+                );
+              }).toList(),
           onChanged: onChanged,
         ),
       ),

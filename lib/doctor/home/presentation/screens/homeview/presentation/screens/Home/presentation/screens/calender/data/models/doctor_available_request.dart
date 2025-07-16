@@ -1,3 +1,5 @@
+
+
 class DoctorAvailabilityResponse {
   final String message;
   final int doctorId;
@@ -13,6 +15,7 @@ class DoctorAvailabilityResponse {
       doctorId: json['doctorId'] ?? 0,
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'message': message,

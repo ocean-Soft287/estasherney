@@ -11,7 +11,8 @@ class SearchAppointmentRepoImpl implements SearchAppointmentRepo {
   SearchAppointmentRepoImpl({required this.dio});
 
   @override
-  Future<Either<Failure, List<PastAppointmentData>>> searchAppointmentsByPatientName(String name) async {
+  Future<Either<Failure, List<PastAppointmentData>>>
+  searchAppointmentsByPatientName(String name) async {
     try {
       final response = await dio.get(
         "${EndPoint.searchPatient}?patientName=$name",
@@ -19,9 +20,9 @@ class SearchAppointmentRepoImpl implements SearchAppointmentRepo {
 
       if (response is Map<String, dynamic> && response.containsKey("data")) {
         final model = SearchAppointmentModel.fromJson(response);
-        return Right(model.data); 
+        return Right(model.data);
       } else {
-        return Left(ServerFailure("بيانات غير متوقعة من السيرفر"));
+        return Left(ServerFailure(" لا توجد نتائج مطابقة للاسم المحدد"));
       }
     } catch (e) {
       return Left(ServerFailure(e.toString()));

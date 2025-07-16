@@ -76,59 +76,9 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-
-                  border: Border.all(color: AppColors.whitegradient),
-                ),
-
-                child: Row(
-                  children: [
-                    Icon(Icons.person_2_outlined, color: AppColors.mainColor),
-                    SizedBox(width: 20.w),
-                    Text(
-                      'حساب احترافي',
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.mainColor,
-                        fontSize: 20.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-
-                  border: Border.all(color: AppColors.whitegradient),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.person_2_outlined, color: AppColors.mainColor),
-                    SizedBox(width: 20.w),
-                    Text(
-                      'إعدادات الحساب',
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.mainColor,
-                        fontSize: 20.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 }
-

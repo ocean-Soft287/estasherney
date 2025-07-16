@@ -1,3 +1,4 @@
+
 class Schedule {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -13,8 +14,12 @@ class Schedule {
 
   Map<String, dynamic> toJson() {
     return {
-      'startDate': startDate?.toIso8601String(),
-      'endDate': endDate?.toIso8601String(),
+      'startDate': startDate != null
+          ? startDate!.toIso8601String().split('T').first
+          : null,
+      'endDate': endDate != null
+          ? endDate!.toIso8601String().split('T').first
+          : null,
       'weeklyAvailability': weeklyAvailability.toJson(),
       'availableConsultationTypes': availableConsultationTypes ?? [],
     };
@@ -38,11 +43,9 @@ class WeeklyAvailability {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {};
-
     days.forEach((key, value) {
       json[key] = value?.toJson();
     });
-
     return json;
   }
 }
@@ -77,4 +80,39 @@ class DayAvailability {
       'consultationPrice': consultationPrice,
     };
   }
+}
+
+
+Future<void> sendAvailability() async {
+
+
+  final availability = WeeklyAvailability();
+  final daily = DayAvailability(
+    startTime: "22:00",
+    endTime: "23:00",
+    consultationDurationMinutes: 30,
+    consultationPrice: 350,
+  );
+
+  availability.days['Sunday'] = daily;
+  availability.days['Monday'] = daily;
+  availability.days['Tuesday'] = daily;
+  availability.days['Wednesday'] = daily;
+  availability.days['Thursday'] = daily;
+  availability.days['Friday'] = null;
+  availability.days['Saturday'] = null;
+
+ 
+  final schedule = Schedule(
+    startDate: DateTime(2025, 7, 15),
+    endDate: DateTime(2025, 7, 21),
+    weeklyAvailability: availability,
+    availableConsultationTypes: ["Call", "Chat", "Video"],
+  );
+
+  final body = {
+    "availabilityDto": schedule.toJson(),
+  };
+
+ 
 }

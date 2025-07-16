@@ -29,7 +29,7 @@ class _CustomPriceScreenState extends State<CustomPriceScreen> {
   void didUpdateWidget(covariant CustomPriceScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.price != widget.price) {
-      cubit.fetchDoctorPrice(widget.price); // ✅ إعادة الطلب عند تغيير السعر
+      cubit.fetchDoctorPrice(widget.price); 
     }
   }
 
@@ -56,7 +56,7 @@ class _CustomPriceScreenState extends State<CustomPriceScreen> {
                   'تتحصل علي${state.priceModel.price.toStringAsFixed(2)} جنيه',
                   style: TextStyle(
                     color: AppColors.mainColor,
-                    fontSize: 17.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
