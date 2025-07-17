@@ -25,7 +25,10 @@ class _CalinderDayState extends State<CalinderDay> {
                 padding: EdgeInsets.only(right: 20.h),
                 child: Row(
                   children: [
-                    Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
+                    IconButton(onPressed: (){
+                    Navigator.pop(context);
+                  }, icon: Icon(Icons.arrow_back_ios, color: AppColors.mainColor),),
+                 
                     SizedBox(width: 100.w),
                     Text(
                       "التقويم",
@@ -41,16 +44,17 @@ class _CalinderDayState extends State<CalinderDay> {
               SizedBox(height: 5),
               Divider(),
 
-              SizedBox(height: 30.h),
-              Text(
-                "عرض يومي",
-                style: GoogleFonts.leagueSpartan(
-                  color: AppColors.mainColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(height: 20.h),
+              // SizedBox(height: 30.h),
+             
+              // Text(
+              //   "عرض يومي",
+              //   style: GoogleFonts.leagueSpartan(
+              //     color: AppColors.mainColor,
+              //     fontSize: 18,
+              //     fontWeight: FontWeight.w700,
+              //   ),
+              // ),
+              // SizedBox(height: 20.h),
 
               TableCalendar(
                 firstDay: DateTime.utc(2023, 1, 1),
@@ -86,166 +90,167 @@ class _CalinderDayState extends State<CalinderDay> {
                 },
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          ".",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Colors.red,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              // Padding(
+              //   padding: const EdgeInsets.only(right: 30),
+              //   child: Column(
+              //     children: [
+              //       Row(
+              //         children: [
+              //           Text(
+              //             ".",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Colors.red,
+              //               fontSize: 40,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
 
-                        Text(
-                          " مرفوض",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Colors.red,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20.w),
-                    Row(
-                      children: [
-                        Text(
-                          ".",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xff6A9ABB),
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              //           Text(
+              //             " مرفوض",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Colors.red,
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       SizedBox(width: 20.w),
+              //       Row(
+              //         children: [
+              //           Text(
+              //             ".",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xff6A9ABB),
+              //               fontSize: 40,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
 
-                        Text(
-                          " تم التحويل",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xff6A9ABB),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20.w),
-                    Row(
-                      children: [
-                        Text(
-                          ".",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xffE3BA48),
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              //           Text(
+              //             " تم التحويل",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xff6A9ABB),
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       SizedBox(width: 20.w),
+              //       Row(
+              //         children: [
+              //           Text(
+              //             ".",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xffE3BA48),
+              //               fontSize: 40,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
 
-                        Text(
-                          " قيد الانتظار",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xffE3BA48),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20.w),
-                    Row(
-                      children: [
-                        Text(
-                          ".",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xff5CCEA0),
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              //           Text(
+              //             " قيد الانتظار",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xffE3BA48),
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       SizedBox(width: 20.w),
+              //       Row(
+              //         children: [
+              //           Text(
+              //             ".",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xff5CCEA0),
+              //               fontSize: 40,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
 
-                        Text(
-                          " تمت الموافقة",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xff5CCEA0),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20.w),
-                    Row(
-                      children: [
-                        Text(
-                          ".",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xff3B3C3E),
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              //           Text(
+              //             " تمت الموافقة",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xff5CCEA0),
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       SizedBox(width: 20.w),
+              //       Row(
+              //         children: [
+              //           Text(
+              //             ".",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xff3B3C3E),
+              //               fontSize: 40,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
 
-                        Text(
-                          " تم الإلغاء",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xff3B3C3E),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20.w),
-                    Row(
-                      children: [
-                        Text(
-                          ".",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xffD9D9D9),
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              //           Text(
+              //             " تم الإلغاء",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xff3B3C3E),
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       SizedBox(width: 20.w),
+              //       Row(
+              //         children: [
+              //           Text(
+              //             ".",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xffD9D9D9),
+              //               fontSize: 40,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
 
-                        Text(
-                          " تم بنجاح ",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xffD9D9D9),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20.w),
-                    Row(
-                      children: [
-                        Text(
-                          ".",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xffBFB767),
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+              //           Text(
+              //             " تم بنجاح ",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xffD9D9D9),
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       SizedBox(width: 20.w),
+              //       Row(
+              //         children: [
+              //           Text(
+              //             ".",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xffBFB767),
+              //               fontSize: 40,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
 
-                        Text(
-                          " لم يتم ",
-                          style: GoogleFonts.leagueSpartan(
-                            color: Color(0xffBFB767),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              //           Text(
+              //             " لم يتم ",
+              //             style: GoogleFonts.leagueSpartan(
+              //               color: Color(0xffBFB767),
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w700,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
+         
             ],
           ),
         ),
