@@ -1,3 +1,4 @@
+import 'package:consult_me/core/Network/local/sharedprefrences.dart';
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/widget/defualt_botton.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
@@ -61,35 +62,37 @@ class _AvailableOnlineState extends State<AvailableOnline> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Spacer(),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff14C8C7),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20.w,
-                            vertical: 10.h,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          'إضافة',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                      ),
+                      // Spacer(),
+                      // ElevatedButton(
+                      //   style: ElevatedButton.styleFrom(
+                      //     backgroundColor: Color(0xff14C8C7),
+                      //     padding: EdgeInsets.symmetric(
+                      //       horizontal: 20.w,
+                      //       vertical: 10.h,
+                      //     ),
+                      //     shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(8.r),
+                      //     ),
+                      //   ),
+                      //   onPressed: () {},
+                      //   child: Text(
+                      //     'إضافة',
+                      //     style: TextStyle(
+                      //       color: Colors.white,
+                      //       fontSize: 14.sp,
+                      //     ),
+                      //   ),
+                      // ),
+               
                     ],
                   ),
+              
                   SizedBox(height: 10.h),
-                  Divider(),
-                  SizedBox(height: 25.h),
-                  ConsultationMethodScreen(),
-                  SizedBox(height: 10.h),
-                  Divider(),
+              //    Divider(),
+            //      SizedBox(height: 25.h),
+                 // ConsultationMethodScreen(),
+                //  SizedBox(height: 10.h),
+              //    Divider(),
                   TimeSelectorOnline(
                     key: timeSelectorKey,
                     user: widget.user,
@@ -214,27 +217,30 @@ class _AvailableOnlineState extends State<AvailableOnline> {
                                               ),
                                             );
                                           } else {
-                                            cubit.weeklyAvailability.days
-                                                .clear();
-                                            cubit.weeklyAvailability.days
-                                                .addAll(saved);
-
-                                            final schedule = Schedule(
-                                              startDate: DateTime.now(),
-                                              endDate: DateTime.now().add(
+                                           final previousDate   =   CacheHelper.getData(key: 'previousday');
+                                           final startDate =  DateTime.now();
+                                          final endDate =  DateTime.now().add(
                                                 Duration(days: 7),
-                                              ),
-                                              weeklyAvailability:
-                                                  cubit.weeklyAvailability,
-                                              availableConsultationTypes:
-                                                  selectorState
-                                                      .getSelectedConsultationType(),
-                                            );
+                                              );
+                                      
+                                           if(previousDate != null){
+                                           DateTime previousDay = DateTime.parse(previousDate);
+                                               
+                                                if(previousDay.isBefore(startDate)){
+                                               
+                                                add_appointment(cubit, saved, startDate, endDate, selectorState);
 
-                                            debugPrint(
-                                              "Request JSON: ${schedule.toJson()}",
-                                            );
-                                            cubit.addAvailability(schedule);
+                                                }else {
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(content: Text('هذا الاسبوع محجوز من قبل حتي يوم ${previousDay.day}-${previousDay.month}-${previousDay.year}')),
+                                                  );
+                                                }
+
+                                           }else {
+                                            add_appointment(cubit, saved, startDate, endDate, selectorState);
+
+                                           }
+                                       
                                           }
                                         }
                                       },
@@ -253,78 +259,105 @@ class _AvailableOnlineState extends State<AvailableOnline> {
       ),
     );
   }
-}
 
-class ConsultationMethodScreen extends StatelessWidget {
-  const ConsultationMethodScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final methods = [
-      {'label': 'مكالمة هاتفية', 'icon': Icons.call},
-      {'label': 'فيديو', 'icon': Icons.videocam},
-    ];
-
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Text(
-              'طريقة الاستشارة',
-              style: GoogleFonts.leagueSpartan(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-                color: AppColors.mainColor,
-              ),
-            ),
-          ),
-          SizedBox(height: 16.h),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children:
-                  methods.map((method) {
-                    return Container(
-                      width: 150.w,
-                      height: 50.h,
-                      margin: EdgeInsets.symmetric(horizontal: 4.w),
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        color: AppColors.mainColor.withOpacity(0.1),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            method['icon'] as IconData,
-                            size: 18,
-                            color: AppColors.mainColor,
-                          ),
-                          SizedBox(width: 6),
-                          Text(
-                            method['label'] as String,
-                            style: TextStyle(fontSize: 12.sp),
-                          ),
-                          Spacer(),
-                          Icon(
-                            Icons.check_circle,
-                            color: AppColors.mainColor,
-                            size: 20,
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-            ),
-          ),
-        ],
-      ),
+  void add_appointment(AddAvailabilityCubit cubit, Map<String, DayAvailability> saved, DateTime startDate, DateTime endDate, _TimeSelectorOnlineState selectorState) {
+         cubit.weeklyAvailability.days
+        .clear();
+    cubit.weeklyAvailability.days
+    
+        .addAll(saved);
+                                   
+    
+    final schedule = Schedule(
+      startDate: startDate,
+      endDate:endDate ,
+      weeklyAvailability:
+          cubit.weeklyAvailability,
+      availableConsultationTypes:
+          selectorState
+              .getSelectedConsultationType(),
     );
+    
+    debugPrint(
+      "Request JSON: ${schedule.toJson()}",
+    );
+    cubit.addAvailability(schedule);
+                                           
   }
 }
+
+// class ConsultationMethodScreen extends StatelessWidget {
+//   const ConsultationMethodScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final methods = [
+//       {'label': 'مكالمة هاتفية', 'icon': Icons.call},
+//       {'label': 'فيديو', 'icon': Icons.videocam},
+//     ];
+
+//     return Directionality(
+//       textDirection: TextDirection.rtl,
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Padding(
+//             padding: EdgeInsets.symmetric(horizontal: 12.w),
+//             child:
+//              Text(
+//               'طريقة الاستشارة',
+//               style: GoogleFonts.leagueSpartan(
+//                 fontSize: 16.sp,
+//                 fontWeight: FontWeight.bold,
+//                 color: AppColors.mainColor,
+//               ),
+//             ),
+       
+//           ),
+//           SizedBox(height: 16.h),
+//           SingleChildScrollView(
+//             scrollDirection: Axis.horizontal,
+//             child: Row(
+//               children:
+//                   methods.map((method) {
+//                     return Container(
+//                       width: 150.w,
+//                       height: 50.h,
+//                       margin: EdgeInsets.symmetric(horizontal: 4.w),
+//                       padding: EdgeInsets.symmetric(horizontal: 12),
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(12.r),
+//                         color: AppColors.mainColor.withOpacity(0.1),
+//                       ),
+//                       child: Row(
+//                         children: [
+//                           Icon(
+//                             method['icon'] as IconData,
+//                             size: 18,
+//                             color: AppColors.mainColor,
+//                           ),
+//                           SizedBox(width: 6),
+//                           Text(
+//                             method['label'] as String,
+//                             style: TextStyle(fontSize: 12.sp),
+//                           ),
+//                           Spacer(),
+//                           Icon(
+//                             Icons.check_circle,
+//                             color: AppColors.mainColor,
+//                             size: 20,
+//                           ),
+//                         ],
+//                       ),
+//                     );
+//                   }).toList(),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 Widget _buildOption({
   required String label,
@@ -567,33 +600,49 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
                 ],
               ),
               SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildOption(
-                    label: 'مكالمة',
-                    icon: Icons.call,
-                    value: isCallSelected,
-                    onChanged: (val) {
-                      setState(() {
-                        isCallSelected = val;
-                        if (val) isVideoSelected = false;
-                      });
-                    },
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                                    'طريقة الاستشارة',
+                                    style: GoogleFonts.leagueSpartan(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.mainColor,
+                                    ),
+                                  ),
+                                    SizedBox(height: 14),
+       
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                      _buildOption(
+                        label: 'مكالمة',
+                        icon: Icons.call,
+                        value: isCallSelected,
+                        onChanged: (val) {
+                          setState(() {
+                            isCallSelected = val;
+                            if (val) isVideoSelected = false;
+                          });
+                        },
+                      ),
+                      _buildOption(
+                        label: 'فيديو',
+                        icon: Icons.videocam,
+                        value: isVideoSelected,
+                        onChanged: (val) {
+                          setState(() {
+                            isVideoSelected = val;
+                            if (val) isCallSelected = false;
+                          });
+                        },
+                      ),
+                                      ],
+                                    ),
+                    ],
                   ),
-                  _buildOption(
-                    label: 'فيديو',
-                    icon: Icons.videocam,
-                    value: isVideoSelected,
-                    onChanged: (val) {
-                      setState(() {
-                        isVideoSelected = val;
-                        if (val) isCallSelected = false;
-                      });
-                    },
-                  ),
-                ],
-              ),
+           
             ],
           ),
       ],

@@ -1,3 +1,4 @@
+import 'package:consult_me/core/Network/local/sharedprefrences.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/data/models/post_available_request.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,11 @@ class AddAvailabilityCubit extends Cubit<AddAvailabilityState> {
 
     result.fold(
       (failure) => emit(AddAvailabilityFailure(failure.message)),
-      (response) => emit(AddAvailabilitySuccess(response)),
+      (response) async{ 
+        await  CacheHelper.saveData(key: 'previousday', value:DateTime.now().add(
+                                                Duration(days: 7),
+                                              ).toString(),);
+        emit(AddAvailabilitySuccess(response));},
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:consult_me/core/Api/dio_concumer.dart';
 import 'package:consult_me/core/Api/end_point.dart';
+import 'package:consult_me/core/Network/local/sharedprefrences.dart';
 import 'package:consult_me/doctor/auth/data/repo/forgetpassword/forgetpassword_repo.dart';
 import 'package:consult_me/doctor/auth/data/repo/forgetpassword/forgetpasword_repo_impl.dart';
 import 'package:consult_me/doctor/auth/data/repo/login/login_repo.dart';
@@ -32,7 +33,7 @@ import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
 
-void setup() {
+Future<void> setup() async{
   // --- Dio & DioConsumer ---
   sl.registerLazySingleton<Dio>(
     () => Dio(BaseOptions(baseUrl: EndPoint.baseUrl))
@@ -98,6 +99,7 @@ sl.registerFactory(() => ResetPasswordCubit(sl<ResetPasswordRepo>()));
     () => PriceRepoImpl(dioConsumer: sl<DioConsumer>()),
   );
   sl.registerFactory(() => PriceCubit(sl<PriceRepo>()));
+  await CacheHelper.init();
 
  
 }

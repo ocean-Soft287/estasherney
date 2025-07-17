@@ -14,8 +14,7 @@ import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelper.init();
-  setup();
+  await setup();
   runApp(DevicePreview(enabled: true
   , builder: (context) => const MyApp()));
 }
