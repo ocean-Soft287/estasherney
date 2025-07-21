@@ -1,4 +1,3 @@
-import 'package:consult_me/core/network/local/sharedprefrences.dart';
 import 'package:consult_me/core/services/local_services.dart';
 import 'package:consult_me/feature/intial/splash_screen.dart';
 import 'package:consult_me/feature/localization/manger/localization_cubit.dart';

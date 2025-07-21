@@ -30,6 +30,7 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/pricedoctor/price_doctor_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
 
@@ -100,6 +101,10 @@ sl.registerFactory(() => ResetPasswordCubit(sl<ResetPasswordRepo>()));
   );
   sl.registerFactory(() => PriceCubit(sl<PriceRepo>()));
   await CacheHelper.init();
+  await Supabase.initialize(
+    url: 'https://urvvmzyekyaoabykrswi.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVydnZtenlla3lhb2FieWtyc3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwOTIxOTEsImV4cCI6MjA2ODY2ODE5MX0.stIhnDGvjNJ9VtGHXU3C-v7umA3KLOzSWhtiML1Gm1w',
+  );
 
  
 }
