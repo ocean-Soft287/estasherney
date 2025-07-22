@@ -1,4 +1,5 @@
-import 'package:consult_me/core/network/local/sharedprefrences.dart';
+import 'package:consult_me/bloc_observer.dart';
+import 'package:consult_me/core/services/local_services.dart';
 import 'package:consult_me/feature/intial/splash_screen.dart';
 import 'package:consult_me/feature/localization/manger/localization_cubit.dart';
 import 'package:device_preview/device_preview.dart';
@@ -13,8 +14,10 @@ import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await CacheHelper.init();
-  runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
+  await setup();
+  Bloc.observer = MyBlocObserver();
+  runApp(DevicePreview(enabled: true
+  , builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -61,8 +64,10 @@ class MyApp extends StatelessWidget {
             splitScreenMode: true,
             builder: (context, child) {
               return MaterialApp(
+                          locale: const Locale('ar'), 
+
                 debugShowCheckedModeBanner: false,
-                locale: locale,
+                
 
                 supportedLocales: S.delegate.supportedLocales,
                 localizationsDelegates: [
@@ -79,9 +84,11 @@ class MyApp extends StatelessWidget {
                       }
                     }
                   }
-                  return const Locale('ar');
+                   return const Locale('ar');
                 },
-                home: SplashScreen(),
+                home: SplashScreen(
+                  
+                ),
               );
             },
           );

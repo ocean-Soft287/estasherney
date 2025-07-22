@@ -1,7 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/appointment_screen.dart';
-import 'package:consult_me/doctor/home/presentation/screens/myclinic/presentation/screens/clinic_doctor.dart';
-import 'package:consult_me/doctor/home/presentation/screens/myclinic/presentation/screens/view_all_clinic.dart';
+import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/screens/appointment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,77 +81,7 @@ class MyClinicDoctor extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: screenWidth * 0.03),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ClinicDoctor()),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(screenWidth * 0.025),
-                      width: screenWidth * 0.4,
-                      height: screenWidth * 0.4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.mainColor,
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/images/Group (6).png",
-                            width: screenWidth * 0.15,
-                          ),
-                          SizedBox(height: screenWidth * 0.06),
-                          Text(
-                            "عيادتي",
-                            style: GoogleFonts.leagueSpartan(
-                              color: AppColors.wightcolor,
-                              fontSize: screenWidth * 0.045,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.03),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ViewAllClinic()),
-                );
-              },
-              child: Container(
-                padding: EdgeInsets.all(screenWidth * 0.025),
-                width: screenWidth * 0.4,
-                height: screenWidth * 0.4,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.mainColor,
-                ),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      "assets/images/medical-receipt.png",
-                      width: screenWidth * 0.15,
-                    ),
-                    SizedBox(height: screenWidth * 0.06),
-                    Text(
-                      "عرض جميع المصحات",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.wightcolor,
-                        fontSize: screenWidth * 0.035,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],

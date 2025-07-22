@@ -32,11 +32,18 @@ dependencies:
   bloc: ^9.0.0
   cupertino_icons: ^1.0.8
   custom_rating_bar: ^3.0.0
+
+  flutter_native_splash:
   device_preview: ^1.2.0
   fluid_bottom_nav_bar: ^1.4.0
+  dartz: ^0.10.1
+  cached_network_image:
+  get_it: ^8.0.3
+  flutter_bloc:
+  dio:
   flutter:
     sdk: flutter
-  flutter_bloc: ^9.1.0
+  
 
   flutter_localization: ^0.2.2
   flutter_screenutil: ^5.9.3
@@ -46,10 +53,14 @@ dependencies:
   intl: any
   intl_utils: ^2.8.10
   localization: ^2.1.1
+  dio_cache_interceptor: ^4.0.3
   lottie: ^3.3.1
   shared_preferences: ^2.5.2
   table_calendar: ^3.0.9
   uuid: ^4.3.3
+  firebase_core: ^3.15.1
+  pin_code_fields: ^8.0.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0

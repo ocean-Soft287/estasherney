@@ -1,15 +1,17 @@
 
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:flutter/material.dart';
 
 import 'presentation/screens/Additionaloptions/presentation/screens/additional_option.dart';
 import 'presentation/screens/help/presentation/screens/help_screen.dart';
-import 'presentation/screens/homeview/presentation/screens/hom_view_doctor.dart';
+import 'presentation/screens/homeview/presentation/screens/Home/presentation/hom_view_doctor.dart';
 import 'presentation/screens/myclinic/presentation/screens/my_clinic.dart';
 import 'presentation/screens/offers/presentation/screens/offers_screens.dart';
 
 class HomeScreenDoctor extends StatefulWidget {
-  const HomeScreenDoctor({super.key});
+  final LoginModel user;
+  const HomeScreenDoctor({super.key,required this.user});
 
   @override
   State<HomeScreenDoctor> createState() => _HomeScreenDoctorState();
@@ -17,13 +19,20 @@ class HomeScreenDoctor extends StatefulWidget {
 
 class _HomeScreenDoctorState extends State<HomeScreenDoctor> {
   int currentIndex = 0;
- final List<Widget> screens = [
-    HomViewDoctor(),
-    const OffersScreens(),
-    const MyClinicDoctor(),
-    const HelpScreen(),
-    const AdditionalOption(),
-  ];
+
+  late final List<Widget> screens;
+
+  @override
+  void initState() {
+    super.initState();
+    screens = [
+      HomViewDoctor(user: widget.user),
+      const OffersScreens(),
+      const MyClinicDoctor(),
+      const HelpScreen(),
+      const AdditionalOption(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  
+  const OnboardingScreen({super.key,});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();

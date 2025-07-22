@@ -3,24 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customcart extends StatelessWidget {
-  const customcart({super.key});
+  final String fullName;
+  final String phone;
+  final String email;
+  final String birthDate;
+
+  const customcart({
+    super.key,
+    required this.fullName,
+    required this.phone,
+    required this.email,
+    required this.birthDate,
+  });
 
   @override
   Widget build(BuildContext context) {
-   return  Padding(
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildLabel("الاسم كامل"),
-            buildCard("محمد فتحي"),
+            buildCard(fullName),
             buildLabel("رقم الجوال"),
-            buildCard("+123 567 89000"),
+            buildCard(phone),
             buildLabel("الإيميل"),
-            buildCard("mohamedfathy12@gmail.com"),
+            buildCard(email),
             buildLabel("تاريخ الميلاد"),
-            buildCard("DD / MM / YYYY"),
+            buildCard(birthDate),
           ],
         ),
       ),
@@ -45,12 +56,12 @@ class customcart extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
         ),
         elevation: 2,
-        color: AppColors.wightcolor, // Fixed possible typo here
+        color: AppColors.wightcolor,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
           child: Text(
             text,
-            style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+            style: TextStyle(fontSize: 16.sp, color: Colors.black),
           ),
         ),
       ),

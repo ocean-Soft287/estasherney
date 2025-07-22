@@ -1,9 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/widget/defualt_botton.dart';
-import 'package:consult_me/doctor/home/home_view.dart';
-import 'package:consult_me/feature/auth/presentation/views/screens/login/login_screen.dart';
-import 'package:consult_me/feature/auth/presentation/views/screens/register/register_screen.dart';
-import 'package:consult_me/feature/home/home_screen.dart';
+import 'package:consult_me/doctor/auth/presentation/pages/login_page_screen.dart';
+import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -86,13 +84,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-            
               SlideTransition(
                 position: _logoAnimation,
                 child: Image.asset("assets/images/logo.png"),
               ),
 
-             
               SlideTransition(
                 position: _imageTwoAnimation,
                 child: Image.asset("assets/images/image_two.png"),
@@ -100,7 +96,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
               SizedBox(height: 40.h),
 
-          
               SlideTransition(
                 position: _textAnimation,
                 child: Align(
@@ -131,38 +126,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   },
                 ),
               ),
+
               Padding(
-                padding: const EdgeInsets.all(16),
-                child: DefaultButton(
-                  text: "انشاء حساب ",
-                  function: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: DefaultButton(
-                  text: " الدخول كزائر ",
-                  function: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
-                  },
-                ),
-              ),
-                Padding(
                 padding: const EdgeInsets.all(16),
                 child: DefaultButton(
                   text: "الدخول  كدكتور",
                   function: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreenDoctor()),
+                      MaterialPageRoute(
+                        builder: (context) => LoginPageScreen(),
+                      ),
                     );
                   },
                 ),

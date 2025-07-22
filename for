@@ -1,0 +1,3 @@
+-h, --[no-]help    Show help
+-p, --path         Path to the flutter project, if the project is not in it's default location.
+-f, --flavor       Flavor to remove the splash for.
