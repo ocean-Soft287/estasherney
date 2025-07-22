@@ -1,8 +1,6 @@
 import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
-import 'package:consult_me/doctor/home/home_view.dart';
 import 'package:consult_me/feature/Call/video.dart';
-import 'package:consult_me/feature/Chat/chat2.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 
