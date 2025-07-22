@@ -1,8 +1,43 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class BuildProfileHeader extends StatelessWidget {
+class BuildProfileHeader extends StatefulWidget {
   const BuildProfileHeader({super.key});
+
+  @override
+  State<BuildProfileHeader> createState() => _BuildProfileHeaderState();
+}
+
+class _BuildProfileHeaderState extends State<BuildProfileHeader> {
+  String? fullName;
+  String? phone;
+  String? email;
+  String? imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  Future<void> _loadProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final firstName = prefs.getString('fullName') ?? '';
+
+    final profileImage = prefs.getString('imageUrl') ?? '';
+    final savedEmail = prefs.getString('email') ?? '';
+
+    setState(() {
+      fullName = firstName;
+
+      email = savedEmail;
+      imageUrl =
+          profileImage.isNotEmpty
+              ? "http://37.34.238.190:9292/TheOneAPIEstasherny//Images/Patient/$profileImage"
+              : null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,70 +53,52 @@ class BuildProfileHeader extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // Positioned widgets should be wrapped in a Stack for proper layout
           Positioned(
             top: 20,
             right: 20,
             child: Stack(
-              clipBehavior: Clip.none, // Allows overflow outside Stack
+              clipBehavior: Clip.none,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 45,
-                  backgroundImage: AssetImage("assets/images/doctor.png"),
-                ),
-                Positioned(
-                  bottom: 0, 
-                  right: 1, 
-                  child: CircleAvatar(
-                    radius: 15, 
-                    backgroundColor: Colors.grey.shade300,
-                    child: const Icon(Icons.edit, size: 16, color: AppColors.mainColor),
-                  ),
+                  backgroundImage:
+                      imageUrl != null && imageUrl!.isNotEmpty
+                          ? NetworkImage(imageUrl!)
+                          : const AssetImage("assets/images/doctor.png")
+                              as ImageProvider,
                 ),
               ],
             ),
           ),
           Positioned(
             left: 80,
-            top: 20,
+            top: 30,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "محمد فتحي",
-                  style: TextStyle(
+                  fullName ?? "الاسم غير متوفر",
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+
                 Text(
-                  "0078754873",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                Text(
-                  "MohamedF@gmail.com",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  email ?? "البريد الإلكتروني غير متوفر",
+                  style: const TextStyle(color: Colors.white70, fontSize: 14),
                 ),
               ],
             ),
           ),
-          // Positioned Back Button
           Positioned(
-            top: -7,
-            right: 1,
+            top: 0,
+            left: 1,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+              icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
               onPressed: () {
-            
+             
               },
             ),
           ),

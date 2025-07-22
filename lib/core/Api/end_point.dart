@@ -15,6 +15,20 @@ class EndPoint {
       "$baseUrl/api/Doctor/getDoctorPastAppointments";
   static String searchPatient =
       "$baseUrl/api/Doctor/searchAppointmentsByPatientName";
-      static String getDoctoravaibilty = "$baseUrl/api/Doctor/addAvailability";
-      static String doctorprice = "$baseUrl/api/Doctor/doctorMoneyByPercentage";
+  static String getDoctoravaibilty = "$baseUrl/api/Doctor/addAvailability";
+
+  static String doctorprice = "$baseUrl/api/Doctor/doctorMoneyByPercentage";
+  static String registerpation = "$baseUrl/api/Patient/register";
+  static String verifyOtp = "$baseUrl/api/Patient/verify-otp";
+  static String loginPatient = "$baseUrl/api/Patient/login";
+  static String forgetpasswordpation = "$baseUrl/api/Patient/forgotpassword";
+  static String resetPasswordpationt = "$baseUrl/api/Patient/resetpassword";
+  static String getAllSpecialistspationt =
+      "$baseUrl/api/Patient/getAllSpecialities";
+  static String getAllDoctorsBySpecialty =
+      "$baseUrl/api/Patient/getDoctorsBySpecialty";
+      static String setFavoriteDoctors ="$baseUrl/api/Patient/setFavoriteDoctors";
+      static  String getFavoriteDoctors ="$baseUrl/api/Patient/getFavoriteDoctors";
+      static String removeFavoriteDoctor ="$baseUrl/api/Patient/removeFavoriteDoctor";
+
 }

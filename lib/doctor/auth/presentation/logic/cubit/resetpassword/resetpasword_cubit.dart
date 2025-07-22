@@ -20,9 +20,9 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
       newPassword: newPassword,
     );
 
-    result.fold(
-      (failure) => emit(ResetPasswordFailure(failure.message)),
-      (model) => emit(ResetPasswordSuccess(model.message)),
-    );
+    result.fold((failure) {
+      print(failure.message);
+      emit(ResetPasswordFailure(failure.message));
+    }, (model) => emit(ResetPasswordSuccess(model.message)));
   }
 }

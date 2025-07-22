@@ -2,7 +2,7 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget buildHeader() {
+Widget buildHeader({required BuildContext context, String? imageUrl}) {
   return Container(
     padding: EdgeInsets.only(top: 10.h),
     height: 190.h,
@@ -36,20 +36,11 @@ Widget buildHeader() {
                 children: [
                   CircleAvatar(
                     radius: 45.r,
-                    backgroundImage: const AssetImage("assets/images/doctor.png"),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 15.r,
-                      backgroundColor: Colors.grey.shade300,
-                      child: const Icon(
-                        Icons.edit,
-                        size: 16,
-                        color: Colors.black,
-                      ),
-                    ),
+                    backgroundImage:
+                        imageUrl != null && imageUrl.isNotEmpty
+                            ? NetworkImage(imageUrl)
+                            : const AssetImage("assets/images/doctor.png")
+                                as ImageProvider,
                   ),
                 ],
               ),
@@ -59,14 +50,16 @@ Widget buildHeader() {
         Positioned(
           top: 25.h,
           right: 15.w,
-          child: Image.asset("assets/images/Settigns.png"), // Assuming typo fixed
+          child: Image.asset("assets/images/Settigns.png"),
         ),
         Positioned(
           top: 10.h,
           left: 10.w,
           child: IconButton(
             icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ],

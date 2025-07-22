@@ -2,9 +2,11 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/constants/app_fonts.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/new_password_screen.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/notification.dart';
+import 'package:consult_me/feature/intial/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -36,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        "الاعدادات",
+                        "الإعدادات",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -58,12 +60,33 @@ class SettingsScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
                   buildMenuItem(Icons.lightbulb, "الإخطارات", () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NotificationsScreen(),
+                      ),
+                    );
                   }),
                   buildMenuItem(Icons.key, "مدير كلمة المرور", () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => NewPasswordScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewPasswordScreen(),
+                      ),
+                    );
                   }),
-                  buildMenuItem(Icons.person, "حذف الإيميل", () {}),
+                  buildMenuItem(Icons.person, "حذف الإيميل", () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.clear();
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WelcomeScreen(),
+                      ), 
+                      (route) => false,
+                    );
+                  }),
                 ],
               ),
             ),
@@ -84,7 +107,10 @@ class SettingsScreen extends StatelessWidget {
       title: Text(
         title,
         textAlign: TextAlign.right,
-        style: GoogleFonts.leagueSpartan(fontSize: 16.sp, fontWeight: FontWeight.w500),
+        style: GoogleFonts.leagueSpartan(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       trailing: Icon(Icons.chevron_right, color: AppColors.mainColor),
       onTap: ontap,
