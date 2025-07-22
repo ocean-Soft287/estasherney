@@ -15,20 +15,16 @@ class SetFavoriteDoctorRepoImpl implements SetFavoriteDoctorRepo {
     List<int> doctorIds,
   ) async {
     try {
-      print('📤 Sending to: ${EndPoint.setFavoriteDoctors}');
-      print('📦 Body: {"doctorIds": $doctorIds}');
 
       final response = await dioConsumer.post(
         EndPoint.setFavoriteDoctors,
         data: {"doctorIds": doctorIds},
       );
 
-      print('✅ setFavoriteDoctors raw response: $response');
 
       final data = response['data'];
       if (data == null || data is! List) {
-        print('⚠️ response["data"] is null or not a List');
-        return Right([]); // empty list = no favorites
+        return Right([]); 
       }
 
       final list =
@@ -38,10 +34,8 @@ class SetFavoriteDoctorRepoImpl implements SetFavoriteDoctorRepo {
               )
               .toList();
 
-      print('✅ Parsed favorite doctors: $list');
       return Right(list);
     } catch (e) {
-      print('❌ Error in setFavoriteDoctors: $e');
       return Left(ServerFailure(e.toString()));
     }
   }

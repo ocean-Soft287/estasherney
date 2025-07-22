@@ -26,7 +26,7 @@ class SharedPreferencesService {
   static const String fulNamepationt = "fullName"; 
   static const String phoneNumber = "phoneNumber";
   static const String birthday = "birthday";
-  static const String imageurlpationt = "imageBytes";
+  static const String imageurlpationt = "imageUrl";
   static const String tokenpationt = "token";
 
   

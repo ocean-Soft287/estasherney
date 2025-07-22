@@ -1,7 +1,6 @@
 import 'package:consult_me/core/Api/dio_concumer.dart';
 import 'package:consult_me/core/Api/end_point.dart';
 import 'package:consult_me/core/error/fauiluire.dart';
-import 'package:consult_me/feature/auth/presentation/views/screens/login/data/models/resetpassword_pationt_model.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/data/repo/resetpassword_pationt_repo.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
