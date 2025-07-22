@@ -4,6 +4,7 @@ import 'package:consult_me/feature/auth/presentation/views/screens/login/present
 import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/logic/login_pationt_state.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/widget/custom_forgetpassword_pationt_screen.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/privacy/page_one_privacy.dart';
+import 'package:consult_me/feature/auth/presentation/views/screens/register/presentation/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -335,6 +336,46 @@ class _LoginScreenState extends State<LoginScreen>
                                           ),
                                 ),
                               ),
+                            SizedBox(height: 100.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RegisterScreen(),
+                                ),
+                              );
+                            },
+                            child: SlideTransition(
+                              position: _slideAnimation,
+                              child: Text(
+                                "سجل الآن",
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.greyColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SlideTransition(
+                            position: _slideAnimation,
+                            child: Text(
+                              "ليس لديك حساب؟",
+                              style: GoogleFonts.leagueSpartan(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w300,
+                                color: AppColors.greyColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                            
+                            
                             ],
                           ),
                         ),
