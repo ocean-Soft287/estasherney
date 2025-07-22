@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const Video(), //Chat2 OnboardingView
+        builder: (context) => const OnboardingView(), //Chat2 OnboardingView
       ),
     );
   }
