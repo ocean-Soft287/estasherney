@@ -1,5 +1,6 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/constants/app_fonts.dart';
+import 'package:consult_me/core/services/check_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,7 +52,7 @@ class DefaultButton extends StatelessWidget {
             Text(
               text,
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: isTablet(context)? 12.sp : 16.sp,
                 fontFamily: Appfonts.font,
                 fontWeight: FontWeight.w400,
                 color: (!isborder) ? textColor : backgroundColor,
