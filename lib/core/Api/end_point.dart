@@ -30,5 +30,7 @@ class EndPoint {
       static String setFavoriteDoctors ="$baseUrl/api/Patient/setFavoriteDoctors";
       static  String getFavoriteDoctors ="$baseUrl/api/Patient/getFavoriteDoctors";
       static String removeFavoriteDoctor ="$baseUrl/api/Patient/removeFavoriteDoctor";
+      static String deleteAccount = "$baseUrl/api/Patient/deleteAccount";
+      static String updateProfile = "$baseUrl/api/Patient/updateProfile";
 
 }

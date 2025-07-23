@@ -37,6 +37,8 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/pricedoctor/price_doctor_cubit.dart';
+import 'package:consult_me/feature/auth/presentation/views/screens/login/data/repo/deleate_account_repo_impl.dart';
+import 'package:consult_me/feature/auth/presentation/views/screens/login/data/repo/deleate_acount_repo.dart';
 
 import 'package:consult_me/feature/auth/presentation/views/screens/login/data/repo/forgetpassword_repo_impl.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/data/repo/forgettpassword_pationt_repo.dart';
@@ -46,6 +48,7 @@ import 'package:consult_me/feature/auth/presentation/views/screens/login/data/re
 
 import 'package:consult_me/feature/auth/presentation/views/screens/login/data/repo/resetpassword_pationt_repo.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/data/repo/resetpasword_pationt_repo_impl.dart';
+import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
 
 import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/logic/forgetpassword_pationt_cubit.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/logic/login_pationt_cubit.dart';
@@ -76,6 +79,9 @@ import 'package:consult_me/feature/home/presentation/views/screens/home/data/rep
 
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_cubit.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/repo/upadate_profile_repo_impl.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/repo/update_profile_repo.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -226,6 +232,19 @@ Future<void> setup() async {
 );
 
 sl.registerFactory(() => RemoveFavoriteDoctorCubit(sl()));
+
+  // delete account
+  sl.registerLazySingleton<DeleteAccountRepo>(
+    () => DeleteAccountRepoImpl(sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => DeleteAccountCubit(sl<DeleteAccountRepo>()));
+  // update profile
+  sl.registerLazySingleton<UpdateProfileRepo>(
+    () => UpdateProfileRepoImpl(dioConsumer: sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => UpdateProfileCubit(sl<UpdateProfileRepo>()));
+
+
 
 
 }

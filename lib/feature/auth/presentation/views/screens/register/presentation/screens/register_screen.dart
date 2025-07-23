@@ -79,32 +79,26 @@ class _RegisterScreenState extends State<RegisterScreen>
                       (_) => const Center(child: CircularProgressIndicator()),
                 );
               } else {
-                Navigator.of(
-                  context,
-                  rootNavigator: true,
-                ).pop(); // Close loading
+                Navigator.of(context, rootNavigator: true).pop();
               }
 
               if (state is RegisterSuccess) {
-                if (state is RegisterSuccess) {
-                  // عرض رسالة نجاح
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'تم إنشاء الحساب، تحقق من بريدك الإلكتروني برمز OTP',
-                      ),
-                    ),
-                  );
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VerifyOtpScreen()),
-                  );
-                }
-              } else if (state is RegisterFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("فشل التسجيل: ${state.errorMessage}")),
+                  const SnackBar(
+                    content: Text(
+                      'تم إنشاء الحساب، تحقق من بريدك الإلكتروني برمز OTP',
+                    ),
+                  ),
                 );
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VerifyOtpScreen()),
+                );
+              } else if (state is RegisterFailure) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text("فشل في إنشاء الحساب")));
               }
             },
             builder: (context, state) {
@@ -179,6 +173,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                             ),
                             SizedBox(height: 5.h),
                             TextField(
+                              keyboardType: TextInputType.text,
+
                               controller: fullNameController,
                               decoration: InputDecoration(
                                 filled: true,
@@ -249,6 +245,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                             SizedBox(height: 5.h),
                             TextField(
                               controller: emailController,
+                              keyboardType: TextInputType.text,
+
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.grey[200],
@@ -276,6 +274,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                             ),
                             SizedBox(height: 5.h),
                             TextField(
+                              keyboardType: TextInputType.phone,
+
                               controller: phoneController,
                               decoration: InputDecoration(
                                 filled: true,
@@ -304,11 +304,13 @@ class _RegisterScreenState extends State<RegisterScreen>
                             ),
                             SizedBox(height: 5.h),
                             TextField(
+                              keyboardType: TextInputType.text,
+
                               controller: birthdateController,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.grey[200],
-                                hintText: 'DD / MM /YYY',
+                                hintText: 'DD - MM -YYY',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
@@ -334,6 +336,17 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text("يرجى ملء جميع الحقول"),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                  return;
+                                }
+                                if (!RegExp(r'^\d{11}$').hasMatch(phone)) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "رقم الجوال يجب أن يكون مكونًا من 11 رقمًا",
+                                      ),
                                       backgroundColor: Colors.red,
                                     ),
                                   );

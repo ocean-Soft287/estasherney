@@ -61,6 +61,7 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
               children: [
                 CircleAvatar(
                   radius: 45,
+
                   backgroundImage:
                       imageUrl != null && imageUrl!.isNotEmpty
                           ? NetworkImage(imageUrl!)
@@ -97,9 +98,7 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
             left: 1,
             child: IconButton(
               icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-              onPressed: () {
-             
-              },
+              onPressed: () {},
             ),
           ),
         ],

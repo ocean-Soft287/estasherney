@@ -4,7 +4,6 @@ class MyBlocObserver extends BlocObserver {
   @override
   void onCreate(BlocBase bloc) {
     super.onCreate(bloc);
-    // ignore: avoid_print
     print('onCreate -- ${bloc.runtimeType}');
   }
 

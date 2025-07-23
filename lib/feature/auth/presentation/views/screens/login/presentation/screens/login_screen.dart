@@ -88,9 +88,9 @@ class _LoginScreenState extends State<LoginScreen>
                 MaterialPageRoute(builder: (context) => PageOnePrivacy()),
               );
             } else if (state is AuthFailure) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("بريد إلكتروني أو كلمة مرور غير صحيحة")),
+              );
             }
           },
           builder: (context, state) {
@@ -105,7 +105,6 @@ class _LoginScreenState extends State<LoginScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 20,
@@ -148,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen>
                         ),
                         SizedBox(height: 40.h),
 
-                        
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Column(
@@ -293,12 +291,11 @@ class _LoginScreenState extends State<LoginScreen>
                                     ],
                                   ),
 
-                                    CustomForgetpasswordPationtScreen(),
+                                  CustomForgetpasswordPationtScreen(),
                                 ],
                               ),
                               SizedBox(height: 30.h),
 
-                              // Login Button
                               SizedBox(
                                 width: double.infinity,
                                 height: 50.h,
@@ -336,46 +333,45 @@ class _LoginScreenState extends State<LoginScreen>
                                           ),
                                 ),
                               ),
-                            SizedBox(height: 100.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegisterScreen(),
-                                ),
-                              );
-                            },
-                            child: SlideTransition(
-                              position: _slideAnimation,
-                              child: Text(
-                                "سجل الآن",
-                                style: GoogleFonts.leagueSpartan(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w300,
-                                  color: AppColors.greyColor,
-                                ),
+                              SizedBox(height: 100.h),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SlideTransition(
+                                    position: _slideAnimation,
+                                    child: Text(
+                                      "ليس لديك حساب؟",
+                                      style: GoogleFonts.leagueSpartan(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppColors.greyColor,
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (context) => RegisterScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: SlideTransition(
+                                      position: _slideAnimation,
+                                      child: Text(
+                                        "سجل الآن",
+                                        style: GoogleFonts.leagueSpartan(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w300,
+                                          color: AppColors.mainColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                          SlideTransition(
-                            position: _slideAnimation,
-                            child: Text(
-                              "ليس لديك حساب؟",
-                              style: GoogleFonts.leagueSpartan(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.greyColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                            
-                            
                             ],
                           ),
                         ),
