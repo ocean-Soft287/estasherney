@@ -46,7 +46,7 @@ class _ForgetpasswordPationtScreenState extends State<ForgetpasswordPationtScree
                 );
               } else if (state is ForgetPasswordPationtFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.error)),
+                  SnackBar(content: Text("البريد الإلكتروني غير مسجل")),
                 );
               }
             },

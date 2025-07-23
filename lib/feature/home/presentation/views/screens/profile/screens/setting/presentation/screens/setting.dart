@@ -1,12 +1,13 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/constants/app_fonts.dart';
-import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/new_password_screen.dart';
-import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/notification.dart';
-import 'package:consult_me/feature/intial/welcome_screen.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/screens/new_password_screen.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/screens/notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -68,24 +69,16 @@ class SettingsScreen extends StatelessWidget {
                     );
                   }),
                   buildMenuItem(Icons.key, "مدير كلمة المرور", () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewPasswordScreen(),
-                      ),
-                    );
-                  }),
-                  buildMenuItem(Icons.person, "حذف الإيميل", () async {
-                    final prefs = await SharedPreferences.getInstance();
-                    await prefs.clear();
+                   Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => BlocProvider(
+      create: (context) => GetIt.instance<UpdateProfileCubit>(),
+      child: const EditProfileScreen(),
+    ),
+  ),
+);
 
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WelcomeScreen(),
-                      ), 
-                      (route) => false,
-                    );
                   }),
                 ],
               ),

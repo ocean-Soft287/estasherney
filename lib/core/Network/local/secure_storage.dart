@@ -84,6 +84,17 @@ class SharedPreferencesService {
       await write(doctorPersentage, '${userJson['doctorPersentage'] ?? ''}');
       await write(yearsOfExperience, '${userJson['yearsOfExperience'] ?? ''}');
       await write(doctorCertificate, userJson['doctorCertificate'] ?? '');
+      await write(examenPrice, '${userJson['examenPrice'] ?? ''}');
+      await write(firstName, userJson['firstName'] ?? '');
+      await write(lastName, userJson['lastName'] ?? '');
+      await write(picture, userJson['picture'] ?? '');
+      await write(idpationt, '${userJson['id'] ?? ''}');
+      await write(emailpationt, userJson['email'] ?? '');  
+      await write(passwordpationt, userJson['password'] ?? '');
+      await write(fullNamepationt, userJson['fullName'] ?? '');
+      await write(phoneNumber, userJson['phoneNumber'] ?? '');
+      await write(birthday, userJson['birthday'] ?? '');
+      await write(imageurlpationt, userJson['imageUrl'] ?? ''); 
     } catch (e) {
       print(' Error saving user data: $e');
     }
@@ -112,6 +123,13 @@ class SharedPreferencesService {
   static Future<String?> getDoctorPercentage() async => read(doctorPersentage);
   static Future<String?> getDoctorExperienceYears() async => read(yearsOfExperience);
   static Future<String?> getDoctorCertificateImage() async => read(doctorCertificate);
+  static Future<String?> getPatientId() async => read(idpationt);
+  static Future<String?> getPatientEmail() async => read(emailpationt);
+  static Future<String?> getPatientPassword() async => read(passwordpationt);
+  static Future<String?> getPatientFullName() async => read(fullNamepationt);
+  static Future<String?> getPatientPhoneNumber() async => read(phoneNumber);
+  static Future<String?> getPatientBirthday() async => read(birthday);
+  static Future<String?> getPatientImage() async => read(imageurlpationt);
 
  
   static Future<void> addToFavorites(Map<String, dynamic> item) async {
