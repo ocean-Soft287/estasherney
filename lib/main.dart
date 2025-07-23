@@ -1,4 +1,5 @@
 import 'package:consult_me/bloc_observer.dart';
+import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/services/local_services.dart';
 import 'package:consult_me/feature/intial/splash_screen.dart';
 import 'package:consult_me/feature/localization/manger/localization_cubit.dart';
@@ -59,11 +60,13 @@ class MyApp extends StatelessWidget {
           }
 
           return ScreenUtilInit(
+            
             designSize: const Size(360, 690),
             minTextAdapt: true,
             splitScreenMode: true,
             builder: (context, child) {
               return MaterialApp(
+                navigatorKey: NavigationService.navigatorKey,
                           locale: const Locale('ar'), 
 
                 debugShowCheckedModeBanner: false,
