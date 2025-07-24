@@ -185,7 +185,7 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const
                 TextFormField(
                   controller: nameController,
                   
-                  decoration:  InputDecoration(hint: Text(hintName ??"")),
+                  decoration:  InputDecoration(hintText:hintName ??""),
                   validator: (value) =>
                       value!.isEmpty ? "الاسم مطلوب" : null,
                 ),
@@ -193,7 +193,7 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const
                 Text( "رقم الهاتف"),
                 TextFormField(
                   controller: phoneController,
-                  decoration:  InputDecoration(hint: Text(hintPhone ??"")),
+                  decoration:  InputDecoration(hintText: hintPhone ??""),
                   validator: (value) =>
                       value!.isEmpty ? "رقم الهاتف مطلوب" : null,
                 ),
@@ -202,7 +202,7 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const
                 TextFormField(
                   controller: birthdateController,
                   decoration:
-                       InputDecoration(hint: Text(hintBirthdate ??"")),
+                       InputDecoration(hintText: hintBirthdate ??""),
                   onTap: () async {
                     FocusScope.of(context).requestFocus(FocusNode());
                     final picked = await showDatePicker(

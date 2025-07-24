@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -296,62 +297,79 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(height: 8.h),
-                                              Center(
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                                ProfileDoctor(),
-                                                      ),
-                                                    );
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        AppColors.mainColor,
-                                                    foregroundColor:
-                                                        AppColors.wightcolor,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            20.r,
-                                                          ),
-                                                    ),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                          horizontal: 10.w,
-                                                          vertical: 8.h,
-                                                        ),
-                                                  ),
-                                                  child: Text(
-                                                    "المزيد عن الطبيب",
-                                                  ),
-                                                ),
-                                              ),
                                             ],
                                           ),
                                         ),
                                         SizedBox(width: 10.w),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                AppColors.mainColor,
-                                            foregroundColor:
-                                                AppColors.wightcolor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.r),
+                                        Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder:
+                                                        (context) =>
+                                                            ProfileDoctor(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                width: 60.w,
+                                                height: 33.h,
+                                                padding: EdgeInsets.all(5.r),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        12.r,
+                                                      ),
+                                                  border: Border.all(
+                                                    color: AppColors.grycolor,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    "عرض",
+                                                    style:
+                                                        GoogleFonts.leagueSpartan(
+                                                          color:
+                                                              AppColors
+                                                                  .grycolor,
+                                                          fontSize: 12.sp,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 10.w,
-                                              vertical: 8.h,
+                                            SizedBox(height: 15.h),
+                                            Container(
+                                              width: 60.w,
+                                              height: 33.h,
+                                              padding: EdgeInsets.all(5.r),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12.r),
+                                                border: Border.all(
+                                                  color: AppColors.mainColor,
+                                                  width: 1,
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  " احجز الان",
+                                                  style:
+                                                      GoogleFonts.leagueSpartan(
+                                                        color:
+                                                            AppColors.mainColor,
+                                                        fontSize: 12.sp,
+                                                      ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          child: Text("احجز الآن"),
+                                          ],
                                         ),
                                       ],
                                     ),

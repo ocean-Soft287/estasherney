@@ -32,7 +32,7 @@ dependencies:
   bloc: ^9.0.0
   cupertino_icons: ^1.0.8
   custom_rating_bar: ^3.0.0
-
+  
   flutter_native_splash:
   device_preview: ^1.2.0
   fluid_bottom_nav_bar: ^1.4.0
@@ -70,7 +70,7 @@ dependencies:
   pin_code_fields: ^8.0.1
   shimmer: ^3.0.0
   firebase_messaging: ^15.2.10
-  awesome_notifications: ^0.10.1
+  awesome_notifications: ^0.10.0
   fluttertoast: ^8.2.12
   easy_localization: ^3.0.7+1
   flutter_localizations:
