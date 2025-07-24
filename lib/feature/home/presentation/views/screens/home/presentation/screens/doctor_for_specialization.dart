@@ -3,6 +3,7 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_state.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profile_doctor.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_state.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_cubit.dart';
@@ -294,6 +295,41 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                     size: 20.sp,
                                                   ),
                                                 ],
+                                              ),
+                                              SizedBox(height: 8.h),
+                                              Center(
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder:
+                                                            (context) =>
+                                                                ProfileDoctor(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        AppColors.mainColor,
+                                                    foregroundColor:
+                                                        AppColors.wightcolor,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            20.r,
+                                                          ),
+                                                    ),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          horizontal: 10.w,
+                                                          vertical: 8.h,
+                                                        ),
+                                                  ),
+                                                  child: Text(
+                                                    "المزيد عن الطبيب",
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
