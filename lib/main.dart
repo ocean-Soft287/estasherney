@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
   Bloc.observer = MyBlocObserver();
-  runApp(DevicePreview(enabled: false
+  runApp(DevicePreview(enabled: true
   , builder: (context) => const MyApp()));
 }
 
