@@ -1,4 +1,5 @@
 
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/models/get_profile_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:consult_me/core/Api/dio_concumer.dart';
@@ -45,5 +46,23 @@ class UpdateProfileRepoImpl implements UpdateProfileRepo {
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
+  
+  }
+
+  @override
+  Future<Either<Failure, GetProfileModel>> getProfile()async{ 
+try{
+      final response = await dioConsumer.get(
+        EndPoint.getProfile,
+   
+      );
+
+      return Right(GetProfileModel.fromJson( response  as Map<String, dynamic>));
+    }
+    catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+    
+  
   }
 }

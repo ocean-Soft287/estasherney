@@ -1,6 +1,7 @@
 import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/logic/delaete_account_state.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/screens/login_screen.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
 import 'package:consult_me/feature/payment/presentation/view/screens/payment_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/screens/favourites.dart';
@@ -13,6 +14,7 @@ import 'package:consult_me/feature/home/presentation/views/screens/profile/widge
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:consult_me/core/services/local_services.dart' as db;
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -55,7 +57,11 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const YourProfile(),
+                          builder:
+                              (context) => BlocProvider(
+                                create: (context) => db.sl<UpdateProfileCubit>(),
+                                child: const EditProfileScreen(),
+                              ),
                         ),
                       );
                     }),
@@ -79,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SettingsScreen(),
+                          builder: (context) => NotificationsScreen(),
                         ),
                       );
                     }),

@@ -66,7 +66,7 @@ class _PaymentMethodsState extends State<PaymentMethods> {
                   ),
 
                   SizedBox(height: 50),
-                  Container(
+                  SizedBox(
                     width: .9 * MediaQuery.of(context).size.width,
                     child: ListView.separated(
                       shrinkWrap: true,

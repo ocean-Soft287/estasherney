@@ -66,8 +66,8 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      handleDioExceptions(e);
-      rethrow;
+      final errorMessage = DioErrorHandler.getErrorMessage(e);
+      throw errorMessage;
     }
   }
 
@@ -91,8 +91,8 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      handleDioExceptions(e);
-      rethrow;
+      final errorMessage = DioErrorHandler.getErrorMessage(e);
+      throw errorMessage;
     }
   }
 
@@ -116,8 +116,8 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      handleDioExceptions(e);
-      rethrow;
+      final errorMessage = DioErrorHandler.getErrorMessage(e);
+      throw errorMessage;
     }
   }
 
@@ -141,8 +141,8 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      handleDioExceptions(e);
-      rethrow;
+      final errorMessage = DioErrorHandler.getErrorMessage(e);
+      throw errorMessage;
     }
   }
 
@@ -166,8 +166,8 @@ class DioConsumer extends ApiConsumer {
       );
       return response.data;
     } on DioException catch (e) {
-      handleDioExceptions(e);
-      rethrow;
+      final errorMessage = DioErrorHandler.getErrorMessage(e);
+      throw errorMessage;
     }
   }
 
@@ -177,5 +177,91 @@ class DioConsumer extends ApiConsumer {
     } else {
       print('Dio error: ${e.message}');
     }
+  }
+}
+
+class DioErrorHandler {
+  static String getErrorMessage(DioException dioError) {
+    switch (dioError.type) {
+      case DioExceptionType.cancel:
+        return 'تم إلغاء الطلب';
+      
+      case DioExceptionType.connectionTimeout:
+        return 'انتهت مهلة الاتصال';
+      
+      case DioExceptionType.receiveTimeout:
+        return 'انتهت مهلة استلام البيانات';
+      
+      case DioExceptionType.sendTimeout:
+        return 'انتهت مهلة إرسال البيانات';
+      
+      case DioExceptionType.badResponse:
+        return _handleBadResponse(dioError);
+      
+      case DioExceptionType.badCertificate:
+        return 'شهادة الأمان غير صحيحة';
+      
+      case DioExceptionType.connectionError:
+        return 'فشل الاتصال بالإنترنت';
+      
+      default:
+        return 'حدث خطأ غير معروف';
+    }
+  }
+
+  static String _handleBadResponse(DioException dioError) {
+    final response = dioError.response;
+    
+    if (response != null) {
+      switch (response.statusCode) {
+        case 400:
+          return 'طلب غير صحيح';
+        case 401:
+          return 'غير مصرح بالدخول';
+        case 403:
+          return 'ممنوع الوصول';
+        case 404:
+          return 'البيانات غير موجودة';
+        case 409:
+          return 'حدث تعارض';
+        case 422:
+          return 'خطأ في التحقق من البيانات';
+        case 500:
+          return 'خطأ في الخادم';
+        case 502:
+          return 'بوابة غير صحيحة';
+        case 503:
+          return 'الخدمة غير متوفرة';
+        default:
+          return 'خطأ ${response.statusCode}: ${response.statusMessage ?? 'غير معروف'}';
+      }
+    }
+    
+    return 'استجابة غير صحيحة من الخادم';
+  }
+
+  static String extractServerMessage(dynamic data) {
+    try {
+      if (data is Map<String, dynamic>) {
+        if (data.containsKey('message')) {
+          return data['message'].toString();
+        }
+        if (data.containsKey('error')) {
+          return data['error'].toString();
+        }
+        if (data.containsKey('errors')) {
+          final errors = data['errors'];
+          if (errors is List && errors.isNotEmpty) {
+            return errors.first.toString();
+          }
+        }
+      }
+      if (data is String) {
+        return data;
+      }
+    } catch (e) {
+      return '';
+    }
+    return '';
   }
 }

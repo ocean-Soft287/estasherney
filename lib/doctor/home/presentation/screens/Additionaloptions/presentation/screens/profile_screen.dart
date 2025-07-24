@@ -159,10 +159,10 @@ class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
                       buildInfoRow('الاسم الكامل', fullName),
                       buildInfoRow('التخصص', specialization),
                       buildInfoRow('رقم الهاتف', phone),
-
                       buildInfoRow('الرقم القومي', nationalID),
                       buildInfoRow('سنوات الخبرة', yearsOfExperience),
                       buildInfoRow('سعر الكشف', "$examenPrice جنيه"),
+             
                     ],
                   ),
                 ),

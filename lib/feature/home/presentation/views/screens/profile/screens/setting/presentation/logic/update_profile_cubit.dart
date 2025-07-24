@@ -1,6 +1,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/repo/update_profile_repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'update_profile_state.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {
@@ -24,10 +25,29 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     );
 
     result.fold(
-      (failure) => emit(UpdateProfileFailure(failure.message)),
-      (model) => emit(UpdateProfileSuccess(model.message)),
+      (failure) => emit(ProfileFailure(failure.message)),
+      (model) {
+        
+         emit(UpdateProfileSuccess(model.message));
+         getProfile();
+         },
     );
   }
+
+  void getProfile() async {
+    emit(GetProfileLoading());
+
+    final result = await updateProfileRepo.getProfile( );
+
+    result.fold(
+      (failure) => emit(ProfileFailure(failure.message)),
+      (model) => emit(GetProfileSuccess(model)),
+    );
+  }
+
+ 
+
+
 }
 
 
