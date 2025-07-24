@@ -24,7 +24,6 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
   Future<void> _loadProfileData() async {
     final prefs = await SharedPreferences.getInstance();
     final firstName = prefs.getString('fullName') ?? '';
-
     final profileImage = prefs.getString('imageUrl') ?? '';
     final savedEmail = prefs.getString('email') ?? '';
 
@@ -34,7 +33,7 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
       email = savedEmail;
       imageUrl =
           profileImage.isNotEmpty
-              ? "http://37.34.238.190:9292/TheOneAPIEstasherny//Images/Patient/$profileImage"
+              ? profileImage   //"http://37.34.238.190:9292/TheOneAPIEstasherny//Images/Patient/$profileImage"
               : null;
     });
   }
@@ -72,7 +71,7 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
             ),
           ),
           Positioned(
-            left: 80,
+            left: 50,
             top: 30,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

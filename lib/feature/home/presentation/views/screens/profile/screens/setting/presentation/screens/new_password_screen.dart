@@ -1,3 +1,4 @@
+import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_state.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'dart:io';
 
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  const EditProfileScreen({super.key});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -37,6 +38,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     nameController.text = prefs.getString("fullName") ?? "";
     phoneController.text = prefs.getString("phoneNumber") ?? "";
     birthdateController.text = prefs.getString("birthday") ?? "";
+   selectedImage = PlatformFile(name: prefs.getString("fullName") ?? "",size:20 ,path:  prefs.getString("imageUrl") ?? "");
+
   }
 
   void _pickImage() async {
@@ -66,7 +69,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('تعديل البروفايل')),
+      backgroundColor: AppColors.wightcolor,
+      appBar: AppBar(title: const Text('تعديل البروفايل',
+      
+      
+      ),      backgroundColor: AppColors.wightcolor,
+),
       body: BlocListener<UpdateProfileCubit, UpdateProfileState>(
         listener: (context, state) {
           if (state is UpdateProfileSuccess) {
@@ -84,7 +92,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SnackBar(content: Text("تم تعديل البروفايل بنجاح")),
             );
             Navigator.pop(context); // ترجع للصفحة السابقة
-          } else if (state is UpdateProfileFailure) {
+          } else if (state is ProfileFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("فشل التحديث: ${state.errorMessage}")),
             );
@@ -143,8 +151,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.mainColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   onPressed: _submit,
-                  child: const Text("تحديث البيانات"),
+                  child: const Text("تحديث البيانات",style: TextStyle(color: AppColors.wightcolor),),
                 ),
               ],
             ),

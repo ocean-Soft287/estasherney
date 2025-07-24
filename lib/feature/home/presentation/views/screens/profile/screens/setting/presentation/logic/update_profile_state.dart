@@ -1,3 +1,5 @@
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/models/get_profile_model.dart';
+
 abstract class UpdateProfileState {}
 
 class UpdateProfileInitial extends UpdateProfileState {}
@@ -10,8 +12,18 @@ class UpdateProfileSuccess extends UpdateProfileState {
   UpdateProfileSuccess(this.message);
 }
 
-class UpdateProfileFailure extends UpdateProfileState {
+class ProfileFailure extends UpdateProfileState {
   final String errorMessage;
 
-  UpdateProfileFailure(this.errorMessage);
+  ProfileFailure(this.errorMessage);
 }
+
+
+class GetProfileLoading extends UpdateProfileState {}
+
+class GetProfileSuccess extends UpdateProfileState {
+  final GetProfileModel model;
+
+  GetProfileSuccess(this.model);
+}
+
