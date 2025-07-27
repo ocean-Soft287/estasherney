@@ -12,10 +12,10 @@ class DoctorModel {
   final int yearsOfExperience;
   final String profileInfo;
   final String gender;
-   bool isFavorite;
+  bool isFavorite;
 
   DoctorModel({
-     this.isFavorite = false,
+    this.isFavorite = false,
     required this.id,
     required this.name,
     required this.email,
@@ -33,22 +33,23 @@ class DoctorModel {
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      doctorImage: json['doctorImage'],
-      doctorCertificate: json['doctorCertificate'],
-      phone: json['phone'],
-      nationalID: json['nationalID'],
-      specialization: json['specialization'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      doctorImage: json['doctorImage'] ?? '',
+      doctorCertificate: json['doctorCertificate'] ?? '',
+      phone: json['phone'] ?? '',
+      nationalID: json['nationalID'] ?? '',
+      specialization: json['specialization'] ?? '',
       examPrice: (json['examenPrice'] ?? 0).toDouble(),
-      doctorPercentage: json['doctorPersentage'],
-      yearsOfExperience: json['yearsOfExperience'],
-      profileInfo: json['profileInfo'],
-      gender: json['gender'],
-       isFavorite: json['isFavorite'] ?? false,
+      doctorPercentage: (json['doctorPersentage'] ?? 0).toInt(),
+      yearsOfExperience: (json['yearsOfExperience'] ?? 0).toInt(),
+      profileInfo: json['profileInfo'] ?? '',
+      gender: json['gender'] ?? '',
+      isFavorite: json['isFavorite'] ?? false,
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

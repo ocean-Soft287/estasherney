@@ -207,87 +207,45 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                               Row(
                                                 children: [
                                                   IconButton(
-                                                    icon: Icon(
-                                                      doctor.isFavorite
-                                                          ? Icons.favorite
-                                                          : Icons
-                                                              .favorite_border,
-                                                      color:
-                                                          doctor.isFavorite
-                                                              ? AppColors
-                                                                  .mainColor
-                                                              : Colors.grey,
-                                                      size: 20.sp,
-                                                    ),
-                                                    onPressed: () async {
-                                                      final newValue =
-                                                          !doctor.isFavorite;
+  icon: Icon(
+    doctor.isFavorite ? Icons.favorite : Icons.favorite_border,
+    color: doctor.isFavorite ? Colors.red : Colors.grey,
+    size: 20.sp,
+  ),
+  onPressed: () async {
+    final isNowFavorite = !doctor.isFavorite;
 
-                                                      setState(() {
-                                                        doctor.isFavorite =
-                                                            newValue;
-                                                      });
+    // عكس القيمة في الواجهة مؤقتًا
+    setState(() {
+      doctor.isFavorite = isNowFavorite;
+    });
 
-                                                      try {
-                                                        if (newValue) {
-                                                          await SharedPreferencesService.addToFavorites(
-                                                            doctor.toJson(),
-                                                          );
-                                                          await context
-                                                              .read<
-                                                                SetFavoriteDoctorCubit
-                                                              >()
-                                                              .setFavoriteDoctors(
-                                                                [doctor.id],
-                                                              );
-                                                          ScaffoldMessenger.of(
-                                                            context,
-                                                          ).showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                "تمت الإضافة إلى المفضلة",
-                                                              ),
-                                                            ),
-                                                          );
-                                                        } else {
-                                                          await SharedPreferencesService.removeFromFavorites(
-                                                            doctor.id
-                                                                .toString(),
-                                                          );
-                                                          await context
-                                                              .read<
-                                                                RemoveFavoriteDoctorCubit
-                                                              >()
-                                                              .removeDoctor(
-                                                                doctor.id,
-                                                              );
-                                                          ScaffoldMessenger.of(
-                                                            context,
-                                                          ).showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                "تمت الإزالة من المفضلة",
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }
-                                                      } catch (e) {
-                                                        setState(() {
-                                                          doctor.isFavorite =
-                                                              !newValue;
-                                                        });
-                                                        ScaffoldMessenger.of(
-                                                          context,
-                                                        ).showSnackBar(
-                                                          SnackBar(
-                                                            content: Text(
-                                                              "حدث خطأ. حاول مرة أخرى",
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                    },
-                                                  ),
+    try {
+      if (isNowFavorite) {
+        // استدعاء Cubit للإضافة
+        await context.read<SetFavoriteDoctorCubit>().setFavoriteDoctors([doctor.id]);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("تمت الإضافة إلى المفضلة")),
+        );
+      } else {
+        // استدعاء Cubit للحذف
+        await context.read<RemoveFavoriteDoctorCubit>().removeDoctor(doctor.id);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("تمت الإزالة من المفضلة")),
+        );
+      }
+    } catch (e) {
+      // إرجاع الحالة في حالة الخطأ
+      setState(() {
+        doctor.isFavorite = !isNowFavorite;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("حدث خطأ. حاول مرة أخرى")),
+      );
+    }
+  },
+),
+
 
                                                   SizedBox(width: 10.w),
                                                   Icon(

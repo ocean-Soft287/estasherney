@@ -1,7 +1,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/repo/update_profile_repo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'update_profile_state.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {

@@ -131,18 +131,9 @@ class SharedPreferencesService {
   static Future<String?> getPatientBirthday() async => read(birthday);
   static Future<String?> getPatientImage() async => read(imageurlpationt);
 
- 
-  static Future<void> addToFavorites(Map<String, dynamic> item) async {
-    final prefs = await SharedPreferences.getInstance();
-    final existing = prefs.getString(favoritesKey);
-    List<Map<String, dynamic>> favList = [];
-    if (existing != null) {
-      favList = List<Map<String, dynamic>>.from(json.decode(existing));
-    }
-    favList.add(item);
-    await prefs.setString(favoritesKey, json.encode(favList));
-  }
 
+
+  // ✅ استرجاع كل المفضلات
   static Future<List<Map<String, dynamic>>> getFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     final favString = prefs.getString(favoritesKey);
@@ -150,10 +141,27 @@ class SharedPreferencesService {
       try {
         return List<Map<String, dynamic>>.from(json.decode(favString));
       } catch (e) {
-        print(' Error decoding favorites: $e');
+        print('Error decoding favorites: $e');
+        return [];
       }
     }
     return [];
+  }
+
+  
+  static Future<void> addToFavorites(Map<String, dynamic> item) async {
+    final prefs = await SharedPreferences.getInstance();
+    final existing = prefs.getString(favoritesKey);
+    List<Map<String, dynamic>> favList = [];
+    if (existing != null) {
+      favList = List<Map<String, dynamic>>.from(json.decode(existing));
+    }
+
+   
+    favList.removeWhere((element) => element['id'].toString() == item['id'].toString());
+
+    favList.add(item);
+    await prefs.setString(favoritesKey, json.encode(favList));
   }
 
   static Future<void> removeFromFavorites(String id) async {
@@ -166,13 +174,15 @@ class SharedPreferencesService {
         favList.removeWhere((item) => item['id'].toString() == id);
         await prefs.setString(favoritesKey, json.encode(favList));
       } catch (e) {
-        print(' Error removing from favorites: $e');
+        print('Error removing from favorites: $e');
       }
     }
   }
 
+ 
   static Future<bool> isFavorite(String id) async {
     final favs = await getFavorites();
     return favs.any((item) => item['id'].toString() == id);
   }
 }
+
