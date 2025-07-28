@@ -2,14 +2,19 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/core/constants/app_fonts.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/doctor_rating.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/my_appointment.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/manager/rating_summary_cubit.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/model/get_doctor_model_pationt.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/presentation/widget/custom_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ResetBooKNow extends StatelessWidget {
-  ResetBooKNow({super.key});
+  final DoctorModel doctor;
 
-  final List<String> doctors = List.generate(5, (index) => "د/ محمد فتحي");
+  ResetBooKNow({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +65,7 @@ class ResetBooKNow extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(12),
                 child: ListView.builder(
-                  itemCount: doctors.length,
+                  itemCount: 1,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
@@ -79,16 +84,17 @@ class ResetBooKNow extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 30,
-                                  backgroundImage: AssetImage(
-                                    "assets/images/doctor.png",
+                                  backgroundImage: NetworkImage(
+                                    doctor.doctorImage,
                                   ),
                                 ),
+
                                 SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      doctors[index],
+                                      doctor.name,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -96,7 +102,7 @@ class ResetBooKNow extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      "جراحة الأمراض الجلدية",
+                                      doctor.specialization,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
@@ -105,20 +111,11 @@ class ResetBooKNow extends StatelessWidget {
                                   ],
                                 ),
                                 Spacer(),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: AppColors.mainColor,
-                                      size: 18,
-                                    ),
-                                    Text("4.5"),
-                                    SizedBox(width: 5),
-                                    Icon(
-                                      Icons.favorite_border,
-                                      color: AppColors.mainColor,
-                                    ),
-                                  ],
+                                BlocProvider(
+                                  create:
+                                      (context) =>
+                                          GetIt.instance<DoctorRatingCubit>(),
+                                  child: CustomRow(doctorId: doctor.id),
                                 ),
                               ],
                             ),
@@ -130,13 +127,12 @@ class ResetBooKNow extends StatelessWidget {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                     Navigator.push(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>MyAppointment (),
+                                        builder: (context) => MyAppointment(),
                                       ),
                                     );
-
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.mainColor,
@@ -151,7 +147,9 @@ class ResetBooKNow extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DoctorRating(),
+                                        builder:
+                                            (context) =>
+                                                DoctorRating(doctor: doctor),
                                       ),
                                     );
                                   },
@@ -159,17 +157,26 @@ class ResetBooKNow extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(width: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-
-                              Text("القيمه:",
-                              style: GoogleFonts.leagueSpartan(color:AppColors.mainColor,fontSize: 20),),
-                              Text("400",
-                              style: GoogleFonts.leagueSpartan(color: Colors.black,fontSize: 15),)
-                            ],
-                          )
+                            SizedBox(width: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "القيمه:",
+                                  style: GoogleFonts.leagueSpartan(
+                                    color: AppColors.mainColor,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  doctor.examPrice.toString(),
+                                  style: GoogleFonts.leagueSpartan(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),

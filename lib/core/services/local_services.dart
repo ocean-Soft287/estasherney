@@ -70,6 +70,12 @@ import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/get_all_favourite/get_all_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_cubit.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/add_rating_repo.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/add_rating_repo_impl.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/doctor_rating_summary_repo.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/doctor_rating_summary_repo_impl.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/manager/add_rating_cubit.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/manager/rating_summary_cubit.dart';
 
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo_impl.dart';
@@ -243,7 +249,16 @@ sl.registerFactory(() => RemoveFavoriteDoctorCubit(sl()));
     () => UpdateProfileRepoImpl(dioConsumer: sl<DioConsumer>()),
   );
   sl.registerFactory(() => UpdateProfileCubit(sl<UpdateProfileRepo>()));
-
+// doctor rating summary
+  sl.registerLazySingleton<DoctorRatingRepo>(
+    () => DoctorRatingRepoImpl(sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => DoctorRatingCubit(sl<DoctorRatingRepo>()));
+  // add rating
+  sl.registerLazySingleton<AddRatingRepo>(
+    () => AddRatingRepoImpl(sl<DioConsumer>()),
+  );  
+  sl.registerFactory(() => AddRatingCubit(sl<AddRatingRepo>()));
 
 
 

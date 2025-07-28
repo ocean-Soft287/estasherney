@@ -1,13 +1,13 @@
-import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_state.dart';
-import 'package:consult_me/feature/doctors/presentation/view/screens/profile_doctor.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/screens/profile_doctor.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_state.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_state.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/bookinggs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -207,45 +207,79 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                               Row(
                                                 children: [
                                                   IconButton(
-  icon: Icon(
-    doctor.isFavorite ? Icons.favorite : Icons.favorite_border,
-    color: doctor.isFavorite ? Colors.red : Colors.grey,
-    size: 20.sp,
-  ),
-  onPressed: () async {
-    final isNowFavorite = !doctor.isFavorite;
+                                                    icon: Icon(
+                                                      doctor.isFavorite
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                              .favorite_border,
+                                                      color:
+                                                          doctor.isFavorite
+                                                              ? Colors.red
+                                                              : Colors.grey,
+                                                      size: 20.sp,
+                                                    ),
+                                                    onPressed: () async {
+                                                      final isNowFavorite =
+                                                          !doctor.isFavorite;
 
-    // عكس القيمة في الواجهة مؤقتًا
-    setState(() {
-      doctor.isFavorite = isNowFavorite;
-    });
+                                                      setState(() {
+                                                        doctor.isFavorite =
+                                                            isNowFavorite;
+                                                      });
 
-    try {
-      if (isNowFavorite) {
-        // استدعاء Cubit للإضافة
-        await context.read<SetFavoriteDoctorCubit>().setFavoriteDoctors([doctor.id]);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("تمت الإضافة إلى المفضلة")),
-        );
-      } else {
-        // استدعاء Cubit للحذف
-        await context.read<RemoveFavoriteDoctorCubit>().removeDoctor(doctor.id);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("تمت الإزالة من المفضلة")),
-        );
-      }
-    } catch (e) {
-      // إرجاع الحالة في حالة الخطأ
-      setState(() {
-        doctor.isFavorite = !isNowFavorite;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("حدث خطأ. حاول مرة أخرى")),
-      );
-    }
-  },
-),
-
+                                                      try {
+                                                        if (isNowFavorite) {
+                                                          await context
+                                                              .read<
+                                                                SetFavoriteDoctorCubit
+                                                              >()
+                                                              .setFavoriteDoctors(
+                                                                [doctor.id],
+                                                              );
+                                                          ScaffoldMessenger.of(
+                                                            context,
+                                                          ).showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                "تمت الإضافة إلى المفضلة",
+                                                              ),
+                                                            ),
+                                                          );
+                                                        } else {
+                                                          await context
+                                                              .read<
+                                                                RemoveFavoriteDoctorCubit
+                                                              >()
+                                                              .removeDoctor(
+                                                                doctor.id,
+                                                              );
+                                                          ScaffoldMessenger.of(
+                                                            context,
+                                                          ).showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                "تمت الإزالة من المفضلة",
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }
+                                                      } catch (e) {
+                                                        setState(() {
+                                                          doctor.isFavorite =
+                                                              !isNowFavorite;
+                                                        });
+                                                        ScaffoldMessenger.of(
+                                                          context,
+                                                        ).showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              "حدث خطأ. حاول مرة أخرى",
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
 
                                                   SizedBox(width: 10.w),
                                                   Icon(
@@ -268,7 +302,9 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                   MaterialPageRoute(
                                                     builder:
                                                         (context) =>
-                                                            ProfileDoctor(),
+                                                            ProfileDoctor(
+                                                              doctor: doctor,
+                                                            ),
                                                   ),
                                                 );
                                               },
@@ -302,28 +338,44 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                               ),
                                             ),
                                             SizedBox(height: 15.h),
-                                            Container(
-                                              width: 60.w,
-                                              height: 33.h,
-                                              padding: EdgeInsets.all(5.r),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(12.r),
-                                                border: Border.all(
-                                                  color: AppColors.mainColor,
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  " احجز الان",
-                                                  style:
-                                                      GoogleFonts.leagueSpartan(
-                                                        color:
-                                                            AppColors.mainColor,
-                                                        fontSize: 12.sp,
+                                            InkWell(
+                                              onTap:
+                                                  () => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder:
+                                                          (context) =>
+                                                              BookingScreen(
+                                                        doctor: doctor,
+                                                              ),
+                                                    ),
+                                                  ),
+                                              child: Container(
+                                                width: 60.w,
+                                                height: 33.h,
+                                                padding: EdgeInsets.all(5.r),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        12.r,
                                                       ),
+                                                  border: Border.all(
+                                                    color: AppColors.mainColor,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    " احجز الان",
+                                                    style:
+                                                        GoogleFonts.leagueSpartan(
+                                                          color:
+                                                              AppColors
+                                                                  .mainColor,
+                                                          fontSize: 12.sp,
+                                                        ),
+                                                  ),
                                                 ),
                                               ),
                                             ),

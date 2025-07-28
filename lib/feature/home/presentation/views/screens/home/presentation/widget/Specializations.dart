@@ -140,9 +140,13 @@ class Specializations extends StatelessWidget {
               BlocConsumer<GetAllSpecialistCubit, GetAllSpecialistState>(
                 listener: (context, state) {
                   if (state is GetAllSpecialistFailure) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("لا توجد نتائج بحث"),
+                        duration: Duration(seconds: 2),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
                   }
                 },
                 builder: (context, state) {

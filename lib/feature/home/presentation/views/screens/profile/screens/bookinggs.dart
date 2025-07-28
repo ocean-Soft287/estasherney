@@ -1,11 +1,13 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/model/get_doctor_model_pationt.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/book_now.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({Key? key}) : super(key: key);
+  final DoctorModel doctor;
+  const BookingScreen({Key? key, required this.doctor}) : super(key: key);
 
   @override
   State<BookingScreen> createState() => _BookingScreenState();
@@ -91,18 +93,20 @@ class _BookingScreenState extends State<BookingScreen> {
                       top: 2,
                       child: Container(
                         padding: EdgeInsets.all(3),
-                        width: 120,
-                        height: 25,
+                        width: 150,
+                        height: 30,
                         decoration: BoxDecoration(
                           color: AppColors.wightcolor,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(
-                          "د/ محمد فتحي",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.mainColor,
-                            fontWeight: FontWeight.bold,
+                        child: Center(
+                          child: Text(
+                            ('د. ${widget.doctor.name}'),
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: AppColors.mainColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -510,7 +514,6 @@ class _BookingScreenState extends State<BookingScreen> {
                 ),
               ),
 
-            
               SizedBox(height: 10),
 
               Padding(
@@ -527,79 +530,80 @@ class _BookingScreenState extends State<BookingScreen> {
                       (value) => setState(() => problemDescription = value),
                 ),
               ),
-                SizedBox(height: 10.h),
+              SizedBox(height: 10.h),
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                   Container(
-          width: 100,
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.white, // Background color of the container
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2), 
-                blurRadius: 10, 
-                offset: Offset(0, 5), 
-              ),
-            ],
-          ),
-          child: Card(
-            elevation: 5, 
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), 
-            ),
-            color: Colors.white, 
-            shadowColor: Colors.black.withOpacity(0.3), 
-            child: Center(
-              child: Text(
-                "اضافه ملفات", 
-                style: GoogleFonts.leagueSpartan(
-                  color: Colors.black, // Text color
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          ),
-        ),
-            
-    
+                    Container(
+                      width: 100,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color:
+                            Colors.white, // Background color of the container
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Colors.white,
+                        shadowColor: Colors.black.withOpacity(0.3),
+                        child: Center(
+                          child: Text(
+                            "اضافه ملفات",
+                            style: GoogleFonts.leagueSpartan(
+                              color: Colors.black, // Text color
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
                     SizedBox(width: 20),
-                   Container(
-          width: 100,
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.white, // Background color of the container
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2), 
-                blurRadius: 10, 
-                offset: Offset(0, 5), 
-              ),
-            ],
-          ),
-          child: Card(
-            elevation: 5, 
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), 
-            ),
-            color: Colors.white, 
-            shadowColor: Colors.black.withOpacity(0.3), 
-            child: Center(
-              child: Text(
-                " اضافه صوره", 
-                style: GoogleFonts.leagueSpartan(
-                  color: Colors.black, 
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          ),
-        ),
+                    Container(
+                      width: 100,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color:
+                            Colors.white, // Background color of the container
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Colors.white,
+                        shadowColor: Colors.black.withOpacity(0.3),
+                        child: Center(
+                          child: Text(
+                            " اضافه صوره",
+                            style: GoogleFonts.leagueSpartan(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -612,7 +616,10 @@ class _BookingScreenState extends State<BookingScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResetBooKNow()),
+                      MaterialPageRoute(
+                        builder:
+                            (context) => ResetBooKNow(doctor: widget.doctor),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
