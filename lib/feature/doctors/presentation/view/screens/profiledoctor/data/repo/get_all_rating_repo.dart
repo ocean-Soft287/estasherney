@@ -3,5 +3,5 @@ import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoct
 import 'package:dartz/dartz.dart';
 
 abstract class DoctorAllRatingRepo {
-  Future<Either<Failure, DoctorRatingModel>> getDoctorRatings(int doctorId);
+  Future<Either<Failure, DoctorAllModel>> getDoctorRatings(int doctorId);
 }

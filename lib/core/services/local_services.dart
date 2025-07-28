@@ -74,7 +74,10 @@ import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoct
 import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/add_rating_repo_impl.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/doctor_rating_summary_repo.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/doctor_rating_summary_repo_impl.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/get_all_rating_repo.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/get_all_rating_repo_impl.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/manager/add_rating_cubit.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/manager/get_all_rating_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/manager/rating_summary_cubit.dart';
 
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo.dart';
@@ -259,6 +262,13 @@ sl.registerFactory(() => RemoveFavoriteDoctorCubit(sl()));
     () => AddRatingRepoImpl(sl<DioConsumer>()),
   );  
   sl.registerFactory(() => AddRatingCubit(sl<AddRatingRepo>()));
+  //get all rating
+ sl.registerLazySingleton<DoctorAllRatingRepo>(
+  () => DoctorAllRatingRepoImpl(sl<DioConsumer>()),
+);
+
+sl.registerFactory(() => DoctorRatinAllCubit(sl<DoctorAllRatingRepo>()));
+
 
 
 

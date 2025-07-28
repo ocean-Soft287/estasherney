@@ -1,17 +1,27 @@
-import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/get_all_rating_repo.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/presentation/manager/get_all_rating_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-class DoctorRatingCubit extends Cubit<DoctorRatingState> {
-  final DoctorAllRatingRepo doctorRatingRepo;
+import 'package:consult_me/feature/doctors/presentation/view/screens/profiledoctor/data/repo/get_all_rating_repo.dart';
 
-  DoctorRatingCubit(this.doctorRatingRepo) : super(DoctorRatingInitial());
+class DoctorRatinAllCubit extends Cubit<DoctorRatingAllState> {
+  final DoctorAllRatingRepo doctorAllRatingRepo;
 
-  Future<void> fetchDoctorRating(int doctorId) async {
-    emit(DoctorRatingLoading());
-    final result = await doctorRatingRepo.getDoctorRatings(doctorId);
+  DoctorRatinAllCubit(this.doctorAllRatingRepo)
+    : super(DoctorRatingInitial()) {
+      
+    }
+
+  Future<void> getAllRating(int doctorId) async {
+    emit(DoctorRatingAllLoading());
+
+    final result = await doctorAllRatingRepo.getDoctorRatings(doctorId);
+
     result.fold(
-      (failure) => emit(DoctorRatingError(message: failure.message)),
-      (rating) => emit(DoctorRatingSuccess(success: rating)), 
+      (failure) {
+        emit(DoctorRatingAllError(failure.message));
+      },
+      (data) {
+        emit(DoctorRatingAllSuccess(success: data));
+      },
     );
   }
 }
