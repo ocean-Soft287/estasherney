@@ -6,11 +6,9 @@ abstract class Failure {
 }
 
 class ServerFailure extends Failure {
-  ServerFailure([String message = 'Server Error', int statusCode = 500])
-      : super(message, statusCode);
+  ServerFailure([super.message = 'Server Error', super.statusCode = 500]);
 }
 
 class CacheFailure extends Failure {
-  CacheFailure([String message = 'Cache Error', int statusCode = 500])
-      : super(message, statusCode);
+  CacheFailure([super.message = 'Cache Error', super.statusCode = 500]);
 }

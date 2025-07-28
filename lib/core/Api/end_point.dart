@@ -2,7 +2,6 @@ class EndPoint {
   static String baseUrl = "http://37.34.238.190:9292/TheOneAPIEstasherny";
 
   /// auth
-
   static String logindoctor = "$baseUrl/api/Doctor/login";
   static String forgetpassworddoctor = "$baseUrl/api/Doctor/forgotpassword";
   //appointment
@@ -33,6 +32,9 @@ class EndPoint {
       static String deleteAccount = "$baseUrl/api/Patient/deleteAccount";
       static String updateProfile = "$baseUrl/api/Patient/updateProfile";
       static String getProfile = "$baseUrl/api/Patient/profile";
+     static String getDoctorAvailabilitiesByIdAndDay 
+     ({required String doctorId,required String date })=> '/api/Patient/getDoctorAvailabilitiesByIdAndDay/$doctorId?date=$date';
+
  static String getDoctorRatingsummary(int doctorId) =>
     "$baseUrl/api/Patient/getDoctorRatingSummary/$doctorId";
     static String postDoctorRating(int doctorId) =>

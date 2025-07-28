@@ -2,18 +2,23 @@ import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/model/get_doctor_model_pationt.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/book_now.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../cubit/booking_cubit.dart';
+import '../cubit/booking_state.dart';
+import 'package:get_it/get_it.dart' as db;
+class BookingPage extends StatefulWidget {
+    final DoctorModel doctor;
 
-class BookingScreen extends StatefulWidget {
-  final DoctorModel doctor;
-  const BookingScreen({Key? key, required this.doctor}) : super(key: key);
+  const BookingPage({super.key, required this.doctor});
 
   @override
-  State<BookingScreen> createState() => _BookingScreenState();
+  State<BookingPage> createState() => _BookingPageState();
 }
 
-class _BookingScreenState extends State<BookingScreen> {
+class _BookingPageState extends State<BookingPage> {
+  @override
   int selectedDateIndex = 1; // Default selected date
   int selectedTimeIndex = -1; // No time selected initially
   String fullName = "";
@@ -42,9 +47,14 @@ class _BookingScreenState extends State<BookingScreen> {
   ];
   bool isSelfSelected = true;
 
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return BlocProvider(
+      create: (_) =>db.GetIt.instance<BookingCubit>(),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Booking Page')),
+        body: BlocBuilder<BookingCubit, BookingState>(
+          builder: (context, state) {
+          return    SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -72,22 +82,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         color: AppColors.wightcolor,
                       ),
                     ),
-                    // Positioned(
-                    //   top: 2,
-                    //   left: 10,
-                    //   child: Image.asset("assets/images/Group 50.png"),
-                    // ),
-                    // Positioned(
-                    //   top: 2,
-                    //   left: 35,
-                    //   child: Image.asset("assets/images/Group 51.png"),
-                    // ),
-                    // Positioned(
-                    //   top: 2,
-                    //   left: 60,
-                    //   child: Image.asset("assets/images/Group 52.png"),
-                    // ),
-                  
+         
                     Positioned(
                       right: 20,
                       top: 2,
@@ -136,30 +131,8 @@ class _BookingScreenState extends State<BookingScreen> {
                       ),
                     ),
                
-                    // Positioned(
-                    //   top: 2,
-                    //   left: 80,
-                    //   child: Icon(
-                    //     Icons.question_mark,
-                    //     color: AppColors.wightcolor,
-                    //   ),
-                    // ),
-                    // Positioned(
-                    //   top: 2,
-                    //   left: 100,
-                    //   child: Icon(
-                    //     Icons.favorite_outline_outlined,
-                    //     color: AppColors.wightcolor,
-                    //   ),
-                    // ),
-
-                    // Positioned(
-                    //   top: 80,
-                    //   left: 10,
-                    //   child: Image.asset('assets/images/Rectangle 129.png'),
-                    // ),
-                    // SizedBox(height: 15.h),
-               
+                 
+            
                     Positioned(
                       right: 10,
                       top: 125,
@@ -295,8 +268,8 @@ class _BookingScreenState extends State<BookingScreen> {
                 ),
               ),
               SizedBox(height: 10.h),
-
-              Padding(
+             if(state is GtBookingAvailableSuccess)
+               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Wrap(
                   spacing: 10.w,
@@ -645,5 +618,9 @@ class _BookingScreenState extends State<BookingScreen> {
       ),
     );
   
+          }
+        ),
+      ),
+    );
   }
 }

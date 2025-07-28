@@ -61,6 +61,8 @@ import 'package:consult_me/feature/auth/presentation/views/screens/otp/presentat
 import 'package:consult_me/feature/auth/presentation/views/screens/register/data/repo/register_repo.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/register/data/repo/register_repo_impl.dart';
 import 'package:consult_me/feature/auth/presentation/views/screens/register/presentation/logic/register_cubit.dart';
+import 'package:consult_me/feature/booking/data/datasources/booking_remote_datasource.dart';
+import 'package:consult_me/feature/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/data/repo/deleate_favourite_repo.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/data/repo/deleate_favourite_repo_impl.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/data/repo/faovourite_repo.dart';
@@ -165,6 +167,13 @@ Future<void> setup() async {
     () => PriceRepoImpl(dioConsumer: sl<DioConsumer>()),
   );
   sl.registerFactory(() => PriceCubit(sl<PriceRepo>()));
+
+ //Booking
+ sl.registerLazySingleton<BookingRemoteDataSource>(
+    () => BookingRemoteDataSourceImpl(dioConsumer: sl<DioConsumer>()));
+  sl.registerFactory(() => BookingCubit(bookingRemoteDataSource: sl<BookingRemoteDataSource>()));
+
+
 
   await CacheHelper.init();
   await Supabase.initialize(
