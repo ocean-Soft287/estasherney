@@ -1,6 +1,6 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/screens/favourites.dart';
-import 'package:consult_me/feature/home/presentation/views/screens/data_view.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/presentation/screens/data_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/screens/home_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/message/message_view.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/profile_view.dart';
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const ProfileScreen(),
     const Favourites(),
     const MessageView(),
-    const DataView(),
+    const AppointmentsScreen(),
   ];
 
   @override

@@ -16,209 +16,262 @@ class ProfileDoctor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 220.h,
-                padding: EdgeInsets.only(
-                  top: 15.h,
-                  bottom: 10.h,
-                  left: 20.w,
-                  right: 20.w,
-                ),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: AppColors.blueGradient,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25),
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 130.h,
-                      right: 100,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(color: AppColors.mainColor),
+              child: Center(child: Text("")),
+            ),
 
+            Container(
+              height: 240.h,
+              width: double.infinity,
+              padding: EdgeInsets.only(
+                top: 15.h,
+                bottom: 10.h,
+                left: 20.w,
+                right: 20.w,
+              ),
+              decoration: BoxDecoration(
+                gradient: AppColors.blueGradient,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 12,
+                    offset: Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    right: 5.w,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      borderRadius: BorderRadius.circular(15),
                       child: Container(
+                        width: 40.w,
+                        height: 40.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
+                          color: Colors.white.withOpacity(0.25),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 18.sp,
                           color: Colors.white,
-                          border: Border.all(color: Color(0xff00BBD3)),
                         ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.w,
-                          vertical: 4.h,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.explore_outlined,
-                              color: Color(0xff33E4DB),
-                              size: 20.sp,
-                            ),
-                            SizedBox(width: 5.w),
-                            Text(
-                              '${doctor.yearsOfExperience} سنوات خبرة',
-                              style: TextStyle(
-                                color: AppColors.accentcolor,
-                                fontSize: 15.sp,
-                              ),
+                      ),
+                    ),
+                  ),
+
+                  Positioned(
+                    left: 5.w,
+                    child: Image.asset(
+                      "assets/images/Favorites-Blue.png",
+                      width: 28.w,
+                      height: 28.h,
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 50.h,
+                    right: 10.w,
+                    child: ClipOval(
+                      child: Container(
+                        width: 90.w,
+                        height: 90.w,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 12,
+                              offset: Offset(0, 4),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-
-                    Positioned(
-                      left: 5.w,
-                      child: Image.asset("assets/images/Favorites-Blue.png"),
-                    ),
-
-                    Positioned(
-                      right: 5.w,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios_outlined,
-                          color: AppColors.wightcolor,
-                        ),
-                      ),
-                    ),
-
-                    Positioned(
-                      right: 30.w,
-                      top: 30.h,
-                      child: ClipOval(
                         child: Image.network(
                           doctor.doctorImage,
-                          width: 60.w,
-                          height: 60.w,
+                          width: 90.w,
+                          height: 90.w,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
+                  ),
 
-                    Positioned(
-                      top: 30.h,
-                      right: 100.w,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  Positioned(
+                    top: 50.h,
+
+                    right: 120.w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          doctor.name,
+                          style: GoogleFonts.leagueSpartan(
+                            color: Colors.white,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          doctor.specialization,
+                          style: GoogleFonts.leagueSpartan(
+                            color: Colors.white.withOpacity(0.9),
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+                        BlocProvider(
+                          create:
+                              (context) => GetIt.instance<DoctorRatingCubit>(),
+                          child: CustomRowRating(doctorId: doctor.id),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 170.h,
+                    left: 10.w,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18.r),
+                        border: Border.all(
+                          color: Color(0xff00BBD3),
+                          width: 1.5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            doctor.name,
-                            style: GoogleFonts.leagueSpartan(
-                              color: AppColors.wightcolor,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Icon(
+                            Icons.explore_outlined,
+                            color: Color(0xff33E4DB),
+                            size: 18.sp,
                           ),
+                          SizedBox(width: 6.w),
                           Text(
-                            doctor.specialization,
+                            '${doctor.yearsOfExperience} سنوات خبرة',
                             style: GoogleFonts.leagueSpartan(
-                              color: AppColors.wightcolor,
+                              color: AppColors.accentcolor,
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(height: 5.h),
-
-                          BlocProvider(
-                            create: (context) => GetIt.instance<DoctorRatingCubit>(),
-                            child: CustomRowRating(
-                              doctorId: doctor.id,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 24.h),
+
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: -50.0, end: 0.0),
+              duration: Duration(milliseconds: 700),
+              curve: Curves.easeOut,
+              builder: (context, value, child) {
+                return Transform.translate(
+                  offset: Offset(value, 0),
+                  child: Opacity(opacity: (50 + value) / 50, child: child),
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "حساب تعريفي",
+                      style: GoogleFonts.leagueSpartan(
+                        color: AppColors.mainColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Text(
+                      "الدكتور ${doctor.name} هو طبيب متخصص في ${doctor.specialization}، يتمتع بخبرة تمتد لأكثر من ${doctor.yearsOfExperience} سنوات في هذا المجال، وتخصص في ${doctor.specialization} بعد إكمال تدريبه.",
+                      style: GoogleFonts.leagueSpartan(
+                        color: AppColors.greyColor,
+                        fontSize: 14.sp,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
                   ],
                 ),
               ),
+            ),
 
-              SizedBox(height: 20.h),
+            SizedBox(height: 28.h),
 
-              TweenAnimationBuilder<double>(
-                tween: Tween(begin: -50.0, end: 0.0),
-                duration: const Duration(milliseconds: 700),
-                curve: Curves.easeOut,
-                builder: (context, value, child) {
-                  return Transform.translate(
-                    offset: Offset(value, 0),
-                    child: Opacity(opacity: (50 + value) / 50, child: child),
-                  );
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "حساب تعريفي",
-                        style: TextStyle(
-                          color: AppColors.mainColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        "الدكتور ${doctor.name} هو طبيب متخصص في ${doctor.specialization}، يتمتع بخبرة تمتد لأكثر من ${doctor.yearsOfExperience} سنوات في هذا المجال، وتخصص في ${doctor.specialization} بعد إكمال تدريبه.",
-                        style: TextStyle(
-                          color: AppColors.greyColor,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-
-              TweenAnimationBuilder<double>(
-                tween: Tween(begin: -50.0, end: 0.0),
-                duration: const Duration(milliseconds: 800),
-                curve: Curves.easeOut,
-                builder: (context, value, child) {
-                  return Transform.translate(
-                    offset: Offset(value, 0),
-                    child: Opacity(opacity: (50 + value) / 50, child: child),
-                  );
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: -50.0, end: 0.0),
+              duration: Duration(milliseconds: 800),
+              curve: Curves.easeOut,
+              builder: (context, value, child) {
+                return Transform.translate(
+                  offset: Offset(value, 0),
+                  child: Opacity(opacity: (50 + value) / 50, child: child),
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
                         "الخبرة الوظيفية",
-                        style: TextStyle(
+                        style: GoogleFonts.leagueSpartan(
                           color: AppColors.mainColor,
                           fontSize: 18.sp,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        doctor.profileInfo,
-                        style: TextStyle(
-                          color: AppColors.greyColor,
-                          fontSize: 14.sp,
-                        ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Text(
+                      doctor.profileInfo,
+                      style: GoogleFonts.leagueSpartan(
+                        color: AppColors.greyColor,
+                        fontSize: 14.sp,
+                        height: 1.6,
                       ),
-                    ],
-                  ),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 20.h),
-            ],
-          ),
+            ),
+
+            SizedBox(height: 30.h),
+          ],
         ),
       ),
     );

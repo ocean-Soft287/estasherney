@@ -1,4 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/screens/favourites.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/screens/doctor_for_specialization.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/widget/Specializations.dart';
@@ -18,91 +19,188 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: const Color(0xFFFAFBFC),
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "!مرحبًا في استشيرني،صحتك تهمنا",
-                          style: GoogleFonts.leagueSpartan(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    Badge(
-                      backgroundColor: AppColors.mainColor,
-                      child: Icon(Icons.notifications_outlined, size: 22.r),
-                    ),
-                    SizedBox(width: 5.w),
-                    Text(
-                      "En",
-                      style: GoogleFonts.leagueSpartan(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.accentcolor,
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 15.h),
-
                 Container(
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.wightcolor,
-
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(10.r),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 12.h,
+                    horizontal: 8.w,
                   ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => DoctorForSpecialization(
-                                specializationName: "ابحث عن طبيب أو خدمة",
-                              ),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        SizedBox(width: 20.w),
-                        Expanded(
-                          child: Text(
-                            "ابحث عن طبيب أو خدمة",
-                            style: GoogleFonts.leagueSpartan(
-                              fontSize: 14.sp,
-                              color: AppColors.accentcolor,
-                            ),
-                          ),
-                        ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        AppColors.mainColor.withOpacity(0.08),
+                        Colors.transparent,
                       ],
                     ),
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "مرحبًا في استشيرني",
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.accentcolor,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                              SizedBox(height: 2.h),
+                              Text(
+                                "صحتك تهمنا!",
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.accentcolor.withOpacity(0.7),
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: EdgeInsets.all(10.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.mainColor.withOpacity(0.1),
+                              spreadRadius: 0,
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Badge(
+                          backgroundColor: AppColors.mainColor,
+                          smallSize: 6.r,
+                          child: Icon(
+                            Icons.notifications_outlined,
+                            size: 20.r,
+                            color: AppColors.accentcolor,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 12.w),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 8.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.mainColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: AppColors.mainColor.withOpacity(0.2),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          "En",
+                          style: GoogleFonts.leagueSpartan(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.mainColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 24.h),
+
+                Container(
+                  height: 54.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.mainColor.withOpacity(0.08),
+                        spreadRadius: 0,
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(16.r),
+                    border: Border.all(
+                      color: AppColors.mainColor.withOpacity(0.1),
+                      width: 1,
+                    ),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(16.r),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => DoctorForSpecialization(
+                                  specializationName: "ابحث عن طبيب أو خدمة",
+                                ),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.search_rounded,
+                              color: AppColors.mainColor,
+                              size: 22.r,
+                            ),
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: Text(
+                                "ابحث عن طبيب أو خدمة",
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 14.sp,
+                                  color: AppColors.accentcolor.withOpacity(0.6),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(6.w),
+                              decoration: BoxDecoration(
+                                color: AppColors.mainColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Icon(
+                                Icons.tune_rounded,
+                                color: AppColors.mainColor,
+                                size: 16.r,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 28.h),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,76 +209,121 @@ class HomeView extends StatelessWidget {
                       "فئات",
                       style: GoogleFonts.leagueSpartan(
                         color: AppColors.accentcolor,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Text(
-                      "الكل",
-                      style: GoogleFonts.leagueSpartan(
-                        color: AppColors.accentcolor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
+                      ),
+                      child: Text(
+                        "الكل",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 16.h),
 
                 SizedBox(
-                  height: 50.h,
-                  child: ListView(
+                  height: 64.h,
+                  child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      Image.asset("assets/images/Record.png"),
-                      SizedBox(width: 5.w),
-                      InkWell(
-                        onTap:
-                            () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => BlocProvider(
-                                      create: (context) {
-                                        final cubit =
-                                            GetIt.instance<
-                                              GetAllSpecialistCubit
-                                            >();
-                                        cubit.getAllSpecialistDoctor();
-                                        return cubit;
-                                      },
-                                      child: Specializations(),
-                                    ),
-                              ),
-                            ),
-                        child: Image.asset("assets/images/Specialties.png"),
-                      ),
+                    physics: const BouncingScrollPhysics(),
+                    separatorBuilder: (context, index) => SizedBox(width: 12.w),
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      final assets = [
+                        "assets/images/Record.png",
+                        "assets/images/Specialties.png",
+                        "assets/images/Pharmacy.png",
+                        "assets/images/Doctors.png",
+                        "assets/images/Favorites.png",
+                      ];
 
-                      SizedBox(width: 5.w),
-                      Image.asset("assets/images/Pharmacy.png"),
-                      SizedBox(width: 5.w),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => DoctorForSpecialization(
-                                    specializationName: "ابحث عن طبيب أو خدمة",
-                                  ),
+                      return Container(
+                        padding: EdgeInsets.all(12.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.04),
+                              spreadRadius: 0,
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
                             ),
-                          );
-                        },
-                        child: Image.asset("assets/images/Doctors.png"),
-                      ),
-                      SizedBox(width: 5.w),
-                      Image.asset("assets/images/Favorites.png"),
-                    ],
+                          ],
+                          border: Border.all(
+                            color: AppColors.mainColor.withOpacity(0.08),
+                            width: 1,
+                          ),
+                        ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(16.r),
+                          onTap:
+                              index == 1
+                                  ? () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => BlocProvider(
+                                            create: (context) {
+                                              final cubit =
+                                                  GetIt.instance<
+                                                    GetAllSpecialistCubit
+                                                  >();
+                                              cubit.getAllSpecialistDoctor();
+                                              return cubit;
+                                            },
+                                            child: Specializations(),
+                                          ),
+                                    ),
+                                  )
+                                  : index == 3
+                                  ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) =>
+                                                DoctorForSpecialization(
+                                                  specializationName:
+                                                      "ابحث عن طبيب أو خدمة",
+                                                ),
+                                      ),
+                                    );
+                                  }
+                                  : index == 4
+                                  ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Favourites(),
+                                      ),
+                                    );
+                                  }
+                                  : null,
+                          child: Image.asset(
+                            assets[index],
+                            height: 40.h,
+                            width: 40.w,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 32.h),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,26 +332,31 @@ class HomeView extends StatelessWidget {
                       "الجدول الزمني القادم",
                       style: GoogleFonts.leagueSpartan(
                         color: AppColors.accentcolor,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Text(
-                      "الكل",
-                      style: GoogleFonts.leagueSpartan(
-                        decoration: TextDecoration.lineThrough,
-                        color: AppColors.accentcolor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
+                      ),
+                      child: Text(
+                        "الكل",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 16.h),
                 CustomListView(),
 
-                SizedBox(height: 10.h),
+                SizedBox(height: 32.h),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,8 +365,8 @@ class HomeView extends StatelessWidget {
                       "التخصصات",
                       style: GoogleFonts.leagueSpartan(
                         color: AppColors.accentcolor,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     GestureDetector(
@@ -239,23 +387,33 @@ class HomeView extends StatelessWidget {
                           ),
                         );
                       },
-
-                      child: Text(
-                        "الكل",
-                        style: GoogleFonts.leagueSpartan(
-                          decoration: TextDecoration.lineThrough,
-                          color: AppColors.accentcolor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.mainColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Text(
+                          "الكل",
+                          style: GoogleFonts.leagueSpartan(
+                            color: AppColors.mainColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 10.h),
+                SizedBox(height: 16.h),
 
                 SizedBox(height: 260.h, child: CustomGridView()),
+
+                SizedBox(height: 24.h),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,25 +422,32 @@ class HomeView extends StatelessWidget {
                       "الخدمات الطبيه",
                       style: GoogleFonts.leagueSpartan(
                         color: AppColors.accentcolor,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Text(
-                      "الكل",
-                      style: GoogleFonts.leagueSpartan(
-                        decoration: TextDecoration.lineThrough,
-                        color: AppColors.accentcolor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 4.h,
+                      ),
+                      child: Text(
+                        "الكل",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 20.h),
+                SizedBox(height: 16.h),
 
                 VitaminDTestCard(),
+
+                SizedBox(height: 20.h),
               ],
             ),
           ),
