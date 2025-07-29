@@ -1,4 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/booking/presentation/screens/booking_page.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_cubit.dart';
 import 'package:consult_me/feature/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_state.dart';
@@ -345,7 +346,7 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                     MaterialPageRoute(
                                                       builder:
                                                           (context) =>
-                                                              BookingScreen(
+                                                              BookingPage(
                                                         doctor: doctor,
                                                               ),
                                                     ),

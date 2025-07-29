@@ -1,12 +1,17 @@
 import 'package:consult_me/core/Api/dio_concumer.dart';
 import 'package:consult_me/core/Api/end_point.dart';
+import 'package:consult_me/feature/booking/data/models/appointment_model.dart';
 import 'package:consult_me/feature/booking/data/models/booking_model.dart';
+import 'package:consult_me/feature/booking/data/models/booking_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 abstract class BookingRemoteDataSource {
 
 Future<Either<String, List<DoctorAvailabilityModel>>> getBookings({required String doctorId,required String date });
+Future<Either<String, BookingResponse>> addAppointment({required  Appointment appointment });
+
+
 }
 class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
    DioConsumer dioConsumer;
@@ -32,7 +37,29 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
  }catch (e) {
    return Left(e.toString());
  }
+
 }
+
+  @override
+  Future<Either<String, BookingResponse>> addAppointment({required Appointment appointment})async {
+  
+  try {
+    final response = await dioConsumer.post(
+      EndPoint.addAppointment,
+      isFromData: true,
+      data: appointment.toJson(),
+    );
+    final model = BookingResponse.fromJson(response);
+    return Right(model);
+  } on DioException catch (e) {
+    return Left(e.toString());
+  } catch (e) {
+    return Left(e.toString());
+  
+  }
+  
+  
+  }
 
 
 

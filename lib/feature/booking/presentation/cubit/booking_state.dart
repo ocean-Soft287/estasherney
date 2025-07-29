@@ -1,4 +1,5 @@
 import 'package:consult_me/feature/booking/data/models/booking_model.dart';
+import 'package:consult_me/feature/booking/data/models/booking_response.dart';
 
 abstract class BookingState {}
 
@@ -11,7 +12,14 @@ class GtBookingAvailableSuccess extends BookingState {
   GtBookingAvailableSuccess(this.data);
 }
 
+
 class BookingFailure extends BookingState {
   final String error;
   BookingFailure(this.error);
+}
+
+class AddAppointmentLoading extends BookingState {}
+class AddAppointmentSuccess extends BookingState {
+  BookingResponse bookingResponse ;
+  AddAppointmentSuccess( this. bookingResponse ); 
 }
