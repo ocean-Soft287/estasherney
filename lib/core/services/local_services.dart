@@ -85,11 +85,14 @@ import 'package:consult_me/feature/home/presentation/views/screens/dataview/pres
 
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo_impl.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_future_pationt_appointment/get_future_pationt_appointment_repo.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_future_pationt_appointment/get_future_pationt_appointment_repo_impl.dart';
 
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/getallspecialist_repo.dart/get_all_specialist_repo.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/getallspecialist_repo.dart/get_all_specialist_repo_impl.dart';
 
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/get_future_pationt_appointment/get_future_pationt_appointment_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/repo/upadate_profile_repo_impl.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/setting/data/repo/update_profile_repo.dart';
@@ -276,6 +279,12 @@ sl.registerFactory(() => DoctorRatinAllCubit(sl<DoctorAllRatingRepo>()));
     () => AppointmentsRepoImpl(sl<DioConsumer>()),
   );
   sl.registerFactory(() => GetAppointmentsCubit(sl<AppointmentsRepo>()));
+  //get all pationtppointment
+  sl.registerLazySingleton<AppointmentsPationtRepo>(
+    () => AppointmentsPationtRepoImpl(sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => AppointmentsPationtCubit(sl<AppointmentsPationtRepo>()));
+
 
 
   

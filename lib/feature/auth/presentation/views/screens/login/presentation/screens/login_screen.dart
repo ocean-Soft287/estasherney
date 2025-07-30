@@ -94,289 +94,285 @@ class _LoginScreenState extends State<LoginScreen>
             }
           },
           builder: (context, state) {
-            return SafeArea(
-              child: Form(
-                key: formKey,
-                child: SingleChildScrollView(
-                  child: Container(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 30,
-                          ),
-                          width: double.infinity,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            gradient: AppColors.blueGradient,
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(25),
-                              bottomRight: Radius.circular(25),
-                            ),
-                          ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Center(
-                                child: SlideTransition(
-                                  position: _slideAnimation,
-                                  child: const Text(
-                                    'تسجيل دخول',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const Positioned(
-                                right: 0,
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+            return Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Container(
+                  width: double.infinity,
+
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: 40,
+                          bottom: 10,
+                          left: 20,
+                          right: 20,
+                        ),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: AppColors.blueGradient,
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(25),
+                            bottomRight: Radius.circular(25),
                           ),
                         ),
-                        SizedBox(height: 40.h),
-
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: SlideTransition(
-                                  position: _slideAnimation,
-                                  child: Text(
-                                    'مرحبا',
-                                    style: GoogleFonts.leagueSpartan(
-                                      fontSize: 24.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.mainColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: SlideTransition(
-                                  position: _slideAnimation,
-                                  child: Text(
-                                    'سجّل دخولك للوصول إلى خدماتك الصحية بكل سهولة وأمان. صحتك تبدأ هنا',
-                                    style: GoogleFonts.leagueSpartan(
-                                      fontSize: 14.sp,
-                                      color: AppColors.greyColor,
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 40.h),
-
-                              // Email
-                              Align(
-                                alignment: Alignment.centerRight,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Center(
+                              child: SlideTransition(
+                                position: _slideAnimation,
                                 child: Text(
-                                  'البريد الإلكتروني',
+                                  'تسجيل الدخول',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 40.h),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: SlideTransition(
+                                position: _slideAnimation,
+                                child: Text(
+                                  'مرحبا',
                                   style: GoogleFonts.leagueSpartan(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.mainColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10.h),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: SlideTransition(
+                                position: _slideAnimation,
+                                child: Text(
+                                  'سجّل دخولك للوصول إلى خدماتك الصحية بكل سهولة وأمان. صحتك تبدأ هنا',
+                                  style: GoogleFonts.leagueSpartan(
+                                    fontSize: 14.sp,
                                     color: AppColors.greyColor,
                                   ),
+                                  textAlign: TextAlign.right,
                                 ),
                               ),
-                              SizedBox(height: 10.h),
-                              TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'يرجى إدخال البريد الإلكتروني';
-                                  }
-                                  if (!value.contains('@')) {
-                                    return 'البريد الإلكتروني غير صالح';
-                                  }
-                                  return null;
-                                },
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.grey[200],
-                                  hintText: 'ahmed12@gmail.com',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none,
-                                  ),
+                            ),
+                            SizedBox(height: 40.h),
+
+                            // Email
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'البريد الإلكتروني',
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.greyColor,
                                 ),
                               ),
-                              SizedBox(height: 10.h),
-
-                              // Password
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  'كلمة السر',
-                                  style: GoogleFonts.leagueSpartan(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.greyColor,
-                                  ),
+                            ),
+                            SizedBox(height: 10.h),
+                            TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'يرجى إدخال البريد الإلكتروني';
+                                }
+                                if (!value.contains('@')) {
+                                  return 'البريد الإلكتروني غير صالح';
+                                }
+                                return null;
+                              },
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                                hintText: 'ahmed12@gmail.com',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
                                 ),
                               ),
-                              SizedBox(height: 10.h),
-                              TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'يرجى إدخال كلمة السر';
-                                  }
-                                  if (value.length < 6) {
-                                    return 'يجب أن تكون كلمة السر 6 أحرف على الأقل';
-                                  }
-                                  return null;
-                                },
-                                controller: passwordController,
-                                obscureText: obscurePassword,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.grey[200],
-                                  hintText: '........',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        obscurePassword = !obscurePassword;
-                                      });
-                                    },
-                                  ),
+                            ),
+                            SizedBox(height: 10.h),
+
+                            // Password
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'كلمة السر',
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.greyColor,
                                 ),
                               ),
-
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                        value: rememberMe,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            rememberMe = value!;
-                                          });
-                                        },
-                                      ),
-                                      Text(
-                                        "تذكرني",
-                                        style: GoogleFonts.leagueSpartan(
-                                          fontSize: 14.sp,
-                                          color: AppColors.greyColor,
-                                        ),
-                                      ),
-                                    ],
+                            ),
+                            SizedBox(height: 10.h),
+                            TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'يرجى إدخال كلمة السر';
+                                }
+                                if (value.length < 6) {
+                                  return 'يجب أن تكون كلمة السر 6 أحرف على الأقل';
+                                }
+                                return null;
+                              },
+                              controller: passwordController,
+                              obscureText: obscurePassword,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                                hintText: '........',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    obscurePassword
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Colors.grey,
                                   ),
-
-                                  CustomForgetpasswordPationtScreen(),
-                                ],
-                              ),
-                              SizedBox(height: 30.h),
-
-                              SizedBox(
-                                width: double.infinity,
-                                height: 50.h,
-                                child: ElevatedButton(
                                   onPressed: () {
-                                    if (formKey.currentState!.validate()) {
-                                      BlocProvider.of<LoginPationtCubit>(
-                                        context,
-                                      ).loginPatient(
-                                        email: emailController.text.trim(),
-                                        password:
-                                            passwordController.text.trim(),
-                                        rememberMe: rememberMe,
-                                      );
-                                    }
+                                    setState(() {
+                                      obscurePassword = !obscurePassword;
+                                    });
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.mainColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  child:
-                                      state is AuthLoading
-                                          ? const CircularProgressIndicator(
-                                            color: Colors.white,
-                                          )
-                                          : Text(
-                                            'تسجيل الدخول',
-                                            style: GoogleFonts.leagueSpartan(
-                                              fontSize: 18.sp,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
                                 ),
                               ),
-                              SizedBox(height: 100.h),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SlideTransition(
-                                    position: _slideAnimation,
-                                    child: Text(
-                                      "ليس لديك حساب؟",
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value: rememberMe,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          rememberMe = value!;
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      "تذكرني",
                                       style: GoogleFonts.leagueSpartan(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w300,
+                                        fontSize: 14.sp,
                                         color: AppColors.greyColor,
                                       ),
                                     ),
+                                  ],
+                                ),
+
+                                CustomForgetpasswordPationtScreen(),
+                              ],
+                            ),
+                            SizedBox(height: 30.h),
+
+                            SizedBox(
+                              width: double.infinity,
+                              height: 50.h,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    BlocProvider.of<LoginPationtCubit>(
+                                      context,
+                                    ).loginPatient(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text.trim(),
+                                      rememberMe: rememberMe,
+                                    );
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.mainColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (context) => RegisterScreen(),
+                                ),
+                                child:
+                                    state is AuthLoading
+                                        ? const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                        : Text(
+                                          'تسجيل الدخول',
+                                          style: GoogleFonts.leagueSpartan(
+                                            fontSize: 18.sp,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      );
-                                    },
-                                    child: SlideTransition(
-                                      position: _slideAnimation,
-                                      child: Text(
-                                        "سجل الآن",
-                                        style: GoogleFonts.leagueSpartan(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w300,
-                                          color: AppColors.mainColor,
-                                        ),
+                              ),
+                            ),
+                            SizedBox(height: 100.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SlideTransition(
+                                  position: _slideAnimation,
+                                  child: Text(
+                                    "ليس لديك حساب؟",
+                                    style: GoogleFonts.leagueSpartan(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: AppColors.greyColor,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => RegisterScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: SlideTransition(
+                                    position: _slideAnimation,
+                                    child: Text(
+                                      "سجل الآن",
+                                      style: GoogleFonts.leagueSpartan(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppColors.mainColor,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

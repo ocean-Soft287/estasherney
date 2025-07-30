@@ -231,33 +231,7 @@ class Specializations extends StatelessWidget {
             SizedBox(height: 20.h),
             BlocConsumer<GetAllSpecialistCubit, GetAllSpecialistState>(
               listener: (context, state) {
-                if (state is GetAllSpecialistFailure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        "لا توجد نتائج بحث",
-                        style: GoogleFonts.leagueSpartan(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      duration: const Duration(seconds: 2),
-                      backgroundColor: Colors.red.shade400,
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      margin: EdgeInsets.all(16.w),
-                      action: SnackBarAction(
-                        label: "إغلاق",
-                        textColor: Colors.white,
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        },
-                      ),
-                    ),
-                  );
-                }
+                if (state is GetAllSpecialistFailure) {}
               },
               builder: (context, state) {
                 if (state is GetAllSpecialistLoading) {

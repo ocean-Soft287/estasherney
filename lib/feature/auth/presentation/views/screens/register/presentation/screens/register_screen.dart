@@ -105,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen>
               return SingleChildScrollView(
                 child: Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height,
+
                   color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            Center(
+                            Positioned(
                               child: SlideTransition(
                                 position: _slideAnimation,
                                 child: Text(

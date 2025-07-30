@@ -13,7 +13,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({super.key});
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -241,12 +241,80 @@ class HomeView extends StatelessWidget {
                     itemCount: 5,
                     itemBuilder: (context, index) {
                       final assets = [
-                        "assets/images/Record.png",
-                        "assets/images/Specialties.png",
-                        "assets/images/Pharmacy.png",
-                        "assets/images/Doctors.png",
-                        "assets/images/Favorites.png",
+                        "assets/images/Record.png", // 0
+                        "assets/images/Specialties.png", // 1
+                        "assets/images/Pharmacy.png", // 2
+                        "assets/images/Doctors.png", // 3
+                        "assets/images/Favorites.png", // 4
                       ];
+
+                      void handleTap() {
+                        if (index == 1) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => BlocProvider(
+                                    create: (context) {
+                                      final cubit =
+                                          GetIt.instance<
+                                            GetAllSpecialistCubit
+                                          >();
+                                      cubit.getAllSpecialistDoctor();
+                                      return cubit;
+                                    },
+                                    child: Specializations(),
+                                  ),
+                            ),
+                          );
+                        } else if (index == 3) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => DoctorForSpecialization(
+                                    specializationName: "ابحث عن طبيب أو خدمة",
+                                  ),
+                            ),
+                          );
+                        } else if (index == 4) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Favourites(),
+                            ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder:
+                                (context) => AlertDialog(
+                                  title: Center(
+                                    child: Image.asset(
+                                      "assets/images/imagelogo.png",
+                                      width: 100.w,
+                                      height: 50.h,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    "يتم إضافة هذه الخدمة قريبًا",
+                                    style: GoogleFonts.leagueSpartan(
+                                      color: Colors.black,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text("حسنًا"),
+                                    ),
+                                  ],
+                                ),
+                          );
+                        }
+                      }
 
                       return Container(
                         padding: EdgeInsets.all(12.w),
@@ -268,49 +336,7 @@ class HomeView extends StatelessWidget {
                         ),
                         child: InkWell(
                           borderRadius: BorderRadius.circular(16.r),
-                          onTap:
-                              index == 1
-                                  ? () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) => BlocProvider(
-                                            create: (context) {
-                                              final cubit =
-                                                  GetIt.instance<
-                                                    GetAllSpecialistCubit
-                                                  >();
-                                              cubit.getAllSpecialistDoctor();
-                                              return cubit;
-                                            },
-                                            child: Specializations(),
-                                          ),
-                                    ),
-                                  )
-                                  : index == 3
-                                  ? () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) =>
-                                                DoctorForSpecialization(
-                                                  specializationName:
-                                                      "ابحث عن طبيب أو خدمة",
-                                                ),
-                                      ),
-                                    );
-                                  }
-                                  : index == 4
-                                  ? () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Favourites(),
-                                      ),
-                                    );
-                                  }
-                                  : null,
+                          onTap: handleTap,
                           child: Image.asset(
                             assets[index],
                             height: 40.h,
@@ -354,7 +380,7 @@ class HomeView extends StatelessWidget {
                 ),
 
                 SizedBox(height: 16.h),
-                CustomListView(),
+                FutureAppointmentsScreen(),
 
                 SizedBox(height: 32.h),
 
