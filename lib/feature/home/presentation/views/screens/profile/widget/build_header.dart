@@ -36,8 +36,8 @@ Widget buildHeader({required BuildContext context, String? imageUrl}) {
                 children: [
                  CircleAvatar(
   radius: 45.r,
-  backgroundImage: (imageUrl != null && imageUrl!.isNotEmpty)
-      ? NetworkImage(imageUrl!)
+  backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
+      ? NetworkImage(imageUrl)
       : const AssetImage("assets/images/doctor.png") as ImageProvider,
 ),
 

@@ -49,7 +49,7 @@ class customcart extends StatelessWidget {
   }
 
   Widget buildCard(String text) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Card(
         shape: RoundedRectangleBorder(

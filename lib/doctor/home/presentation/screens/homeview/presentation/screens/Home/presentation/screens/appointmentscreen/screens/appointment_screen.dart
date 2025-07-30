@@ -249,7 +249,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget {
       final hours = diff.inHours;
       final minutes = diff.inMinutes.remainder(60);
 
-      return "المتبقي: ${hours} ساعة و ${minutes} دقيقة";
+      return "المتبقي: $hours ساعة و $minutes دقيقة";
     } catch (e) {
       return "خطأ في توقيت الموعد";
     }
@@ -616,7 +616,7 @@ class CurrentAppointmentsScreen extends StatelessWidget {
       final hours = diff.inHours;
       final minutes = diff.inMinutes.remainder(60);
 
-      return "المتبقي: ${hours} ساعة و ${minutes} دقيقة";
+      return "المتبقي: $hours ساعة و $minutes دقيقة";
     } catch (e) {
       return "خطأ في توقيت الموعد";
     }
@@ -982,7 +982,7 @@ class CanceledOrderCard extends StatelessWidget {
       final hours = diff.inHours;
       final minutes = diff.inMinutes.remainder(60);
 
-      return "المتبقي: ${hours} ساعة و ${minutes} دقيقة";
+      return "المتبقي: $hours ساعة و $minutes دقيقة";
     } catch (e) {
       return "خطأ في توقيت الموعد";
     }

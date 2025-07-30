@@ -162,6 +162,8 @@ class _ProductCardState extends State<ProductCard> {
 }
 
 class TimeSelectorWidget extends StatefulWidget {
+  const TimeSelectorWidget({super.key});
+
   @override
   _TimeSelectorWidgetState createState() => _TimeSelectorWidgetState();
 }

@@ -28,7 +28,7 @@ class SetFavoriteDoctorRepoImpl implements SetFavoriteDoctorRepo {
       }
 
       final list =
-          (data as List)
+          (data)
               .map(
                 (e) => FavoriteDoctorModel.fromJson(e as Map<String, dynamic>),
               )

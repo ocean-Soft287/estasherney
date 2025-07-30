@@ -14,7 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 class ResetBooKNow extends StatelessWidget {
   final DoctorModel doctor;
 
-  ResetBooKNow({super.key, required this.doctor});
+  const ResetBooKNow({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {

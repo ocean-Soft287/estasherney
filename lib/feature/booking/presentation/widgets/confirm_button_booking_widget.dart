@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ConfirmButtonWidget extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const ConfirmButtonWidget({required this.onPressed, super.key});
+  final VoidCallback? onPressed;
+ final bool isloading;
+  const ConfirmButtonWidget({required this.onPressed,required this.isloading, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,8 @@ class ConfirmButtonWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(27.5.r),
           onTap: onPressed,
-          child: Center(
+          child:
+       isloading?Center(child: CircularProgressIndicator(color: Colors.white,),):    Center(
             child: Text(
               "تأكيد الحجز",
               style: GoogleFonts.leagueSpartan(

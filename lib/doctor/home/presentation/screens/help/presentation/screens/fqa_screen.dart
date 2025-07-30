@@ -19,6 +19,8 @@ class FAQScreen extends StatelessWidget {
     "كيف أقوم بشحن محفظتي باستخدام أي كاش؟",
   ];
 
+   FAQScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Directionality(

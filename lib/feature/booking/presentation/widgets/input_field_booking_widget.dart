@@ -3,29 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class InputField extends StatelessWidget {
+class InputField extends StatefulWidget {
   final String label;
   final String hintText;
   final TextInputType? keyboardType;
   final int maxLines;
-  final ValueChanged<String> onChanged;
-
+ final TextEditingController controller;
   const InputField({
     super.key,
     required this.label,
     required this.hintText,
     this.keyboardType,
-    this.maxLines = 1,
-    required this.onChanged,
+    this.maxLines = 1, required this.controller,
   });
 
+  @override
+  State<InputField> createState() => _InputFieldState();
+}
+
+class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label,
+          widget.label,
           style: GoogleFonts.leagueSpartan(
             fontSize: 16.sp,
             fontWeight: FontWeight.w600,
@@ -43,14 +46,35 @@ class InputField extends StatelessWidget {
               ),
             ],
           ),
-          child: TextField(
-            keyboardType: keyboardType,
-            maxLines: maxLines,
-            onChanged: onChanged,
+          child: TextFormField(
+            controller: widget.controller,
+            keyboardType: widget.keyboardType,
+            maxLines: widget.maxLines,
+           
+            onChanged: (text){
+
+              setState(() {
+                widget.controller.text = text;
+                });    },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'برجاء ادخال البيانات';
+              }
+              return null;
+            },
             decoration: InputDecoration(
-              hintText: hintText,
+               suffixIcon:widget.controller.text.isNotEmpty ? IconButton(
+                icon: Icon(Icons.close,color: AppColors.mainColor,),
+                onPressed: () {
+              setState(() {
+                widget.controller.clear();
+              });
+            })
+           : null,
+              
+              hintText: widget.hintText,
               hintStyle: GoogleFonts.leagueSpartan(
-                color: Colors.grey.shade400,
+                color: Colors.grey.shade600,
                 fontSize: 14.sp,
               ),
               filled: true,

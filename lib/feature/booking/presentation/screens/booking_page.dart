@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+import 'package:consult_me/core/Network/local/sharedprefrences.dart';
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/booking/data/models/appointment_model.dart';
 import 'package:consult_me/feature/booking/data/models/booking_model.dart';
 import 'package:consult_me/feature/booking/presentation/widgets/attachment_section_booking_widget.dart';
 import 'package:consult_me/feature/booking/presentation/widgets/available_times_section.dart';
@@ -12,6 +16,7 @@ import 'package:consult_me/feature/home/presentation/views/screens/home/data/mod
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../cubit/booking_cubit.dart';
@@ -47,11 +52,21 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
   String gender = "ذكر";
   String problemDescription = "";
   bool isSelfSelected = true;
+  AvailableSlot? selectedSlot;
+  String? selectedSessionType;
+ List<File> selectedFile =[];
+ File? selectedImage;
+ TextEditingController nameController = TextEditingController();
+ TextEditingController ageController = TextEditingController();
+  TextEditingController problemController =TextEditingController();
 
+final formKey = GlobalKey<FormState>();
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+
+
 
   @override
   void initState() {
@@ -142,52 +157,134 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => db.GetIt.instance<BookingCubit>(),
+      create: (_) => db.GetIt.instance<BookingCubit>()..getBooking(date: convertArabicToEnglishNumber(dates[selectedDateIndex]),
+       doctorId: widget.doctor.id.toString(),),
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
         body: FadeTransition(
           opacity: _fadeAnimation,
-          child: BlocBuilder<BookingCubit, BookingState>(
-            builder: (context, state) {
+          child: BlocConsumer<BookingCubit,BookingState>(builder:   
+             (context, state) {
               final cubit = context.watch<BookingCubit>();
-              return CustomScrollView(
-                slivers: [
-                  _buildHeader(cubit: cubit),
-                  SliverToBoxAdapter(
-                    child: SlideTransition(
-                      position: _slideAnimation,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                         if(state is GtBookingAvailableSuccess) AvailableTimesSection(state:  state,
-                          onSessionSelected: (String? session) {  }, onSlotSelected: (AvailableSlot? slot) {  },),
-                          _buildPatientDetailsSection(),
-                          PersonalInfoSection(fullName: fullName, age: age,
-                           problemDescription: problemDescription, selectedGender: gender,
-                            onNameChanged: (name){}, onAgeChanged: (age){}, onProblemChanged: (problem){},
-                             onGenderSelected: (gender){}),
-                      //    _buildPersonalInfoSection(),
-                         AttachmentsSectionWidget(onFileTap: () {  
-                         final file =    pickFile();
-                         }, onImageTap: () {
-                          final image =    pickImage();
+              return Form(
+                key: formKey,
+                child: CustomScrollView(
+                  slivers: [
+                    _buildHeader(cubit: cubit),
+                    SliverToBoxAdapter(
+                      child: SlideTransition(
+                        position: _slideAnimation,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                           if(state is GtBookingAvailableSuccess) AvailableTimesSection(state:  state,
+                            onSessionSelected: (String? session) { 
+                              setState(() {
+                                selectedSessionType = session;
+                              });
+                             }, onSlotSelected: (AvailableSlot? slot) {  
+                              setState(() {
+                                selectedSlot = slot;
+                              });
+                            },),
+                            _buildPatientDetailsSection(),
+                            PersonalInfoSection(fullName: fullName, age: age,
+                             problemDescription: problemDescription, selectedGender: gender,
+                             onProblemChanged: (problem){},
+                               onGenderSelected: (gender){}, formKey: formKey, nameController: nameController,
+                               ageController: ageController,
+                               problemController: problemController,),
+                        //    _buildPersonalInfoSection(),
+                           AttachmentsSectionWidget(onFileTap: () async{  
+                           selectedFile.clear(); 
+                         selectedFile =   await pickFiles();
+                         setState(() {
+                           
+                         });
+                           }, onImageTap: () async{
+                                                     selectedFile.clear(); 
+                
+                         selectedImage =     await pickImage();
+                         setState(() {
+                         selectedFile.add(selectedImage!);  });
+                
+                             },),
+                       
+                         if(selectedFile.isNotEmpty)  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             Text("picked Files :  ${selectedFile.length}"),
+                           ],
+                         ),
+                           ConfirmButtonWidget(
+                            
+                            isloading: cubit.state is AddAppointmentLoading ? true : false,
+                            onPressed: 
+                            cubit.state is AddAppointmentLoading?  null:
+                            () async{
+                              if(selectedSessionType == null){
+                                Fluttertoast.showToast(msg: "برجاء اختيار نوع الحجز");
+                                return;
+                                }
 
-                           },),
-                     
-                         ConfirmButtonWidget(onPressed: () {  },),
-                         // _buildConfirmButton(),
-                          SizedBox(height: 30.h),
-                        ],
+                            else if (selectedSlot == null) {
+                              Fluttertoast.showToast(msg: "برجاء اختيار موعد الحجز");
+                              return;
+                            } 
+                            else if (selectedFile.isEmpty) {
+                              Fluttertoast.showToast(msg: "برجاء اختيار المرفقات");
+                              return;
+                            }
+                          //  await   cubit.addAppointment(appointment: 
+                          // );
+                  if(formKey.currentState!.validate()) {
+             
+                final appointment =  Appointment(
+                  doctorId: '37', //widget.doctor.id.toString(),
+                  slotStartTime: selectedSlot!.startTime!,
+                
+                               slotEndTime: selectedSlot!.endTime!,
+                                whoIsPatient: isSelfSelected? "Yourself": "Other",
+                                 fullName: nameController.text,
+                                  age:int.parse( convertArabicToEnglishNumber(ageController.text)) ,
+                                   gender: gender == 'ذكر' ? 'male' : 'female',
+                                    problemDescription: problemController.text,
+                                     date: convertArabicToEnglishNumber(dates[selectedDateIndex]),
+                                      sessionType: selectedSessionType!,
+                                       files: selectedFile
+                                
+                                      );
+                         log(appointment.toJson().toString());
+
+                  cubit.addAppointment(appointment: appointment);
+
+
+                  }     
+             
+                             },),
+                           // _buildConfirmButton(),
+                            SizedBox(height: 30.h),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
+            listener: (context, state) {
+             if(state is AddAppointmentSuccess){
+              Fluttertoast.showToast(msg: "تم الحجز بنجاح");
+             }else if (state is BookingFailure) {
+              Fluttertoast.showToast(msg: state.error);
+             }
+            }
           ),
+       )
+       
         ),
-      ),
-    );
+      );
+    
   }
 
   Widget _buildHeader({required BookingCubit cubit}) {
@@ -286,7 +383,7 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
   }
 
   Widget _buildDateSelector({required BookingCubit cubit}) {
-    return Container(
+    return SizedBox(
       height: 80.h,
       child: Row(
         children: [
@@ -394,7 +491,7 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
             setState(() {
               selectedDateIndex = index;
                  cubit.getBooking(
-                  date:'2025-07-29', //convertArabicToEnglishNumber(dates[selectedDateIndex]),
+                  date:'2025-07-31', //convertArabicToEnglishNumber(dates[selectedDateIndex]),
                   doctorId:'37' // widget.doctor.id.toString(),
                 );
 

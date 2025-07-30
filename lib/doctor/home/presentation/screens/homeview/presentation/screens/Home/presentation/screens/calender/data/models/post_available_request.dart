@@ -14,12 +14,8 @@ class Schedule {
 
   Map<String, dynamic> toJson() {
     return {
-      'startDate': startDate != null
-          ? startDate!.toIso8601String().split('T').first
-          : null,
-      'endDate': endDate != null
-          ? endDate!.toIso8601String().split('T').first
-          : null,
+      'startDate': startDate?.toIso8601String().split('T').first,
+      'endDate': endDate?.toIso8601String().split('T').first,
       'weeklyAvailability': weeklyAvailability.toJson(),
       'availableConsultationTypes': availableConsultationTypes ?? [],
     };

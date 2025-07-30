@@ -409,18 +409,19 @@ class _DoctorAvailabilityWidgetState extends State<DoctorAvailabilityWidget> {
                     color: isSelected ? Colors.white : Colors.black87,
                   ),
                 ),
-                if (slot.sessionType != null) ...[
-                  SizedBox(height: 2.h),
-                  Text(
-                    slot.sessionType!,
-                    style: GoogleFonts.leagueSpartan(
-                      fontSize: 10.sp,
-                      color: isSelected
-                          ? Colors.white.withOpacity(0.9)
-                          : AppColors.greyColor,
-                    ),
-                  ),
-                ],
+                // if (slot.sessionType != null) ...[
+                //   SizedBox(height: 2.h),
+                //   Text(
+                //     slot.sessionType!,
+                //     style: GoogleFonts.leagueSpartan(
+                //       fontSize: 10.sp,
+                //       color: isSelected
+                //           ? Colors.white.withOpacity(0.9)
+                //           : AppColors.greyColor,
+                //     ),
+                //   ),
+                // ],
+             
               ],
             ),
           ),

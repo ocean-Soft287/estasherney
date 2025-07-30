@@ -48,8 +48,8 @@ class _MessageViewState extends State<MessageView> {
     {"text": "أحيانًا نعم، خصوصًا في الليل", "isUser": true, "time": "09:55"},
   ];
 
-  TextEditingController _controller = TextEditingController();
-  ScrollController _scrollController = ScrollController();
+  final TextEditingController _controller = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   void sendMessage() {
     String text = _controller.text.trim();

@@ -12,12 +12,12 @@ class NotificationItem extends StatelessWidget {
   final IconData icon;
 
   const NotificationItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.time,
     required this.description,
     this.icon = Icons.calendar_month,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

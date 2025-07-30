@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -71,8 +70,8 @@ class GenderChip extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

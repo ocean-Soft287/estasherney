@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomSearch extends StatefulWidget {
-  CustomSearch({super.key});
+  const CustomSearch({super.key});
 
   @override
   State<CustomSearch> createState() => _CustomSearchState();
@@ -33,7 +33,7 @@ class _CustomSearchState extends State<CustomSearch> {
       final hours = diff.inHours;
       final minutes = diff.inMinutes.remainder(60);
 
-      return "المتبقي: ${hours} ساعة و ${minutes} دقيقة";
+      return "المتبقي: $hours ساعة و $minutes دقيقة";
     } catch (e) {
       return "خطأ في توقيت الموعد";
     }

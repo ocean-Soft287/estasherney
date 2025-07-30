@@ -9,21 +9,22 @@ class PersonalInfoSection extends StatelessWidget {
   final String age;
   final String problemDescription;
   final String selectedGender;
-  final ValueChanged<String> onNameChanged;
-  final ValueChanged<String> onAgeChanged;
+final TextEditingController nameController;
+final TextEditingController ageController;
+final TextEditingController problemController;
   final ValueChanged<String> onProblemChanged;
   final ValueChanged<String> onGenderSelected;
 
+final GlobalKey<FormState> formKey ;
   const PersonalInfoSection({
     super.key,
     required this.fullName,
+    required this.formKey,
     required this.age,
     required this.problemDescription,
     required this.selectedGender,
-    required this.onNameChanged,
-    required this.onAgeChanged,
     required this.onProblemChanged,
-    required this.onGenderSelected,
+    required this.onGenderSelected, required this.nameController, required this.ageController, required this.problemController,
   });
 
   @override
@@ -46,16 +47,15 @@ class PersonalInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InputField(
+            
             label: "الاسم كامل",
-            hintText: "محمد فتحي",
-            onChanged: onNameChanged,
+            hintText: " ادخل اسمك", controller: nameController,
           ),
           SizedBox(height: 16.h),
           InputField(
             label: "العمر",
-            hintText: "23",
-            keyboardType: TextInputType.number,
-            onChanged: onAgeChanged,
+            hintText: "ادخل عمرك",
+            keyboardType: TextInputType.number, controller: ageController,
           ),
           SizedBox(height: 16.h),
           GenderSelectorWidget(
@@ -64,10 +64,10 @@ class PersonalInfoSection extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           InputField(
+            controller: problemController,
             label: "وصف المشكلة",
             hintText: "اكتب المشكلة هنا...",
             maxLines: 3,
-            onChanged: onProblemChanged,
           ),
         ],
       ),

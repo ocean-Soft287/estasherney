@@ -14,6 +14,8 @@ class ChatPage extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
+  ChatPage({super.key});
+
   void _sendMessage(String text, User? user) {
     if (text.trim().isEmpty) return;
 

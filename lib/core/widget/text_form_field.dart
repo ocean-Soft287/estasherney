@@ -83,7 +83,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         keyboardType: widget.textInputType,
         validator: widget.validator,
 
-        obscureText: widget.obscureText == null ? false : widget.obscureText,
+        obscureText: widget.obscureText ?? false,
       ),
     );
   }

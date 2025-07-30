@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/feature/booking/presentation/screens/booking_page.dart';
 import 'package:flutter/material.dart';
@@ -63,8 +62,8 @@ class AttachmentButton extends StatelessWidget {
     required this.icon,
     required this.text,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

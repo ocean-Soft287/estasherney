@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
+
 class Appointment {
   final String slotStartTime;
   final String slotEndTime;
@@ -6,11 +9,13 @@ class Appointment {
   final int age;
   final String gender;
   final String problemDescription;
-  final DateTime date;
+  final String date;
   final String sessionType;
-  final String fileName; // Assuming the file is stored as a name or URL
+  final String doctorId;
+  final List<File> files; // Multiple file support
 
-  Appointment({
+  Appointment( {
+    required this.doctorId,
     required this.slotStartTime,
     required this.slotEndTime,
     required this.whoIsPatient,
@@ -20,26 +25,14 @@ class Appointment {
     required this.problemDescription,
     required this.date,
     required this.sessionType,
-    required this.fileName,
+    required this.files,
   });
 
-  factory Appointment.fromJson(Map<String, dynamic> json) {
-    return Appointment(
-      slotStartTime: json['SlotStartTime'],
-      slotEndTime: json['SlotEndTime'],
-      whoIsPatient: json['WhoIsPatient'],
-      fullName: json['FullName'],
-      age: int.parse(json['Age'].toString()),
-      gender: json['Gender'],
-      problemDescription: json['ProblemDescription'],
-      date: DateTime.parse(json['Date']),
-      sessionType: json['SessionType'],
-      fileName: json['File'],
-    );
-  }
+  
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> _baseJson() {
     return {
+      'DoctorId':doctorId,
       'SlotStartTime': slotStartTime,
       'SlotEndTime': slotEndTime,
       'WhoIsPatient': whoIsPatient,
@@ -47,9 +40,26 @@ class Appointment {
       'Age': age,
       'Gender': gender,
       'ProblemDescription': problemDescription,
-      'Date': date.toIso8601String(),
+      'Date': date,
       'SessionType': sessionType,
-      'File': fileName,
     };
   }
+
+Map<String, dynamic> toJson()  {
+  final base = _baseJson();
+
+  if (files.isNotEmpty) {
+    final fileMetadata = files.map((file) => {
+      'filename': file.path.split('/').last,
+      'path': file.path,
+    }).toList();
+
+    return {
+      ...base,
+      'Files': fileMetadata, 
+    };
+  }
+
+  return base;
+}
 }

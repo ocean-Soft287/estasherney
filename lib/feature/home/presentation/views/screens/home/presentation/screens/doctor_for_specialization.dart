@@ -8,7 +8,6 @@ import 'package:consult_me/feature/home/presentation/views/screens/home/presenta
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_state.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_cubit.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_state.dart';
-import 'package:consult_me/feature/home/presentation/views/screens/profile/screens/bookinggs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

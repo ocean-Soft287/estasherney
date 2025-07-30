@@ -35,12 +35,15 @@ class DioConsumer extends ApiConsumer {
     ));
   }
 
-  Future<Map<String, String>> _buildHeaders({bool withAuth = true}) async {
+  Future<Map<String, String>> _buildHeaders({bool withAuth = true,bool isFromData = false}) async {
     final token = await SharedPreferencesService.read(SharedPreferencesService.token);
     return {
-      'Accept-Language': 'ar',
-      if (token != null)
-        'Authorization': 'Bearer $token',
+         'Accept-Language': 'ar',
+         if (!isFromData) 
+           'Content-Type': 'application/json',   
+         if (token != null)
+           'Authorization': 'Bearer $token',
+        
     };
   }
 
@@ -74,7 +77,7 @@ class DioConsumer extends ApiConsumer {
   @override
   Future post(
     String path, {
-    Object? data,
+    dynamic data,
     bool isFromData = false,
     Map<String, dynamic>? queryParameters,
     bool withAuth = true,
@@ -82,11 +85,12 @@ class DioConsumer extends ApiConsumer {
     try {
       final response = await dio.post(
         path,
-        data: data,
+        data: isFromData ? FormData.fromMap(data ) :  data,
         queryParameters: queryParameters,
         options: Options(
-          headers: await _buildHeaders(withAuth: withAuth),
+          headers: await _buildHeaders(withAuth: withAuth,isFromData: true),
           contentType: isFromData ? 'multipart/form-data' : 'application/json',
+
         ),
       );
       return response.data;

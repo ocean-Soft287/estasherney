@@ -1,7 +1,7 @@
 class BookingResponse {
   final String message;
   final int appointmentId;
-  final int finalConsultationPrice;
+  final double finalConsultationPrice;
 
   BookingResponse({
     required this.message,
