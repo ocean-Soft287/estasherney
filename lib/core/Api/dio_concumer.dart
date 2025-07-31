@@ -217,9 +217,16 @@ class DioErrorHandler {
     final response = dioError.response;
     
     if (response != null) {
+      if(response.data is String){
+                 return '${response.data ?? 'حدث خطا غير معروف'}';
+
+      }else if (response.data is Map<String, dynamic>) {
+        return ' تحقق من البيانات';
+      }
+    
       switch (response.statusCode) {
-        case 400:
-          return 'طلب غير صحيح';
+       case 400:
+         return 'خطأ ${response.statusCode}: ${response.statusMessage ?? 'غير معروف'}';
         case 401:
           return 'غير مصرح بالدخول';
         case 403:
@@ -236,13 +243,37 @@ class DioErrorHandler {
           return 'بوابة غير صحيحة';
         case 503:
           return 'الخدمة غير متوفرة';
+       
         default:
-          return 'خطأ ${response.statusCode}: ${response.statusMessage ?? 'غير معروف'}';
+                 return 'طلب غير صحيح';
+ 
       }
     }
     
     return 'استجابة غير صحيحة من الخادم';
   }
+
+List<String> extractErrorMessages(dynamic errorData) {
+  final List<String> messages = [];
+
+  if (errorData is Map<String, dynamic>) {
+    final errors = errorData['errors'];
+
+    if (errors is Map<String, dynamic>) {
+      for (final field in errors.entries) {
+        final errorList = field.value;
+        if (errorList is List) {
+          for (final msg in errorList) {
+            messages.add(msg.toString());
+          }
+        }
+      }
+    }
+  }
+
+  return messages;
+}
+
 
   static String extractServerMessage(dynamic data) {
     try {

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:isolate';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:consult_me/core/navigation/navigation_service.dart';
-import 'package:consult_me/feature/Call/video.dart';
+import 'package:consult_me/patient/Call/video.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsService {

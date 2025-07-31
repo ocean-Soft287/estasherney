@@ -1,9 +1,11 @@
 import 'package:consult_me/bloc_observer.dart';
 import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/services/local_services.dart';
-import 'package:consult_me/feature/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
-import 'package:consult_me/feature/intial/splash_screen.dart';
-import 'package:consult_me/feature/localization/manger/localization_cubit.dart';
+import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
+import 'package:consult_me/patient/booking/data/models/booking_response.dart';
+import 'package:consult_me/patient/intial/splash_screen.dart';
+import 'package:consult_me/patient/localization/manger/localization_cubit.dart';
+import 'package:consult_me/patient/payment/presentation/view/screens/payment_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'feature/localization/data/localizationmodel.dart';
-import 'feature/localization/manger/localization_state.dart';
+import 'patient/localization/data/localizationmodel.dart';
+import 'patient/localization/manger/localization_state.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -94,9 +96,11 @@ class MyApp extends StatelessWidget {
                   }
                    return const Locale('ar');
                 },
-                home: SplashScreen(
+                home:PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
+                //  SplashScreen(
                   
-                ),
+                // ),
+             
               );
             },
           );
