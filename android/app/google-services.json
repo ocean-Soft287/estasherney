@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "991482564046",
+    "project_id": "estasherny-43801",
+    "storage_bucket": "estasherny-43801.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991482564046:android:678c95c2d0ef72c901ef9f",
+        "android_client_info": {
+          "package_name": "com.example.consult_me"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCsgZRR3O0dsgp3vHB_15-G10PDOmeO8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
