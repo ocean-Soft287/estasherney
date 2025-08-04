@@ -1,10 +1,11 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/presentation/screens/data_view.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/screens/favourites.dart';
-import 'package:consult_me/patient/home/presentation/views/screens/data_view.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/screens/home_view.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/message/message_view.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/profile_view.dart';
 import 'package:flutter/material.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const ProfileScreen(),
     const Favourites(),
     const MessageView(),
-    const DataView(),
+    const AppointmentsScreen(),
   ];
 
   @override

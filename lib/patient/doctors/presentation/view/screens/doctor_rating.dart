@@ -9,7 +9,6 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/constants/app_fonts.dart';
 import '../../../../../core/widget/defualt_botton.dart';
 import '../widget/doctor_details_info.dart';
 
@@ -46,41 +45,58 @@ class _DoctorRatingState extends State<DoctorRating> {
         builder: (context, state) {
           return SafeArea(
             child: Scaffold(
+              backgroundColor: Colors.grey.shade50,
               body: SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
-                      height: 70,
+                      height: 80.h,
+                      width: double.infinity,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         gradient: AppColors.blueGradient,
                         borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(25),
-                          bottomRight: Radius.circular(25),
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 12,
+                            offset: Offset(0, 6),
+                          ),
+                        ],
                       ),
                       child: Stack(
                         children: [
                           Center(
                             child: Text(
                               "اضافة تقييم",
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: Appfonts.font,
-                                color: AppColors.wightcolor,
+                              style: GoogleFonts.leagueSpartan(
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                           ),
                           Positioned(
-                            right: 16,
-                            top: 16,
+                            right: 16.w,
+                            top: 20.h,
                             child: InkWell(
                               onTap: () => Navigator.pop(context),
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                                size: 24,
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                width: 40.w,
+                                height: 40.h,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.25),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
                               ),
                             ),
                           ),
@@ -88,19 +104,22 @@ class _DoctorRatingState extends State<DoctorRating> {
                       ),
                     ),
 
+                    SizedBox(height: 24.h),
+
                     DoctorDetailsInfo(doctor: widget.doctor),
 
-                    20.verticalSpace,
+                    SizedBox(height: 24.h),
 
                     Text(
                       'اختر التقييم',
-                      style: GoogleFonts.cairo(
+                      style: GoogleFonts.leagueSpartan(
                         fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                         color: AppColors.blackColor,
                       ),
                     ),
-                    SizedBox(height: 10.h),
+
+                    SizedBox(height: 12.h),
 
                     RatingBar.builder(
                       initialRating: rating,
@@ -108,12 +127,10 @@ class _DoctorRatingState extends State<DoctorRating> {
                       direction: Axis.horizontal,
                       allowHalfRating: false,
                       itemCount: 5,
-                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      itemPadding: EdgeInsets.symmetric(horizontal: 6.w),
                       itemBuilder:
-                          (context, _) => const Icon(
-                            Icons.star,
-                            color: AppColors.mainColor,
-                          ),
+                          (context, _) =>
+                              Icon(Icons.star, color: Colors.amber, size: 32.r),
                       onRatingUpdate: (value) {
                         setState(() {
                           rating = value;
@@ -121,33 +138,51 @@ class _DoctorRatingState extends State<DoctorRating> {
                       },
                     ),
 
-                    10.verticalSpace,
+                    SizedBox(height: 24.h),
 
                     Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      padding: EdgeInsets.all(12.r),
+                      margin: EdgeInsets.symmetric(vertical: 8.h),
                       decoration: BoxDecoration(
-                        color: AppColors.mainColor.withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.r),
+                        border: Border.all(
+                          color: AppColors.mainColor.withOpacity(0.2),
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
                       ),
-                      width: MediaQuery.of(context).size.width * .9,
-                      height: 200.h,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 180.h,
                       child: TextField(
                         controller: commentController,
-                        maxLines: 10,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
                         decoration: InputDecoration(
                           hintText: "أدخل تعليقك هنا...",
                           hintStyle: GoogleFonts.leagueSpartan(
+                            fontSize: 15.sp,
+                            color: AppColors.greyColor,
                             fontWeight: FontWeight.w400,
-                            fontSize: 16.sp,
-                            color: AppColors.blackColor,
                           ),
                           border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(8.r),
+                          alignLabelWithHint: true,
+                        ),
+                        style: GoogleFonts.cairo(
+                          fontSize: 15.sp,
+                          color: AppColors.blackColor,
                         ),
                       ),
                     ),
 
-                    20.verticalSpace,
+                    SizedBox(height: 28.h),
 
                     state is AddRatingLoading
                         ? const CircularProgressIndicator()
@@ -163,7 +198,7 @@ class _DoctorRatingState extends State<DoctorRating> {
                           width: 0.9 * MediaQuery.of(context).size.width,
                         ),
 
-                    20.verticalSpace,
+                    SizedBox(height: 30.h),
                   ],
                 ),
               ),

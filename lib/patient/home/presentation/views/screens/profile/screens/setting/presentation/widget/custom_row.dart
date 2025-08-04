@@ -32,9 +32,9 @@ class _CustomRowState extends State<CustomRow> {
 
         return Row(
           children: [
-            Icon(Icons.star, color: AppColors.mainColor, size: 18),
-            SizedBox(width: 4),
             Text(averageRating.toStringAsFixed(1)),
+            SizedBox(width: 4),
+            Icon(Icons.star, color: Colors.amber, size: 18),
           ],
         );
       },

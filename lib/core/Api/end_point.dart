@@ -1,7 +1,7 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 class EndPoint {
   static String baseUrl = "http://37.34.238.190:9292/TheOneAPIEstasherny";
-  static String paymanet=  dotenv.env ['paymanet']??""; 
+  // static String paymanet=  dotenv.env ['paymanet']??""; 
 
   /// auth
   static String logindoctor = "$baseUrl/api/Doctor/login";
@@ -46,6 +46,9 @@ class EndPoint {
     "$baseUrl/api/Patient/rateDoctor/$doctorId";
   static String getAllRatings(int doctorId) =>
       "$baseUrl/api/Patient/getDoctorRating/$doctorId";
+      static String getallPationtAppointment="$baseUrl/api/Patient/getPatientAppointments";
+      static String getallFuturepationt="$baseUrl/api/Patient/getPatientFutureAppointments";
+
 
 
 

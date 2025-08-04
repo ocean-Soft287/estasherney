@@ -74,9 +74,9 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     );
     return Right('تمت العملية بنجاح');
   } on DioException catch (e) {
-    return Left(e.toString());
+    return Left("تم الدفع بنجاح ولكن لم يتم تاكيد الحجز" );
   } catch (e) {
-    return Left(e.toString());
+    return Left("تم الدفع بنجاح ولكن لم يتم تاكيد الحجز");
   
   }
   }

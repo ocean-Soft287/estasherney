@@ -23,7 +23,7 @@ class VitaminDTestCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            // Background Image
+            
             Positioned(
               left: 10.w,
               top: 20.h,
@@ -43,12 +43,12 @@ class VitaminDTestCard extends StatelessWidget {
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       border: Border.all(
-        color: AppColors.mainColor, // Border color
-        width: 1.5.w, // Border width
+        color: AppColors.mainColor, 
+        width: 1.5.w, 
       ),
     ),
     child: CircleAvatar(
-      backgroundColor: AppColors.wightcolor, // Inner background color
+      backgroundColor: AppColors.wightcolor, 
       child: Text(
         "قريبًا",
         style: GoogleFonts.leagueSpartan(
@@ -95,7 +95,7 @@ class VitaminDTestCard extends StatelessWidget {
               ),
             ),
 
-            // Description Text
+            
             Positioned(
               bottom: 50.h,
               right: 60.w,

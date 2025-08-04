@@ -1,6 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/rating_summary_cubit.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/rating_summary_state.dart';
+import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/screens/doctor_rating_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,37 +36,61 @@ class _CustomRowRatingState extends State<CustomRowRating> {
 
         return Row(
           children: [
-            Container(
-              width: 60.w,
-              height: 30.h,
-              decoration: BoxDecoration(
-                color: AppColors.wightcolor,
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('$totalRatings'),
-                  SizedBox(width: 4.w),
-                  Icon(Icons.chat, size: 15.sp),
-                ],
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) =>
+                            DoctorRatingScreen(doctorId: widget.doctorId),
+                  ),
+                );
+              },
+              child: Container(
+                width: 60.w,
+                height: 30.h,
+                decoration: BoxDecoration(
+                  color: AppColors.wightcolor,
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('$totalRatings'),
+                    SizedBox(width: 4.w),
+                    Icon(Icons.chat, size: 15.sp),
+                  ],
+                ),
               ),
             ),
             SizedBox(width: 10.w),
-            Container(
-              width: 60.w,
-              height: 30.h,
-              decoration: BoxDecoration(
-                color: AppColors.wightcolor,
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(averageRating.toStringAsFixed(1)),
-                  SizedBox(width: 4.w),
-                  Icon(Icons.star, size: 15.sp),
-                ],
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) =>
+                            DoctorRatingScreen(doctorId: widget.doctorId),
+                  ),
+                );
+              },
+              child: Container(
+                width: 60.w,
+                height: 30.h,
+                decoration: BoxDecoration(
+                  color: AppColors.wightcolor,
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(averageRating.toStringAsFixed(1)),
+                    SizedBox(width: 4.w),
+                    Icon(Icons.star, size: 15.sp),
+                  ],
+                ),
               ),
             ),
           ],

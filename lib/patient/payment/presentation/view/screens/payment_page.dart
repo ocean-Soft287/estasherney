@@ -1,17 +1,19 @@
 import 'dart:developer';
-import 'dart:io';
-
+import 'package:consult_me/core/navigation/navigation_service.dart';
+import 'package:consult_me/patient/auth/presentation/views/screens/otp/presentation/logic/otp_cubit.dart';
 import 'package:consult_me/patient/booking/data/models/confrim_payment.dart';
 import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
+import 'package:consult_me/patient/booking/presentation/cubit/booking_state.dart';
 import 'package:consult_me/patient/payment/presentation/view/screens/pament_failure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:consult_me/patient/booking/data/models/booking_response.dart';
 import 'package:consult_me/core/constants/app_colors.dart';
-//import 'package:myfatoorah_pay/myfatoorah_pay.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:forex_currency_conversion/forex_currency_conversion.dart';
 
 class PaymentPage extends StatefulWidget {
   final BookingResponse response;
@@ -24,15 +26,10 @@ class PaymentPage extends StatefulWidget {
 
 class PaymentPageState extends State<PaymentPage>
     with SingleTickerProviderStateMixin {
-  
-  /// Define available payment methods with icons
-  final Map<int, Map<String, dynamic>> _paymentMethods = {
-    1: {"name": "الدفع بواسطة KNET", "icon": Icons.credit_card, "color": Colors.blue},
-    2: {"name": "فيزا / ماستركارد", "icon": Icons.payment, "color": Colors.green},
-    5: {"name": "أومان نت", "icon": Icons.account_balance, "color": Colors.orange},
-  };
+  Map<int, MFPaymentMethod> paymentMethods = {};
 
   int? _selectedPaymentMethodId;
+  String? _selecteedCurrency;
   bool _isLoading = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -47,7 +44,7 @@ class PaymentPageState extends State<PaymentPage>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-    
+
     initiatePayment();
     _animationController.forward();
   }
@@ -59,58 +56,62 @@ class PaymentPageState extends State<PaymentPage>
   }
 
   void initiatePayment() async {
-    if (Platform.isIOS) {
-      _paymentMethods.addAll({
-        24: {"name": "آبل باي", "icon": Icons.phone_iphone, "color": Colors.black}
-      });
-    }
-    
     MFSDK.init(
-      // 3ofo2OpYbO56IxABXt_KtmGBOyCpCyupgPwZCAeHRh0qPtZhGZIBDw_4hPgkA7hbC0gqe1gra8X4wtJ8wBMAzdy5YmCrexczQme3LQgdo7PupxNAbdZ-7TNGZO2UbBxLVvULdmFSVdoExW0Gqg1eE1LWZe6thP1MtVth-V8LCAm4Dhx4ujwgshllE4CwTZJYRJeNdZ7hqMuNoctnpBsLAAf-hGxPeo5iigKgbaXX0CttgYWUKj9YiHniskvtjMZyXl-sVWDotMbaVYCojjr9u4lXTW8IieALw9ZA0Qlg6G8dCeCi9swyXC3rgAQL-5aap-3Gd2VSYTnpQrwJ9jFEAD3U6r42ix_lJtUN-8AQXiyoJelxWoZWwsUj5DkEACjFuFwhHB8rUi2eQTq3srrBPIRWSMDypv6EAJICVT5dUVO2HmPmJ1ySwxqz49vH08CcaeVLOJp9O6PUSXEonNZfm6PaFNg6S6_yqO2wkYG4MI-oEizyTWWAL2g32l8iBR7_plY7I-XKxEmFSn6sQr6870MNbfrioyyouTr7_tsLO6Skz-rXGIXfuxKP3do5daRPtOTTeQAtFlIr3NwjI9BrzreUmfXgtzE8gB37egpnSoPCcSQAukCuubtJsWwUp0jHJs9uJbaD-jN5VIcwwRPmCF4VUVncYiLOuK-aAoLpK8jgtvUA7PP3-y6q7yV3OV037j2QyQ
+      // '       3ofo2OpYbO56IxABXt_KtmGBOyCpCyupgPwZCAeHRh0qPtZhGZIBDw_4hPgkA7hbC0gqe1gra8X4wtJ8wBMAzdy5YmCrexczQme3LQgdo7PupxNAbdZ-7TNGZO2UbBxLVvULdmFSVdoExW0Gqg1eE1LWZe6thP1MtVth-V8LCAm4Dhx4ujwgshllE4CwTZJYRJeNdZ7hqMuNoctnpBsLAAf-hGxPeo5iigKgbaXX0CttgYWUKj9YiHniskvtjMZyXl-sVWDotMbaVYCojjr9u4lXTW8IieALw9ZA0Qlg6G8dCeCi9swyXC3rgAQL-5aap-3Gd2VSYTnpQrwJ9jFEAD3U6r42ix_lJtUN-8AQXiyoJelxWoZWwsUj5DkEACjFuFwhHB8rUi2eQTq3srrBPIRWSMDypv6EAJICVT5dUVO2HmPmJ1ySwxqz49vH08CcaeVLOJp9O6PUSXEonNZfm6PaFNg6S6_yqO2wkYG4MI-oEizyTWWAL2g32l8iBR7_plY7I-XKxEmFSn6sQr6870MNbfrioyyouTr7_tsLO6Skz-rXGIXfuxKP3do5daRPtOTTeQAtFlIr3NwjI9BrzreUmfXgtzE8gB37egpnSoPCcSQAukCuubtJsWwUp0jHJs9uJbaD-jN5VIcwwRPmCF4VUVncYiLOuK-aAoLpK8jgtvUA7PP3-y6q7yV3OV037j2QyQ',
       'rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL',
       MFCountry.EGYPT,
-      MFEnvironment.TEST
+      MFEnvironment.TEST,
     );
-    
+    final fx = Forex();
+
+    //  double myPriceInUSD = await fx.getCurrencyConverted(sourceAmount: widget.response.finalConsultationPrice,
+    //  sourceCurrency: 'EGP', destinationCurrency: 'KWD');
     final request = MFInitiatePaymentRequest(
       invoiceAmount: widget.response.finalConsultationPrice,
       currencyIso: 'EGP',
     );
 
-    await MFSDK.initiatePayment(request, MFLanguage.ARABIC)
-        .then((result) => log(result.toString()))
-        .catchError((error) => debugPrint(error.message));
+    try {
+      final res = await MFSDK.initiatePayment(request, MFLanguage.ARABIC);
+      res.paymentMethods!.forEach((element) {
+        paymentMethods.addAll({element.paymentMethodId!: element});
+      });
+      setState(() {});
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
-  void executePayment() async {
+  void executePayment(BookingCubit cubit) async {
     if (_selectedPaymentMethodId == null) {
-      _showSnackBar("يرجى اختيار وسيلة الدفع", isError: true);
+       NavigationService.showToast("يرجى اختيار وسيلة الدفع",  true);
       return;
     }
 
     setState(() {
       _isLoading = true;
     });
+    final fx = Forex();
 
+    double myPriceInUSD = await fx.getCurrencyConverted(
+      sourceAmount: widget.response.finalConsultationPrice,
+      sourceCurrency: 'EGP',
+      destinationCurrency: _selecteedCurrency,
+    );
     final request = MFExecutePaymentRequest(
       paymentMethodId: _selectedPaymentMethodId,
-      invoiceValue: widget.response.finalConsultationPrice,
+      invoiceValue: myPriceInUSD, //widget.response.finalConsultationPrice,
     );
 
     try {
-      await MFSDK.executePayment(request, MFLanguage.ARABIC, (invoiceId) {
+      final res = await MFSDK.executePayment(request, MFLanguage.ARABIC, (
+        invoiceId,
+      ) {
         debugPrint("Invoice ID: $invoiceId");
-      }).then((result) {
-        context.read<BookingCubit>().confirmPayment(
-            appointment: ConfrimPayment(
-                appointmentId: widget.response.appointmentId.toString(),
-                isPaid: 'true'));
-        _showSnackBar("تم الدفع بنجاح", isError: false);
-      }).catchError((error) {
-        log(error);
-        _navigateToErrorPage();
       });
+      after_pay(res, cubit);
     } catch (error) {
+      log(error.toString());
       _navigateToErrorPage();
     } finally {
       setState(() {
@@ -119,74 +120,83 @@ class PaymentPageState extends State<PaymentPage>
     }
   }
 
-  void _navigateToErrorPage() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const PaymentErrorPage(),
-      ),
-    );
+  void after_pay(MFGetPaymentStatusResponse res, BookingCubit cubit) {
+    if (res.invoiceStatus == "Paid") {
+      cubit.confirmPayment(
+        appointment: ConfrimPayment(
+          appointmentId: widget.response.appointmentId.toString(),
+          isPaid: 'true',
+        ),
+      );
+        
+    } else {
+      //  log(res.invoiceStatus);
+      _navigateToErrorPage();
+    }
   }
 
-  void _showSnackBar(String message, {required bool isError}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: const TextStyle(fontFamily: 'Monadi'),
-        ),
-        backgroundColor: isError ? Colors.red : Colors.green,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
+  void _navigateToErrorPage() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const PaymentErrorPage()));
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
-          onPressed: () => Navigator.pop(context),
+    return BlocProvider(
+      create: (context) => GetIt.instance<BookingCubit>(),
+      child: Scaffold(
+        backgroundColor: Colors.grey[50],
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Text(
+            "إتمام عملية الدفع",
+            style: TextStyle(
+              color: Colors.black87,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Monadi',
+            ),
+          ),
+          centerTitle: true,
         ),
-        title: Text(
-          "إتمام عملية الدفع",
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Monadi',
+        body: FadeTransition(
+          opacity: _fadeAnimation,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Payment Summary Card
+                _buildPaymentSummaryCard(),
+
+                SizedBox(height: 24.h),
+
+                // Payment Methods Section
+                _buildPaymentMethodsSection(),
+
+                SizedBox(height: 32.h),
+
+                // Security Note
+                _buildSecurityNote(),
+              ],
+            ),
           ),
         ),
-        centerTitle: true,
-      ),
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Payment Summary Card
-              _buildPaymentSummaryCard(),
-              
-              SizedBox(height: 24.h),
-              
-              // Payment Methods Section
-              _buildPaymentMethodsSection(),
-              
-              SizedBox(height: 32.h),
-              
-              // Security Note
-              _buildSecurityNote(),
-            ],
-          ),
+        bottomNavigationBar: BlocBuilder<BookingCubit, BookingState>(
+          builder: (context, state) {
+          
+            return _buildBottomActionBar(context.read<BookingCubit>());
+          },
         ),
       ),
-      bottomNavigationBar: _buildBottomActionBar(),
     );
   }
 
@@ -211,11 +221,7 @@ class PaymentPageState extends State<PaymentPage>
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.receipt_long,
-            color: Colors.white,
-            size: 32.sp,
-          ),
+          Icon(Icons.receipt_long, color: Colors.white, size: 32.sp),
           SizedBox(height: 12.h),
           Text(
             "إجمالي المبلغ المطلوب",
@@ -268,20 +274,23 @@ class PaymentPageState extends State<PaymentPage>
           ),
         ),
         SizedBox(height: 16.h),
-        ..._paymentMethods.entries.map((entry) => _buildPaymentMethodCard(entry)),
+        ...paymentMethods.entries.map(
+          (entry) => _buildPaymentMethodCard(entry),
+        ),
       ],
     );
   }
 
-  Widget _buildPaymentMethodCard(MapEntry<int, Map<String, dynamic>> entry) {
+  Widget _buildPaymentMethodCard(MapEntry<int, MFPaymentMethod> entry) {
     final isSelected = _selectedPaymentMethodId == entry.key;
-    
+
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       child: InkWell(
         onTap: () {
           setState(() {
             _selectedPaymentMethodId = entry.key;
+            _selecteedCurrency = entry.value.paymentCurrencyIso;
           });
         },
         borderRadius: BorderRadius.circular(12.r),
@@ -297,9 +306,10 @@ class PaymentPageState extends State<PaymentPage>
             ),
             boxShadow: [
               BoxShadow(
-                color: isSelected 
-                    ? AppColors.mainColor.withOpacity(0.1)
-                    : Colors.black.withOpacity(0.05),
+                color:
+                    isSelected
+                        ? AppColors.mainColor.withOpacity(0.1)
+                        : Colors.black.withOpacity(0.05),
                 blurRadius: isSelected ? 8 : 4,
                 offset: const Offset(0, 2),
               ),
@@ -311,25 +321,38 @@ class PaymentPageState extends State<PaymentPage>
                 duration: const Duration(milliseconds: 200),
                 width: 50.w,
                 height: 50.w,
-                decoration: BoxDecoration(
-                  color: isSelected 
-                      ? entry.value["color"].withOpacity(0.1)
-                      : Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Icon(
-                  entry.value["icon"],
-                  color: isSelected ? entry.value["color"] : Colors.grey.shade600,
-                  size: 24.sp,
+
+                // decoration: BoxDecoration(
+                //   color: isSelected
+                //       ? entry.value["color"].withOpacity(0.1)
+                //       : Colors.grey.shade100,
+                //   borderRadius: BorderRadius.circular(12.r),
+                // ),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.w),
+                  child: CachedNetworkImage(
+                    imageUrl: entry.value.imageUrl!,
+                    fit: BoxFit.contain,
+                    placeholder:
+                        (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                    errorWidget:
+                        (context, url, error) => Icon(
+                          Icons.broken_image,
+                          color: Colors.grey.shade600,
+                          size: 24.sp,
+                        ),
+                  ),
                 ),
               ),
               SizedBox(width: 16.w),
               Expanded(
                 child: Text(
-                  entry.value["name"],
+                  entry.value.paymentMethodAr!,
                   style: TextStyle(
                     fontSize: 16.sp,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                    fontWeight:
+                        isSelected ? FontWeight.w600 : FontWeight.normal,
                     color: isSelected ? AppColors.mainColor : Colors.black87,
                     fontFamily: 'Monadi',
                   ),
@@ -342,18 +365,16 @@ class PaymentPageState extends State<PaymentPage>
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isSelected ? AppColors.mainColor : Colors.grey.shade400,
+                    color:
+                        isSelected ? AppColors.mainColor : Colors.grey.shade400,
                     width: 2,
                   ),
                   color: isSelected ? AppColors.mainColor : Colors.transparent,
                 ),
-                child: isSelected
-                    ? Icon(
-                        Icons.check,
-                        size: 12.sp,
-                        color: Colors.white,
-                      )
-                    : null,
+                child:
+                    isSelected
+                        ? Icon(Icons.check, size: 12.sp, color: Colors.white)
+                        : null,
               ),
             ],
           ),
@@ -372,11 +393,7 @@ class PaymentPageState extends State<PaymentPage>
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.security,
-            color: Colors.green.shade600,
-            size: 24.sp,
-          ),
+          Icon(Icons.security, color: Colors.green.shade600, size: 24.sp),
           SizedBox(width: 12.w),
           Expanded(
             child: Column(
@@ -408,7 +425,7 @@ class PaymentPageState extends State<PaymentPage>
     );
   }
 
-  Widget _buildBottomActionBar() {
+  Widget _buildBottomActionBar(BookingCubit cubit) {
     return Container(
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
@@ -423,19 +440,27 @@ class PaymentPageState extends State<PaymentPage>
       ),
       child: SafeArea(
         child: InkWell(
-          onTap: _isLoading ? null : executePayment,
+          onTap: _isLoading ? null :(){
+             executePayment(cubit);
+          },
           borderRadius: BorderRadius.circular(12.r),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             height: 54.h,
             decoration: BoxDecoration(
-              gradient: _isLoading
-                  ? LinearGradient(colors: [Colors.grey.shade400, Colors.grey.shade500])
-                  : LinearGradient(
-                      colors: [AppColors.mainColor, AppColors.mainColor.withOpacity(0.8)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+              gradient:
+                  _isLoading
+                      ? LinearGradient(
+                        colors: [Colors.grey.shade400, Colors.grey.shade500],
+                      )
+                      : LinearGradient(
+                        colors: [
+                          AppColors.mainColor,
+                          AppColors.mainColor.withOpacity(0.8),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
               borderRadius: BorderRadius.circular(12.r),
               boxShadow: [
                 BoxShadow(
@@ -446,50 +471,49 @@ class PaymentPageState extends State<PaymentPage>
               ],
             ),
             child: Center(
-              child: _isLoading
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 20.w,
-                          height: 20.w,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              child:
+                  _isLoading
+                      ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20.w,
+                            height: 20.w,
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 12.w),
-                        Text(
-                          "جاري المعالجة...",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Monadi',
+                          SizedBox(width: 12.w),
+                          Text(
+                            "جاري المعالجة...",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Monadi',
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.payment,
-                          color: Colors.white,
-                          size: 20.sp,
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          "ادفع الآن",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Monadi',
+                        ],
+                      )
+                      : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.payment, color: Colors.white, size: 20.sp),
+                          SizedBox(width: 8.w),
+                          Text(
+                            "ادفع الآن",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Monadi',
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
             ),
           ),
         ),

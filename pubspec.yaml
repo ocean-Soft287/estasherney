@@ -77,11 +77,12 @@ dependencies:
   file_picker: ^10.2.0
   awesome_notifications: ^0.10.1
   flutter_rating_bar: ^4.0.1
-
-  http_parser: any
-  flutter_dotenv: ^5.2.1
   myfatoorah_flutter: ^3.2.3
-  myfatoorah_pay: ^1.0.5
+  flutter_dotenv: ^5.2.1
+  forex_currency_conversion: ^0.9.1
+  googleapis: ^14.0.0
+  googleapis_auth: ^2.0.0
+
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
@@ -90,7 +91,6 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
-  path: any
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -104,7 +104,6 @@ flutter:
     - assets/genre/cancer.png
     - assets/icons/
     - assets/lottie/
-    - .env
     - assets/images_svg/chat.svg
     - assets/images_svg/confirm.svg
     - assets/images_svg/star.svg

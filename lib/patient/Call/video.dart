@@ -1,15 +1,17 @@
 import 'dart:async';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:consult_me/core/notifications/notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const appId = "c74d620ba147479ea30543c30b9dc1c6";
-const token =
-    "006c74d620ba147479ea30543c30b9dc1c6IAAD7EccgTf+1g/d5s+h2cQmvDaVke1QWH7qBtfW7vPC8gChFglCsDk/GgAEAAEAvGqHaAIAvGqHaAMAvGqHaAQAvGqHaA==";
-const channel = "e7754500-9802-4654-9a42-4ae724d88d62";
+// const appId = "c74d620ba147479ea30543c30b9dc1c6";
+// const token =
+//     "006c74d620ba147479ea30543c30b9dc1c6IAAD7EccgTf+1g/d5s+h2cQmvDaVke1QWH7qBtfW7vPC8gChFglCsDk/GgAEAAEAvGqHaAIAvGqHaAMAvGqHaAQAvGqHaA==";
+// const channel = "e7754500-9802-4654-9a42-4ae724d88d62";
 
 class Video extends StatefulWidget {
-  const Video({super.key});
+ final AgoraCallModel model;
+  const Video({super.key,required this.model});
 
   @override
   State<Video> createState() => _VideoState();
@@ -20,11 +22,12 @@ class _VideoState extends State<Video> {
   bool _localUserJoined = false;
   late RtcEngine _engine;
   Timer? _countdownTimer;
-  int _remainingSeconds = 200; // 3 minutes
+  late int _remainingSeconds ;// 3 minutes
   bool _callEnded = false;
 
   @override
   void initState() {
+     _remainingSeconds = int.parse(widget.model.durationInMinutes);
     super.initState();
     initAgora();
     _startCountdownTimer();
@@ -36,9 +39,10 @@ class _VideoState extends State<Video> {
     await [Permission.microphone, Permission.camera].request();
 
     // Create the engine
+   final id = widget.model.callId;
     _engine = createAgoraRtcEngine();
-    await _engine.initialize(const RtcEngineContext(
-      appId: appId,
+    await _engine.initialize( RtcEngineContext(
+      appId: id,
       channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
     ));
 
@@ -78,8 +82,8 @@ class _VideoState extends State<Video> {
     await _engine.startPreview();
 
     await _engine.joinChannel(
-      token: token,
-      channelId: channel,
+      token: widget.model.agoraToken,
+      channelId: widget.model.channelName,
       uid: 17,
       options: const ChannelMediaOptions(),
     );
@@ -204,7 +208,7 @@ class _VideoState extends State<Video> {
         controller: VideoViewController.remote(
           rtcEngine: _engine,
           canvas: VideoCanvas(uid: _remoteUid),
-          connection: const RtcConnection(channelId: channel),
+          connection:  RtcConnection(channelId: widget.model.channelName),
         ),
       );
     } 

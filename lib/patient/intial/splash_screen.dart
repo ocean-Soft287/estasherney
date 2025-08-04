@@ -1,9 +1,11 @@
+import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
+import 'package:consult_me/core/notifications/flutter_local_notification.dart';
+import 'package:consult_me/core/notifications/notification_model.dart';
 import 'package:consult_me/patient/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
-
 import 'package:consult_me/doctor/home/home_view.dart';
 import 'package:consult_me/patient/intial/onboarding_view.dart';
 
@@ -29,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final patientToken = await SharedPreferencesService.read(
         SharedPreferencesService.tokenpationt);
+    _loadNotification();
 
     if (doctorToken != null && doctorToken.isNotEmpty) {
       final doctorUserJson = await SharedPreferencesService.getUserData();
@@ -58,10 +61,31 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const OnboardingView(), //Chat2 OnboardingView
+        builder: (context) => const OnboardingView(),
       ),
     );
   }
+
+Future<void>_loadNotification()async{
+    NotificationsService service  = NotificationsService();
+   await service.init();
+       FirebaseMessagingService firebaseMessagingService = FirebaseMessagingService.instance();
+    firebaseMessagingService.init(localNotificationsService:service );
+    firebaseMessagingService.getAccessToken();
+    firebaseMessagingService.sendNotification(
+  'dKHRyD0eT66A6P4FS4WOf4:APA91bFJTt0lmN9TIjB_fHGpo6vFMp9lFh5R2Z-MFbYvTAhZSBTEM67wuadbN1EsCzhGuADu4JoId89n4morzwWdeCj81w5BlcJi8OKGnxcCT45jl20Ze_A',
+  'title',
+  'body',
+  AgoraCallModel(callId: '11', channelName: 'lsdkjfslkj', 
+  agoraToken: '006c74d620ba147479ea30543c30b9dc1c6IAAc2Mr/mq7swtra1GoY9JBmHTf3ViezmVKPkgB+ceI3cvCljwdCsDk/GgAEAAEAE+aZaAIAE+aZaAMAE+aZaAQAE+aZaA==',
+  startedAt: '', durationInMinutes: '30'
+    
+  )
+);
+  
+  
+  }
+  
 
   @override
   Widget build(BuildContext context) {

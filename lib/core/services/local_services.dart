@@ -37,6 +37,9 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/pricedoctor/price_doctor_cubit.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_future_pationt_appointment/get_future_pationt_appointment_repo.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_future_pationt_appointment/get_future_pationt_appointment_repo_impl.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/get_future_pationt_appointment/get_future_pationt_appointment_cubit.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/deleate_account_repo_impl.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/deleate_acount_repo.dart';
 
@@ -76,7 +79,10 @@ import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoct
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/data/repo/add_rating_repo_impl.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/data/repo/doctor_rating_summary_repo.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/data/repo/doctor_rating_summary_repo_impl.dart';
+import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/data/repo/get_all_rating_repo.dart';
+import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/data/repo/get_all_rating_repo_impl.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/add_rating_cubit.dart';
+import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/get_all_rating_cubit.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/rating_summary_cubit.dart';
 
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo.dart';
@@ -85,12 +91,15 @@ import 'package:consult_me/patient/home/presentation/views/screens/home/data/rep
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/getallspecialist_repo.dart/get_all_specialist_repo.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/getallspecialist_repo.dart/get_all_specialist_repo_impl.dart';
 
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/data/repo/get_pationt_appointment_repo.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/data/repo/get_pationt_appointment_repo_impl.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/presentation/manger/get_pationt_appointment_cubit.dart';
+
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_cubit.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/data/repo/upadate_profile_repo_impl.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/data/repo/update_profile_repo.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -173,7 +182,7 @@ Future<void> setup() async {
     () => BookingRemoteDataSourceImpl(dioConsumer: sl<DioConsumer>()));
   sl.registerFactory(() => BookingCubit(bookingRemoteDataSource: sl<BookingRemoteDataSource>()));
 
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
 
 
   await CacheHelper.init();
@@ -269,6 +278,27 @@ sl.registerFactory(() => RemoveFavoriteDoctorCubit(sl()));
     () => AddRatingRepoImpl(sl<DioConsumer>()),
   );  
   sl.registerFactory(() => AddRatingCubit(sl<AddRatingRepo>()));
+  //get all rating
+ sl.registerLazySingleton<DoctorAllRatingRepo>(
+  () => DoctorAllRatingRepoImpl(sl<DioConsumer>()),
+);
+
+sl.registerFactory(() => DoctorRatinAllCubit(sl<DoctorAllRatingRepo>()));
+//get all pationtppointment
+  sl.registerLazySingleton<AppointmentsRepo>(
+    () => AppointmentsRepoImpl(sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => GetAppointmentsCubit(sl<AppointmentsRepo>()));
+  //get all pationtppointment
+  sl.registerLazySingleton<AppointmentsPationtRepo>(
+    () => AppointmentsPationtRepoImpl(sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => AppointmentsPationtCubit(sl<AppointmentsPationtRepo>()));
+
+
+
+  
+
 
 
 

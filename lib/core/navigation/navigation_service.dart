@@ -73,9 +73,14 @@ class NavigationService {
   static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
-  static void showToast(String message) {
+  static void showToast(String message,bool isError) {
     scaffoldMessengerKey.currentState?.showSnackBar(
-      SnackBar(content: Text(message)),
+       SnackBar(
+        content: Text(message, style: const TextStyle(fontFamily: 'Monadi')),
+        backgroundColor: isError ? Colors.red : Colors.green,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
     );
   }
 

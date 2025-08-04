@@ -1,4 +1,6 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
+import 'package:consult_me/core/notifications/flutter_local_notification.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_state.dart';
 import 'package:consult_me/doctor/auth/presentation/pages/widget/custom_forgetpassword.dart';
@@ -40,10 +42,10 @@ class _LoginPageScreenState extends State<LoginPageScreen>
       begin: const Offset(-1.0, 0.0),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
     _loadSavedCredentials();
   }
 
+  
   Future<void> _loadSavedCredentials() async {
     final savedEmail = await SharedPreferencesService.read(
       SharedPreferencesService.email,

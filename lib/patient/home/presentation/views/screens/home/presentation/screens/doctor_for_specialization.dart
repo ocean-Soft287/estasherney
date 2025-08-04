@@ -1,6 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/patient/booking/presentation/screens/booking_page.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_cubit.dart';
+import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_state.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_cubit.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_state.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/screens/profile_doctor.dart';
@@ -18,7 +19,6 @@ import 'package:shimmer/shimmer.dart';
 
 class DoctorForSpecialization extends StatefulWidget {
   final String specializationName;
-
   const DoctorForSpecialization({super.key, required this.specializationName});
 
   @override
@@ -40,38 +40,59 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
 
   Widget buildDoctorShimmer() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      child: Row(
-        children: [
-          Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            child: CircleAvatar(radius: 40.r, backgroundColor: Colors.white),
-          ),
-          SizedBox(width: 10.w),
-          Expanded(
-            child: Shimmer.fromColors(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.15),
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Shimmer.fromColors(
               baseColor: Colors.grey.shade300,
               highlightColor: Colors.grey.shade100,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(height: 20.h, width: 150.w, color: Colors.white),
-                  SizedBox(height: 8.h),
-                  Container(height: 14.h, width: 100.w, color: Colors.white),
-                  SizedBox(height: 8.h),
-                  Row(
-                    children: [
-                      Container(height: 20.h, width: 20.w, color: Colors.white),
-                      SizedBox(width: 10.w),
-                      Container(height: 20.h, width: 20.w, color: Colors.white),
-                    ],
-                  ),
-                ],
+              child: CircleAvatar(radius: 45.r, backgroundColor: Colors.white),
+            ),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(height: 22.h, width: 160.w, color: Colors.white),
+                    SizedBox(height: 10.h),
+                    Container(height: 16.h, width: 110.w, color: Colors.white),
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: [
+                        Container(
+                          height: 24.h,
+                          width: 24.w,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 12.w),
+                        Container(
+                          height: 24.h,
+                          width: 24.w,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -94,10 +115,9 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
           >(
             builder: (context, state) {
               Widget doctorList;
-
               if (state is GetDoctorsBySpecialtyLoading) {
                 doctorList = ListView.builder(
-                  padding: EdgeInsets.only(top: 20.h),
+                  padding: EdgeInsets.only(top: 24.h),
                   itemCount: 6,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -106,22 +126,24 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
               } else if (state is GetDoctorsBySpecialtySuccess) {
                 if (state.doctors.isEmpty) {
                   doctorList = Padding(
-                    padding: EdgeInsets.only(top: 60.h),
+                    padding: EdgeInsets.only(top: 80.h),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Lottie.asset(
                           'assets/lottie/Animation - 1746698083128.json',
-                          width: 200.w,
-                          height: 200.h,
+                          width: 220.w,
+                          height: 220.h,
+                          fit: BoxFit.cover,
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 16.h),
                         Text(
                           "لا يوجد أطباء متاحين لهذا التخصص حالياً",
-                          style: TextStyle(
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.leagueSpartan(
                             color: AppColors.mainColor,
                             fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -133,11 +155,19 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                       final doctor = state.doctors[index];
                       return Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 5.h,
+                          horizontal: 12.w,
+                          vertical: 6.h,
                         ),
-                        child: BlocProvider(
-                          create: (_) => GetIt.I<SetFavoriteDoctorCubit>(),
+                        child: MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (_) => GetIt.I<SetFavoriteDoctorCubit>(),
+                            ),
+                            BlocProvider(
+                              create:
+                                  (_) => GetIt.I<RemoveFavoriteDoctorCubit>(),
+                            ),
+                          ],
                           child: BlocConsumer<
                             SetFavoriteDoctorCubit,
                             SetFavoriteDoctorState
@@ -147,6 +177,15 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text("تمت الإضافة للمفضلة"),
+                                  ),
+                                );
+                              }
+                              if (state is RemoveFavoriteDoctorSuccess) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'تمت إزالة الطبيب من المفضلة',
+                                    ),
                                   ),
                                 );
                               } else if (favState is SetFavoriteDoctorFailure) {
@@ -159,30 +198,53 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                             },
                             builder: (context, favState) {
                               return Container(
-                                margin: EdgeInsets.all(8.r),
+                                margin: EdgeInsets.all(6.r),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.r),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(14.r),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.3),
-                                      spreadRadius: 1,
-                                      blurRadius: 6,
-                                      offset: Offset(0, 3),
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 10,
+                                      offset: Offset(0, 5),
                                     ),
                                   ],
                                 ),
                                 child: Card(
+                                  elevation: 0,
+                                  margin: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14.r),
+                                  ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(12.r),
                                     child: Row(
                                       children: [
-                                        CircleAvatar(
-                                          radius: 40.r,
-                                          backgroundImage: NetworkImage(
-                                            doctor.doctorImage,
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(
+                                                  0.4,
+                                                ),
+                                                spreadRadius: 0,
+                                                blurRadius: 6,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
+
+                                          child: CircleAvatar(
+                                            radius: 48.r,
+                                            backgroundImage: NetworkImage(
+                                              doctor.doctorImage,
+                                            ),
+                                            backgroundColor: Colors.transparent,
                                           ),
                                         ),
-                                        SizedBox(width: 10.w),
+                                        SizedBox(width: 16.w),
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
@@ -190,20 +252,28 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                             children: [
                                               Text(
                                                 doctor.name,
-                                                style: TextStyle(
-                                                  color: AppColors.mainColor,
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                                style:
+                                                    GoogleFonts.leagueSpartan(
+                                                      color:
+                                                          AppColors.mainColor,
+                                                      fontSize: 15.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
+                                              SizedBox(height: 4.h),
                                               Text(
                                                 doctor.specialization,
-                                                style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: AppColors.greyColor,
-                                                ),
+                                                style:
+                                                    GoogleFonts.leagueSpartan(
+                                                      fontSize: 13.sp,
+                                                      color:
+                                                          AppColors.greyColor,
+                                                    ),
                                               ),
-                                              SizedBox(height: 8.h),
+                                              SizedBox(height: 12.h),
                                               Row(
                                                 children: [
                                                   IconButton(
@@ -214,9 +284,11 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                               .favorite_border,
                                                       color:
                                                           doctor.isFavorite
-                                                              ? Colors.red
-                                                              : Colors.grey,
-                                                      size: 20.sp,
+                                                              ? AppColors
+                                                                  .mainColor
+                                                              : Colors
+                                                                  .grey, // الأزرق عند المفضلة
+                                                      size: 22.sp,
                                                     ),
                                                     onPressed: () async {
                                                       final isNowFavorite =
@@ -268,6 +340,7 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                           doctor.isFavorite =
                                                               !isNowFavorite;
                                                         });
+
                                                         ScaffoldMessenger.of(
                                                           context,
                                                         ).showSnackBar(
@@ -280,19 +353,12 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                       }
                                                     },
                                                   ),
-
-                                                  SizedBox(width: 10.w),
-                                                  Icon(
-                                                    Icons.calendar_month,
-                                                    color: AppColors.mainColor,
-                                                    size: 20.sp,
-                                                  ),
                                                 ],
                                               ),
                                             ],
                                           ),
                                         ),
-                                        SizedBox(width: 10.w),
+                                        SizedBox(width: 12.w),
                                         Column(
                                           children: [
                                             InkWell(
@@ -309,19 +375,26 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                 );
                                               },
                                               child: Container(
-                                                width: 60.w,
-                                                height: 33.h,
-                                                padding: EdgeInsets.all(5.r),
+                                                width: 70.w,
+                                                height: 36.h,
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                        12.r,
+                                                        14.r,
                                                       ),
                                                   border: Border.all(
                                                     color: AppColors.grycolor,
-                                                    width: 1,
+                                                    width: 1.2,
                                                   ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.1),
+                                                      blurRadius: 6,
+                                                      offset: Offset(0, 2),
+                                                    ),
+                                                  ],
                                                 ),
                                                 child: Center(
                                                   child: Text(
@@ -331,13 +404,15 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                           color:
                                                               AppColors
                                                                   .grycolor,
-                                                          fontSize: 12.sp,
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
                                                         ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(height: 15.h),
+                                            SizedBox(height: 10.h),
                                             InkWell(
                                               onTap:
                                                   () => Navigator.push(
@@ -351,29 +426,33 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                     ),
                                                   ),
                                               child: Container(
-                                                width: 60.w,
-                                                height: 33.h,
-                                                padding: EdgeInsets.all(5.r),
+                                                width: 70.w,
+                                                height: 36.h,
                                                 decoration: BoxDecoration(
-                                                  color: Colors.white,
+                                                  gradient:
+                                                      AppColors.blueGradient,
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                        12.r,
+                                                        14.r,
                                                       ),
-                                                  border: Border.all(
-                                                    color: AppColors.mainColor,
-                                                    width: 1,
-                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: AppColors.mainColor
+                                                          .withOpacity(0.3),
+                                                      blurRadius: 8,
+                                                      offset: Offset(0, 4),
+                                                    ),
+                                                  ],
                                                 ),
                                                 child: Center(
                                                   child: Text(
-                                                    " احجز الان",
+                                                    "احجز الآن",
                                                     style:
                                                         GoogleFonts.leagueSpartan(
-                                                          color:
-                                                              AppColors
-                                                                  .mainColor,
-                                                          fontSize: 12.sp,
+                                                          color: Colors.white,
+                                                          fontSize: 13.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
                                                   ),
                                                 ),
@@ -395,22 +474,24 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                 }
               } else if (state is GetDoctorsBySpecialtyFailure) {
                 doctorList = Padding(
-                  padding: EdgeInsets.only(top: 60.h),
+                  padding: EdgeInsets.only(top: 80.h),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Lottie.asset(
                         'assets/lottie/Animation - 1746698083128.json',
-                        width: 200.w,
-                        height: 200.h,
+                        width: 220.w,
+                        height: 220.h,
+                        fit: BoxFit.cover,
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 16.h),
                       Text(
                         "لا يوجد أطباء متاحين لهذا التخصص حالياً",
-                        style: TextStyle(
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.leagueSpartan(
                           color: AppColors.mainColor,
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -425,17 +506,24 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 20.w,
-                        vertical: 30.h,
+                        horizontal: 24.w,
+                        vertical: 32.h,
                       ),
                       width: double.infinity,
-                      height: 190.h,
+                      height: 210.h,
                       decoration: BoxDecoration(
                         gradient: AppColors.blueGradient,
                         borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(25),
-                          bottomRight: Radius.circular(25),
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 12,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
                       ),
                       child: Stack(
                         children: [
@@ -444,45 +532,54 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                             children: [
                               Text(
                                 selectedSpecialty,
-                                style: TextStyle(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w600,
+                                style: GoogleFonts.leagueSpartan(
+                                  fontSize: 26.sp,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
+                              SizedBox(height: 6.h),
                               Text(
-                                'ابحث عن طبيبك',
-                                style: TextStyle(
+                                'ابحث عن طبيبك المختص',
+                                style: GoogleFonts.leagueSpartan(
                                   fontSize: 16.sp,
-                                  color: Colors.white,
+                                  color: Colors.white.withOpacity(0.9),
                                 ),
                               ),
-                              SizedBox(height: 15.h),
+                              SizedBox(height: 20.h),
                               TextFormField(
                                 textAlign: TextAlign.right,
                                 textDirection: TextDirection.rtl,
                                 decoration: InputDecoration(
                                   filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: "ابحث .....",
-                                  hintStyle: TextStyle(
-                                    color: AppColors.mainColor,
+                                  fillColor: Colors.white.withOpacity(0.95),
+                                  hintText: "ابحث عن طبيب...",
+                                  hintStyle: GoogleFonts.leagueSpartan(
+                                    color: AppColors.mainColor.withOpacity(0.6),
+                                    fontSize: 14.sp,
                                   ),
                                   prefixIcon: Padding(
-                                    padding: EdgeInsets.only(left: 10.w),
+                                    padding: EdgeInsets.only(
+                                      right: 16.w,
+                                      left: 8.w,
+                                    ),
                                     child: Icon(
                                       Icons.search,
-                                      color: AppColors.mainColor,
+                                      color: AppColors.mainColor.withOpacity(
+                                        0.7,
+                                      ),
+                                      size: 22.sp,
                                     ),
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.h,
+                                    vertical: 14.h,
                                     horizontal: 20.w,
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.r),
+                                    borderRadius: BorderRadius.circular(30.r),
                                     borderSide: BorderSide.none,
                                   ),
+                                  isDense: true,
                                 ),
                                 onChanged:
                                     (value) => cubit.searchDoctors(value),
@@ -490,19 +587,29 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                             ],
                           ),
                           Positioned(
-                            right: 0.w,
+                            right: 12.w,
+                            top: 0.h,
                             child: InkWell(
                               onTap: () => Navigator.pop(context),
-                              child: Icon(
-                                Icons.arrow_back_ios_outlined,
-                                size: 20,
-                                color: AppColors.wightcolor,
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                padding: EdgeInsets.all(8.r),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.25),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  Icons.arrow_back_ios_new,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
+
                     GetAllSpecialist(
                       selected: selectedSpecialty,
                       onSelect: (newSpec) {
@@ -512,8 +619,10 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                         });
                       },
                     ),
+
                     doctorList,
-                    SizedBox(height: 20.h),
+
+                    SizedBox(height: 30.h),
                   ],
                 ),
               );
@@ -540,30 +649,35 @@ class GetAllSpecialist extends StatelessWidget {
     return BlocBuilder<GetAllSpecialistCubit, GetAllSpecialistState>(
       builder: (context, state) {
         List<String> names = [];
-
         if (state is GetAllSpecialistSuccess) {
           names = state.specialist.map((s) => s.name).toList();
         }
-
-        final count = names.isNotEmpty ? names.length : 6;
+        final itemCount = names.isNotEmpty ? names.length : 6;
 
         if (state is GetAllSpecialistLoading) {
           return SizedBox(
-            height: 60.h,
+            height: 64.h,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              itemCount: count,
-              separatorBuilder: (_, __) => SizedBox(width: 10.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+              itemCount: itemCount,
+              separatorBuilder: (_, __) => SizedBox(width: 12.w),
               itemBuilder:
                   (_, __) => Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,
                     highlightColor: Colors.grey.shade100,
                     child: Container(
-                      width: 100.w,
+                      width: 104.w,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.r),
+                        borderRadius: BorderRadius.circular(16.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -573,36 +687,49 @@ class GetAllSpecialist extends StatelessWidget {
 
         if (state is GetAllSpecialistSuccess) {
           return SizedBox(
-            height: 60.h,
+            height: 64.h,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               itemCount: names.length,
-              separatorBuilder: (_, __) => SizedBox(width: 10.w),
+              separatorBuilder: (_, __) => SizedBox(width: 12.w),
               itemBuilder: (context, index) {
                 final spec = names[index];
                 final isSelected = spec == selected;
-
                 return GestureDetector(
                   onTap: () => onSelect(spec),
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 14.w,
-                      vertical: 8.h,
+                      horizontal: 18.w,
+                      vertical: 10.h,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          isSelected
-                              ? AppColors.mainColor
-                              : Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(12.r),
+                      color: isSelected ? AppColors.mainColor : Colors.white,
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(
+                        color:
+                            isSelected
+                                ? Colors.transparent
+                                : Colors.grey.shade300,
+                        width: 1.2,
+                      ),
+                      boxShadow: [
+                        if (!isSelected)
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                      ],
                     ),
                     child: Center(
                       child: Text(
                         spec,
-                        style: TextStyle(
+                        style: GoogleFonts.leagueSpartan(
                           color: isSelected ? Colors.white : Colors.black87,
                           fontSize: 14.sp,
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.w500,
                         ),
                       ),
                     ),

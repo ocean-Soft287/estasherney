@@ -96,10 +96,10 @@ class MyApp extends StatelessWidget {
                   }
                    return const Locale('ar');
                 },
-                home:PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
-                //  SplashScreen(
+                home: // PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
+                 SplashScreen(
                   
-                // ),
+                ),
              
               );
             },

@@ -41,16 +41,24 @@ class ProfileScreen extends StatelessWidget {
           ).showSnackBar(SnackBar(content: Text('فشل في حذف الحساب')));
         }
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Color(0xFFF8F9FC),
+          body: Column(
             children: [
-              BuildProfileHeader(),
-              const SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: BuildProfileHeader(),
+              ),
+
+              SizedBox(height: 12.h),
+
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
                   shrinkWrap: true,
                   children: [
                     buildMenuItem(Icons.person, "الملف الشخصي", () {
@@ -59,12 +67,14 @@ class ProfileScreen extends StatelessWidget {
                         MaterialPageRoute(
                           builder:
                               (context) => BlocProvider(
-                                create: (context) => db.sl<UpdateProfileCubit>(),
+                                create:
+                                    (context) => db.sl<UpdateProfileCubit>(),
                                 child: const EditProfileScreen(),
                               ),
                         ),
                       );
                     }),
+
                     buildMenuItem(Icons.favorite, "المفضل", () {
                       Navigator.push(
                         context,
@@ -85,11 +95,11 @@ class ProfileScreen extends StatelessWidget {
                     buildMenuItem(Icons.settings, "الإعدادات", () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => NotificationsScreen(),
-                        ),
+                        MaterialPageRoute(builder: (context) => Notfication()),
                       );
                     }),
+
+                    
                     buildMenuItem(Icons.help, "المساعدة", () {
                       Navigator.push(
                         context,
@@ -98,33 +108,48 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       );
                     }),
-                    buildMenuItem(Icons.notification_add, "الاشعارات", () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Notfication()),
-                      );
-                    }),
+
+                    // Logout
                     buildMenuItem(Icons.logout, "تسجيل خروج", () {
                       showDialog(
                         context: context,
                         builder:
                             (context) => AlertDialog(
-                              title: const Text("تأكيد تسجيل الخروج"),
-                              content: const Text(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                              title: Text(
+                                "تأكيد تسجيل الخروج",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade800,
+                                ),
+                              ),
+                              content: Text(
                                 "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Colors.grey.shade700,
+                                ),
                               ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: const Text("لا"),
+                                  child: Text(
+                                    "لا",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 16.sp,
+                                    ),
+                                  ),
                                 ),
-                                SizedBox(width: 30.w),
+                                SizedBox(width: 20.w),
                                 TextButton(
                                   onPressed: () async {
                                     final prefs =
                                         await SharedPreferences.getInstance();
                                     await prefs.clear();
-
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -133,27 +158,56 @@ class ProfileScreen extends StatelessWidget {
                                       (route) => false,
                                     );
                                   },
-                                  child: const Text("نعم"),
+                                  child: Text(
+                                    "نعم",
+                                    style: TextStyle(
+                                      color: Colors.red.shade700,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                       );
                     }),
-                    buildMenuItem(Icons.person, "حذف الإيميل", () async {
+
+                    // Delete Account
+                    buildMenuItem(Icons.delete_outline, "حذف الحساب", () {
                       showDialog(
                         context: context,
                         builder:
                             (context) => AlertDialog(
-                              title: const Text("تأكيد حذف الحساب"),
-                              content: const Text(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                              title: Text(
+                                "تأكيد حذف الحساب",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade800,
+                                ),
+                              ),
+                              content: Text(
                                 "هل أنت متأكد أنك تريد حذف هذا الحساب؟",
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: Colors.grey.shade700,
+                                ),
                               ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: const Text("لا"),
+                                  child: Text(
+                                    "لا",
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 16.sp,
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(width: 30),
+                                SizedBox(width: 20.w),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
@@ -161,7 +215,14 @@ class ProfileScreen extends StatelessWidget {
                                         .read<DeleteAccountCubit>()
                                         .deleteAccount();
                                   },
-                                  child: const Text("نعم"),
+                                  child: Text(
+                                    "نعم",
+                                    style: TextStyle(
+                                      color: Colors.red.shade700,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
