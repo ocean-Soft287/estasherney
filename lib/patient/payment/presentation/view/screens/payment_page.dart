@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:consult_me/patient/booking/data/models/confrim_payment.dart';
 import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/payment/presentation/view/screens/pament_failure.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:consult_me/patient/booking/data/models/booking_response.dart';
 import 'package:consult_me/core/constants/app_colors.dart';
-//import 'package:myfatoorah_pay/myfatoorah_pay.dart';
 
 
 class PaymentPage extends StatefulWidget {

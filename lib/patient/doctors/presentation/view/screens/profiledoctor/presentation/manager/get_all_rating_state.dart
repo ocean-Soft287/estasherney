@@ -1,19 +1,17 @@
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/data/model/get_all_rating_model.dart';
 
-abstract class DoctorRatingState {}
+abstract class DoctorRatingAllState {}
 
-class DoctorRatingInitial extends DoctorRatingState {}
+class DoctorRatingInitial extends DoctorRatingAllState {}
 
-class DoctorRatingLoading extends DoctorRatingState {}
+class DoctorRatingAllLoading extends DoctorRatingAllState {}
 
-class DoctorRatingSuccess extends DoctorRatingState {
-  final DoctorRatingModel success;
-
-  DoctorRatingSuccess({required this.success});
+class DoctorRatingAllError extends DoctorRatingAllState {
+  final String message;
+  DoctorRatingAllError(this.message);
 }
 
-class DoctorRatingError extends DoctorRatingState {
-  final String message;
-
-  DoctorRatingError({required this.message});
+class DoctorRatingAllSuccess extends DoctorRatingAllState {
+  final DoctorAllModel success;
+  DoctorRatingAllSuccess({required this.success});
 }

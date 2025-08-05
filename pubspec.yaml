@@ -81,7 +81,7 @@ dependencies:
   http_parser: any
   flutter_dotenv: ^5.2.1
   myfatoorah_flutter: ^3.2.3
-  myfatoorah_pay: ^1.0.5
+  googleapis_auth: ^2.0.0
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:

@@ -1,30 +1,35 @@
-class DoctorRatingModel {
+class DoctorAllModel {
   final double averageRating;
-  final List<SingleRating> ratings;
+  final List<DoctorModel> ratings;
 
-  DoctorRatingModel({
+  DoctorAllModel({
     required this.averageRating,
     required this.ratings,
   });
 
-  factory DoctorRatingModel.fromJson(Map<String, dynamic> json) {
-    return DoctorRatingModel(
-      averageRating: (json['averageRating'] ?? 0).toDouble(),
-      ratings: (json['ratings'] as List)
-          .map((item) => SingleRating.fromJson(item))
-          .toList(),
-    );
-  }
+ factory DoctorAllModel.fromJson(Map<String, dynamic> json) {
+  final data = json['data'] ?? {};
+  final ratingsList = data['ratings'];
+  return DoctorAllModel(
+    averageRating: (data['averageRating'] ?? 0).toDouble(),
+    ratings: ratingsList != null
+        ? (ratingsList as List<dynamic>)
+            .map((e) => DoctorModel.fromJson(e))
+            .toList()
+        : [],
+  );
 }
 
-class SingleRating {
+}
+
+class DoctorModel {
   final int id;
   final String patientName;
   final int rating;
   final String comment;
   final String ratedAt;
 
-  SingleRating({
+  DoctorModel({
     required this.id,
     required this.patientName,
     required this.rating,
@@ -32,8 +37,8 @@ class SingleRating {
     required this.ratedAt,
   });
 
-  factory SingleRating.fromJson(Map<String, dynamic> json) {
-    return SingleRating(
+  factory DoctorModel.fromJson(Map<String, dynamic> json) {
+    return DoctorModel(
       id: json['id'] ?? 0,
       patientName: json['patientName'] ?? '',
       rating: json['rating'] ?? 0,
