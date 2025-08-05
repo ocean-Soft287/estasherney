@@ -1,4 +1,5 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/screens/favourites.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/screens/doctor_for_specialization.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/widget/Specializations.dart';

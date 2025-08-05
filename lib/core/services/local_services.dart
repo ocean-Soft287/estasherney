@@ -1,18 +1,15 @@
 import 'package:consult_me/core/Api/dio_concumer.dart';
 import 'package:consult_me/core/Api/end_point.dart';
 import 'package:consult_me/core/Network/local/sharedprefrences.dart';
-
 import 'package:consult_me/doctor/auth/data/repo/forgetpassword/forgetpassword_repo.dart';
 import 'package:consult_me/doctor/auth/data/repo/forgetpassword/forgetpasword_repo_impl.dart';
 import 'package:consult_me/doctor/auth/data/repo/login/login_repo.dart';
 import 'package:consult_me/doctor/auth/data/repo/login/login_repo_impl.dart';
 import 'package:consult_me/doctor/auth/data/repo/resetpassword/resetpassword_repo.dart';
 import 'package:consult_me/doctor/auth/data/repo/resetpassword/resetpassword_repo_impl.dart';
-
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/login_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/cubit/resetpassword/resetpasword_cubit.dart';
 import 'package:consult_me/doctor/auth/presentation/logic/fotgetpassword/forgetpassword_cubit.dart';
-
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/Appointmentday/appointment_day_repo.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/Appointmentday/appointment_day_repo_impl.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/data/repo/appointpast/appointment_past_repo.dart';
@@ -37,6 +34,10 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/availabledoctor/doctor_availble_cubit.dart';
 import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/calender/presentation/logic/pricedoctor/price_doctor_cubit.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/data/repo/get_pationt_appointment_repo.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/data/repo/get_pationt_appointment_repo_impl.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/dataview/presentation/manger/get_pationt_appointment_cubit.dart';
+import 'package:consult_me/firebase_options.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/deleate_account_repo_impl.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/deleate_acount_repo.dart';
 
@@ -81,22 +82,18 @@ import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoct
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/add_rating_cubit.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/get_all_rating_cubit.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/manager/rating_summary_cubit.dart';
-
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo_impl.dart';
-
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/getallspecialist_repo.dart/get_all_specialist_repo.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/getallspecialist_repo.dart/get_all_specialist_repo_impl.dart';
-
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_cubit.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/data/repo/upadate_profile_repo_impl.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/data/repo/update_profile_repo.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
 
@@ -177,9 +174,11 @@ Future<void> setup() async {
   sl.registerFactory(() => BookingCubit(bookingRemoteDataSource: sl<BookingRemoteDataSource>()));
 
   // await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-
-  // await CacheHelper.init();
+  await CacheHelper.init();
   // await Supabase.initialize(
   //   url: 'https://urvvmzyekyaoabykrswi.supabase.co',
   //   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVydnZtenlla3lhb2FieWtyc3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwOTIxOTEsImV4cCI6MjA2ODY2ODE5MX0.stIhnDGvjNJ9VtGHXU3C-v7umA3KLOzSWhtiML1Gm1w',

@@ -17,12 +17,11 @@ class FirebaseMessagingService {
 
   NotificationsService? _localNotificationsService;
 
-  Future<void> init({required NotificationsService localNotificationsService}) async {
-    _localNotificationsService = localNotificationsService;
 
+   Future<void> init({required NotificationsService localNotificationsService}) async {
+    _localNotificationsService = localNotificationsService;
     await Firebase.initializeApp(); // Important!
     await _requestPermission();
-    await _handlePushNotificationsToken();
 
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -46,22 +45,28 @@ class FirebaseMessagingService {
     _listenForTokenRefresh();
   }
 
-  Future<void> _handlePushNotificationsToken() async {
+Future<void>subscribeToTopic(String topic)async{
+  await FirebaseMessaging.instance.subscribeToTopic(topic);
+}
+  Future<String> getToken() async {
     String? token;
     if (Platform.isIOS) {
       token = await FirebaseMessaging.instance.getAPNSToken();
     } else {
       token = await FirebaseMessaging.instance.getToken();
+    
     }
 
     if (token == null) {
       debugPrint('Failed to get FCM/APN token');
-      return;
+      return '';
     }
-
+     debugPrint('FCM/APN token: $token');
+return token;
    
    
   }
+
 
   void _listenForTokenRefresh() {
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {

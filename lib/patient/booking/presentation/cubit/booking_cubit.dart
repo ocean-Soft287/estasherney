@@ -68,10 +68,10 @@ Future<void> updatePatientDeviceToken({required  String patientId,required Strin
       emit(BookingFailure(e.toString()));
     }
   }
-Future<void> getPatientDeviceToken({required ConfrimPayment appointment}) async {
+Future<void> getPatientDeviceToken({required String pateintId}) async {
     emit(GetPatientDeviceTokenLoading());
     try {
-      final result = await bookingRemoteDataSource.confirmPayment(appointment: appointment);
+      final result = await bookingRemoteDataSource.getPatientDeviceToken(patientId: pateintId);
       result.fold(
         (failure) => emit(BookingFailure(failure)),
         (success) => emit(GetPatientDeviceTokenSuccess(success)),

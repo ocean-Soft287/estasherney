@@ -1,7 +1,10 @@
+import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
+import 'package:consult_me/core/notifications/flutter_local_notification.dart';
 import 'package:consult_me/core/notifications/notification_push.dart';
 import 'package:consult_me/patient/booking/data/models/confrim_payment.dart';
 import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/payment/presentation/view/screens/pament_failure.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,7 +56,6 @@ class PaymentPageState extends State<PaymentPage>
   }
 
   void initiatePayment() async {
-       await NotificationService.sendNotification('', 'payment', 'payment');
 
     MFSDK.init(
       // 3ofo2OpYbO56IxABXt_KtmGBOyCpCyupgPwZCAeHRh0qPtZhGZIBDw_4hPgkA7hbC0gqe1gra8X4wtJ8wBMAzdy5YmCrexczQme3LQgdo7PupxNAbdZ-7TNGZO2UbBxLVvULdmFSVdoExW0Gqg1eE1LWZe6thP1MtVth-V8LCAm4Dhx4ujwgshllE4CwTZJYRJeNdZ7hqMuNoctnpBsLAAf-hGxPeo5iigKgbaXX0CttgYWUKj9YiHniskvtjMZyXl-sVWDotMbaVYCojjr9u4lXTW8IieALw9ZA0Qlg6G8dCeCi9swyXC3rgAQL-5aap-3Gd2VSYTnpQrwJ9jFEAD3U6r42ix_lJtUN-8AQXiyoJelxWoZWwsUj5DkEACjFuFwhHB8rUi2eQTq3srrBPIRWSMDypv6EAJICVT5dUVO2HmPmJ1ySwxqz49vH08CcaeVLOJp9O6PUSXEonNZfm6PaFNg6S6_yqO2wkYG4MI-oEizyTWWAL2g32l8iBR7_plY7I-XKxEmFSn6sQr6870MNbfrioyyouTr7_tsLO6Skz-rXGIXfuxKP3do5daRPtOTTeQAtFlIr3NwjI9BrzreUmfXgtzE8gB37egpnSoPCcSQAukCuubtJsWwUp0jHJs9uJbaD-jN5VIcwwRPmCF4VUVncYiLOuK-aAoLpK8jgtvUA7PP3-y6q7yV3OV037j2QyQ
@@ -74,6 +76,7 @@ class PaymentPageState extends State<PaymentPage>
     });
   }
 
+ 
   void executePayment() async {
     if (_selectedPaymentMethodId == null) {
       _showSnackBar("يرجى اختيار وسيلة الدفع", isError: true);

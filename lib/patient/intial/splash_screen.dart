@@ -1,13 +1,15 @@
 import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
+import 'package:consult_me/core/notifications/flutter_local_notification.dart';
+import 'package:consult_me/core/notifications/notification_push.dart';
+import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/home/home_screen.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
-
 import 'package:consult_me/doctor/home/home_view.dart';
 import 'package:consult_me/patient/intial/onboarding_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,7 +33,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final patientToken = await SharedPreferencesService.read(
         SharedPreferencesService.tokenpationt);
-   final firebaseMessagingService = FirebaseMessagingService.instance();
 
     if (doctorToken != null && doctorToken.isNotEmpty) {
       final doctorUserJson = await SharedPreferencesService.getUserData();
@@ -66,11 +67,16 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-Future<void>_checkToken()async{
-  final firebaseMessagingService = FirebaseMessagingService.instance();
-  await firebaseMessagingService.getToken();
-  context.read<BookingCubit>().updateDeviceToken();
-}
+ Future<void> messaging() async {
+    await  NotificationsService.init();
+     final firebaseMessaging =     FirebaseMessagingService.instance();
+      await firebaseMessaging.init(localNotificationsService: NotificationsService());
+     String? token = await firebaseMessaging.getToken();
+      context.read<BookingCubit>(). getPatientDeviceToken(pateintId: '1') ; 
+      context.read<BookingCubit>().   updatePatientDeviceToken    (patientId: '', deviceToken: token);
+        await NotificationService.sendNotification(token, 'payment', 'payment');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
