@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
- Future<void> messaging() async {
+ Future<void> messaging({required BuildContext context}) async {
     await  NotificationsService.init();
      final firebaseMessaging =     FirebaseMessagingService.instance();
       await firebaseMessaging.init(localNotificationsService: NotificationsService());

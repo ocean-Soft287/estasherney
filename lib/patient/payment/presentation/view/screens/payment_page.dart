@@ -30,6 +30,7 @@ class PaymentPageState extends State<PaymentPage>
   final Map<int, MFPaymentMethod> _paymentMethods = {};
 
   int? _selectedPaymentMethodId;
+  String? _selectedCurrency ;
   bool _isLoading = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
@@ -58,15 +59,15 @@ class PaymentPageState extends State<PaymentPage>
   void initiatePayment() async {
 
     MFSDK.init(
-      // 3ofo2OpYbO56IxABXt_KtmGBOyCpCyupgPwZCAeHRh0qPtZhGZIBDw_4hPgkA7hbC0gqe1gra8X4wtJ8wBMAzdy5YmCrexczQme3LQgdo7PupxNAbdZ-7TNGZO2UbBxLVvULdmFSVdoExW0Gqg1eE1LWZe6thP1MtVth-V8LCAm4Dhx4ujwgshllE4CwTZJYRJeNdZ7hqMuNoctnpBsLAAf-hGxPeo5iigKgbaXX0CttgYWUKj9YiHniskvtjMZyXl-sVWDotMbaVYCojjr9u4lXTW8IieALw9ZA0Qlg6G8dCeCi9swyXC3rgAQL-5aap-3Gd2VSYTnpQrwJ9jFEAD3U6r42ix_lJtUN-8AQXiyoJelxWoZWwsUj5DkEACjFuFwhHB8rUi2eQTq3srrBPIRWSMDypv6EAJICVT5dUVO2HmPmJ1ySwxqz49vH08CcaeVLOJp9O6PUSXEonNZfm6PaFNg6S6_yqO2wkYG4MI-oEizyTWWAL2g32l8iBR7_plY7I-XKxEmFSn6sQr6870MNbfrioyyouTr7_tsLO6Skz-rXGIXfuxKP3do5daRPtOTTeQAtFlIr3NwjI9BrzreUmfXgtzE8gB37egpnSoPCcSQAukCuubtJsWwUp0jHJs9uJbaD-jN5VIcwwRPmCF4VUVncYiLOuK-aAoLpK8jgtvUA7PP3-y6q7yV3OV037j2QyQ
+ //'3ofo2OpYbO56IxABXt_KtmGBOyCpCyupgPwZCAeHRh0qPtZhGZIBDw_4hPgkA7hbC0gqe1gra8X4wtJ8wBMAzdy5YmCrexczQme3LQgdo7PupxNAbdZ-7TNGZO2UbBxLVvULdmFSVdoExW0Gqg1eE1LWZe6thP1MtVth-V8LCAm4Dhx4ujwgshllE4CwTZJYRJeNdZ7hqMuNoctnpBsLAAf-hGxPeo5iigKgbaXX0CttgYWUKj9YiHniskvtjMZyXl-sVWDotMbaVYCojjr9u4lXTW8IieALw9ZA0Qlg6G8dCeCi9swyXC3rgAQL-5aap-3Gd2VSYTnpQrwJ9jFEAD3U6r42ix_lJtUN-8AQXiyoJelxWoZWwsUj5DkEACjFuFwhHB8rUi2eQTq3srrBPIRWSMDypv6EAJICVT5dUVO2HmPmJ1ySwxqz49vH08CcaeVLOJp9O6PUSXEonNZfm6PaFNg6S6_yqO2wkYG4MI-oEizyTWWAL2g32l8iBR7_plY7I-XKxEmFSn6sQr6870MNbfrioyyouTr7_tsLO6Skz-rXGIXfuxKP3do5daRPtOTTeQAtFlIr3NwjI9BrzreUmfXgtzE8gB37egpnSoPCcSQAukCuubtJsWwUp0jHJs9uJbaD-jN5VIcwwRPmCF4VUVncYiLOuK-aAoLpK8jgtvUA7PP3-y6q7yV3OV037j2QyQ',    
       'rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL',
       MFCountry.EGYPT,
-      MFEnvironment.TEST,
+      MFEnvironment.TEST, //LIVE
     );
 
     final request = MFInitiatePaymentRequest(
       invoiceAmount: widget.response.finalConsultationPrice,
-      currencyIso: 'EGP',
+      currencyIso: 'USD',
     );
     final res = await MFSDK.initiatePayment(request, MFLanguage.ARABIC);
     res.paymentMethods?.forEach((element) {
@@ -77,7 +78,7 @@ class PaymentPageState extends State<PaymentPage>
   }
 
  
-  void executePayment() async {
+  void executePayment({required BuildContext context}) async {
     if (_selectedPaymentMethodId == null) {
       _showSnackBar("يرجى اختيار وسيلة الدفع", isError: true);
       return;
@@ -91,7 +92,7 @@ class PaymentPageState extends State<PaymentPage>
     double myPriceInUSD = await fx.getCurrencyConverted(
       sourceAmount: widget.response.finalConsultationPrice,
       sourceCurrency: 'EGP',
-      destinationCurrency: 'KWD',
+      destinationCurrency: _selectedCurrency ??"USD",
     );
     final request = MFExecutePaymentRequest(
       paymentMethodId: _selectedPaymentMethodId,
@@ -283,6 +284,7 @@ class PaymentPageState extends State<PaymentPage>
         onTap: () {
           setState(() {
             _selectedPaymentMethodId = entry.key;
+            _selectedCurrency = entry.value.currencyIso; 
           });
         },
         borderRadius: BorderRadius.circular(12.r),
@@ -418,7 +420,9 @@ class PaymentPageState extends State<PaymentPage>
       ),
       child: SafeArea(
         child: InkWell(
-          onTap: _isLoading ? null : executePayment,
+          onTap: _isLoading ? null : (){
+            executePayment(context: context);
+          },
           borderRadius: BorderRadius.circular(12.r),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
