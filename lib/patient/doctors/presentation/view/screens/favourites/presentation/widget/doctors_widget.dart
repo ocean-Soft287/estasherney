@@ -31,8 +31,8 @@ class DoctorsWidget extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.all(7.r),
-                width: 70,
-                height: 70,
+                width: 90,
+                height: 90,
                 decoration: BoxDecoration(shape: BoxShape.circle),
                 child: Container(
                   decoration: BoxDecoration(
@@ -46,9 +46,9 @@ class DoctorsWidget extends StatelessWidget {
                     ],
                   ),
                   child: CircleAvatar(
-                    radius: 30.r,
+                    radius: 50.r,
                     backgroundColor: Colors.grey[300],
-                    backgroundImage: NetworkImage(imageUrl, scale: 0.5),
+                    backgroundImage: NetworkImage(imageUrl),
                   ),
                 ),
               ),
@@ -78,9 +78,9 @@ class DoctorsWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10.h),
+
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            padding: const EdgeInsets.only(left: 20, right: 10, bottom: 10),
             child: Align(
               alignment: Alignment.centerLeft,
               child: DefaultButton(

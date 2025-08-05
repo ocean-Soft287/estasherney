@@ -1,63 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:consult_me/feature/home/presentation/views/screens/profile/widget/build_header.dart';
-// import 'package:consult_me/feature/home/presentation/views/screens/profile/widget/custom_card.dart';
-
-// class YourProfile extends StatefulWidget {
-//   const YourProfile({super.key});
-
-//   @override
-//   State<YourProfile> createState() => _YourProfileState();
-// }
-
-// class _YourProfileState extends State<YourProfile> {
-//   String fullName = '';
-//   String phone = '';
-//   String email = '';
-//   String birthDate = '';
-//   String? imageUrl = "";
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadUserData();
-//   }
-
-//   Future<void> _loadUserData() async {
-//     final prefs = await SharedPreferences.getInstance();
-//     setState(() {
-//       fullName = prefs.getString('fullName') ?? 'غير معروف';
-//       phone = prefs.getString('phoneNumber') ?? 'غير معروف';
-//       email = prefs.getString('email') ?? 'غير معروف';
-//       birthDate = prefs.getString('birthday') ?? 'غير معروف';
-//       imageUrl = prefs.getString('imageUrl');
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         backgroundColor: Colors.white,
-//         body: SingleChildScrollView(
-//           child: Column(
-//             children: [
-//               buildHeader(context: context, imageUrl: imageUrl),
-//               customcart(
-//                 fullName: fullName,
-//                 phone: phone,
-//                 email: email,
-//                 birthDate: birthDate,
-//               ),
-//               SizedBox(height: 25.h),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/profile_view.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
@@ -67,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -83,8 +24,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController phoneController;
   late TextEditingController birthdateController;
   PlatformFile? selectedImage;
-  String? imageUrl,hintName,hintPhone,hintBirthdate;
-  
+  String? imageUrl, hintName, hintPhone, hintBirthdate;
 
   @override
   void initState() {
@@ -99,13 +39,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final prefs = await SharedPreferences.getInstance();
 
     setState(() {
-   hintName = prefs.getString("fullName") ?? "";
-    hintPhone = prefs.getString("phoneNumber") ?? "";
-   hintBirthdate = prefs.getString("birthday") ?? "";
-    imageUrl = prefs.getString("imageUrl") ?? "";     
+      hintName = prefs.getString("fullName") ?? "";
+      hintPhone = prefs.getString("phoneNumber") ?? "";
+      hintBirthdate = prefs.getString("birthday") ?? "";
+      imageUrl = prefs.getString("imageUrl") ?? "";
     });
- 
-
   }
 
   void _pickImage() async {
@@ -118,7 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _submit() {
-    if (_formKey.currentState!.validate() ) {
+    if (_formKey.currentState!.validate()) {
       final name = nameController.text.trim();
       final phone = phoneController.text.trim();
       final birthdate = birthdateController.text.trim();
@@ -128,7 +66,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         birthdate: birthdate,
         imageUrl: selectedImage != null ? selectedImage!.path! : "",
       );
-   
     }
   }
 
@@ -136,28 +73,48 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.wightcolor,
-      appBar: AppBar(title: const Text('تعديل البروفايل',
-      
-      
-      ),      backgroundColor: AppColors.wightcolor,
-),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+
+        title: Text(
+          'تعديل الملف الشخصي',
+          style: GoogleFonts.leagueSpartan(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.wightcolor,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: AppColors.mainColor,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            size: 25.sp,
+            color: AppColors.wightcolor,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+
       body: BlocListener<UpdateProfileCubit, UpdateProfileState>(
         listener: (context, state) {
           if (state is GetProfileSuccess) {
             SharedPreferences.getInstance().then((prefs) {
               prefs.setString("fullName", state.model.fullName);
               prefs.setString("phoneNumber", state.model.phoneNumber);
-              prefs.setString("birthday",state.model.birthday);
-
+              prefs.setString("birthday", state.model.birthday);
               if (selectedImage != null) {
                 prefs.setString("imageUrl", state.model.imageUrl);
               }
             });
-Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProfileScreen(),));
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("تم تعديل البروفايل بنجاح")),
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfileScreen()),
             );
-           // Navigator.pop(context); // ترجع للصفحة السابقة
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text("تم تعديل البروفايل بنجاح")));
           } else if (state is ProfileFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("فشل التحديث: ${state.errorMessage}")),
@@ -165,44 +122,186 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const
           }
         },
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: Form(
             key: _formKey,
             child: ListView(
               children: [
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage:   selectedImage != null
-                        ? FileImage(File(selectedImage!.path!))
-                        : 
-                               NetworkImage(imageUrl??""),
+                Center(
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: CircleAvatar(
+                          radius: 60.r,
+                          backgroundColor: AppColors.mainColor.withOpacity(
+                            0.15,
+                          ),
+                          backgroundImage:
+                              selectedImage != null
+                                  ? FileImage(File(selectedImage!.path!))
+                                  : imageUrl != null && imageUrl!.isNotEmpty
+                                  ? NetworkImage(imageUrl!)
+                                  : null,
+                          child:
+                              selectedImage == null &&
+                                      (imageUrl == null || imageUrl!.isEmpty)
+                                  ? Icon(
+                                    Icons.add_a_photo,
+                                    size: 36.r,
+                                    color: AppColors.mainColor,
+                                  )
+                                  : null,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 4,
+                        right: 4,
+                        child: Container(
+                          width: 32.r,
+                          height: 32.r,
+                          decoration: BoxDecoration(
+                            color: AppColors.mainColor,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.wightcolor,
+                              width: 2,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.edit,
+                            size: 16.r,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                Text( "الاسم الكامل"),
+                SizedBox(height: 24.h),
+
+                Text(
+                  "الاسم الكامل",
+                  style: GoogleFonts.leagueSpartan(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.blackColor,
+                  ),
+                ),
+                SizedBox(height: 8.h),
                 TextFormField(
                   controller: nameController,
-                  
-                  decoration:  InputDecoration(hintText:hintName ??""),
-                  validator: (value) =>
-                      value!.isEmpty ? "الاسم مطلوب" : null,
+                  decoration: InputDecoration(
+                    hintText: hintName ?? "أدخل اسمك الكامل",
+                    hintStyle: GoogleFonts.leagueSpartan(
+                      fontSize: 14.sp,
+                      color: Colors.black54,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 14.h,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(
+                        color: AppColors.mainColor,
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  validator: (value) => value!.isEmpty ? "الاسم مطلوب" : null,
+                  style: GoogleFonts.leagueSpartan(fontSize: 15.sp),
                 ),
-                const SizedBox(height: 12),
-                Text( "رقم الهاتف"),
+                SizedBox(height: 18.h),
+
+                Text(
+                  "رقم الهاتف",
+                  style: GoogleFonts.leagueSpartan(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.blackColor,
+                  ),
+                ),
+                SizedBox(height: 8.h),
                 TextFormField(
                   controller: phoneController,
-                  decoration:  InputDecoration(hintText: hintPhone ??""),
-                  validator: (value) =>
-                      value!.isEmpty ? "رقم الهاتف مطلوب" : null,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    hintText: hintPhone ?? "أدخل رقم الهاتف",
+                    hintStyle: GoogleFonts.leagueSpartan(
+                      fontSize: 14.sp,
+                      color: Colors.black54,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 14.h,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(
+                        color: AppColors.mainColor,
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  validator:
+                      (value) => value!.isEmpty ? "رقم الهاتف مطلوب" : null,
+                  style: GoogleFonts.leagueSpartan(fontSize: 15.sp),
                 ),
-                const SizedBox(height: 12),
-              Text( "تاريخ الميلاد",),
+                SizedBox(height: 18.h),
+
+                Text(
+                  "تاريخ الميلاد",
+                  style: GoogleFonts.leagueSpartan(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.blackColor,
+                  ),
+                ),
+                SizedBox(height: 8.h),
                 TextFormField(
                   controller: birthdateController,
-                  decoration:
-                       InputDecoration(hintText: hintBirthdate ??""),
+                  decoration: InputDecoration(
+                    hintText: hintBirthdate ?? "اختر تاريخ الميلاد",
+                    hintStyle: GoogleFonts.leagueSpartan(
+                      fontSize: 14.sp,
+                      color: Colors.black54,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 14.h,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(
+                        color: AppColors.mainColor,
+                        width: 1.5,
+                      ),
+                    ),
+                    suffixIcon: Icon(
+                      Icons.calendar_today,
+                      size: 20.sp,
+                      color: AppColors.mainColor,
+                    ),
+                  ),
                   onTap: () async {
                     FocusScope.of(context).requestFocus(FocusNode());
                     final picked = await showDatePicker(
@@ -216,20 +315,35 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const
                           "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
                     }
                   },
-                  validator: (value) =>
-                      value!.isEmpty ? "تاريخ الميلاد مطلوب" : null,
+                  validator:
+                      (value) => value!.isEmpty ? "تاريخ الميلاد مطلوب" : null,
+                  style: GoogleFonts.cairo(fontSize: 15.sp),
                 ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.mainColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                SizedBox(height: 32.h),
+
+                SizedBox(
+                  height: 50.h,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.mainColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14.r),
+                      ),
+                      elevation: 4,
+                      shadowColor: AppColors.mainColor.withOpacity(0.3),
+                    ),
+                    onPressed: _submit,
+                    child: Text(
+                      "تحديث البيانات",
+                      style: GoogleFonts.leagueSpartan(
+                        fontSize: 16.sp,
+                        color: AppColors.wightcolor,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  onPressed: _submit,
-                  child: const Text("تحديث البيانات",style: TextStyle(color: AppColors.wightcolor),),
                 ),
+                SizedBox(height: 30.h),
               ],
             ),
           ),

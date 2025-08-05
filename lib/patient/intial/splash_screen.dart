@@ -66,6 +66,11 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+Future<void>_checkToken()async{
+  final firebaseMessagingService = FirebaseMessagingService.instance();
+  await firebaseMessagingService.getToken();
+  context.read<BookingCubit>().updateDeviceToken();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

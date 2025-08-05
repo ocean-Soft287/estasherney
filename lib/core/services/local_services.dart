@@ -278,6 +278,14 @@ sl.registerFactory(() => RemoveFavoriteDoctorCubit(sl()));
 );
 
 sl.registerFactory(() => DoctorRatinAllCubit(sl<DoctorAllRatingRepo>()));
+//get all pationtppointment
+  sl.registerLazySingleton<AppointmentsRepo>(
+    () => AppointmentsRepoImpl(sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => GetAppointmentsCubit(sl<AppointmentsRepo>()));
+
+
+  
 
 
 

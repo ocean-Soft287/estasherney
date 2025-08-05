@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const ProfileScreen(),
     const Favourites(),
     const MessageView(),
-    const DataView(),
+    const AppointmentsScreen(),
   ];
 
   @override

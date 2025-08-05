@@ -34,7 +34,7 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
       email = savedEmail;
       imageUrl =
           profileImage.isNotEmpty
-              ? profileImage   //"http://37.34.238.190:9292/TheOneAPIEstasherny//Images/Patient/$profileImage"
+              ? profileImage //"http://37.34.238.190:9292/TheOneAPIEstasherny//Images/Patient/$profileImage"
               : null;
     });
   }
@@ -43,6 +43,7 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
   Widget build(BuildContext context) {
     return Container(
       height: 120,
+
       alignment: Alignment.center,
       decoration: BoxDecoration(
         gradient: AppColors.blueGradient,
@@ -72,7 +73,7 @@ class _BuildProfileHeaderState extends State<BuildProfileHeader> {
             ),
           ),
           Positioned(
-            left: 50,
+            left: 30,
             top: 30,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

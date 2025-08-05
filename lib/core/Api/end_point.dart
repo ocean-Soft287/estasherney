@@ -56,6 +56,8 @@ class EndPoint {
     "$baseUrl/api/Patient/rateDoctor/$doctorId";
   static String getAllRatings(int doctorId) =>
       "$baseUrl/api/Patient/getDoctorRating/$doctorId";
+      static String getallPationtAppointment="$baseUrl/api/Patient/getPatientAppointments";
+
 
 
 
