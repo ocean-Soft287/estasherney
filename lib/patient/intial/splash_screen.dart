@@ -1,4 +1,6 @@
+import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
 import 'package:consult_me/patient/home/home_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:consult_me/core/Network/local/secure_storage.dart';
@@ -29,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final patientToken = await SharedPreferencesService.read(
         SharedPreferencesService.tokenpationt);
+   final firebaseMessagingService = FirebaseMessagingService.instance();
 
     if (doctorToken != null && doctorToken.isNotEmpty) {
       final doctorUserJson = await SharedPreferencesService.getUserData();

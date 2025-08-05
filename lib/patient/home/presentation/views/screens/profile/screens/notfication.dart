@@ -8,6 +8,14 @@ class Notfication extends StatelessWidget {
   const Notfication({super.key});
 
   @override
+/*************  ✨ Windsurf Command ⭐  *************/
+/// Builds the main structure of the Notification screen which includes a header with a back button,
+/// a search bar to filter notifications, and a list of notification items. The header contains a
+/// gradient decoration and a title. The search bar is an editable text field with a search icon.
+/// The list of notifications is scrollable, and each notification item displays a title, a time,
+/// and a description. The layout is responsive to screen size.
+
+/*******  b8270488-1a9b-4d2f-88a0-973cd902bae8  *******/
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

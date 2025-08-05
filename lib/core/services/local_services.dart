@@ -176,14 +176,14 @@ Future<void> setup() async {
     () => BookingRemoteDataSourceImpl(dioConsumer: sl<DioConsumer>()));
   sl.registerFactory(() => BookingCubit(bookingRemoteDataSource: sl<BookingRemoteDataSource>()));
 
-  await dotenv.load(fileName: ".env");
+  // await dotenv.load(fileName: ".env");
 
 
-  await CacheHelper.init();
-  await Supabase.initialize(
-    url: 'https://urvvmzyekyaoabykrswi.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVydnZtenlla3lhb2FieWtyc3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwOTIxOTEsImV4cCI6MjA2ODY2ODE5MX0.stIhnDGvjNJ9VtGHXU3C-v7umA3KLOzSWhtiML1Gm1w',
-  );
+  // await CacheHelper.init();
+  // await Supabase.initialize(
+  //   url: 'https://urvvmzyekyaoabykrswi.supabase.co',
+  //   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVydnZtenlla3lhb2FieWtyc3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwOTIxOTEsImV4cCI6MjA2ODY2ODE5MX0.stIhnDGvjNJ9VtGHXU3C-v7umA3KLOzSWhtiML1Gm1w',
+  // );
 
   // register patient
   sl.registerLazySingleton<RegisterRepo>(

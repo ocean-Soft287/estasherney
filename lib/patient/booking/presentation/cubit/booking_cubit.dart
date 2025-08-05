@@ -56,5 +56,29 @@ Future<void> confirmPayment({required ConfrimPayment appointment}) async {
       emit(BookingFailure(e.toString()));
     }
   }
+Future<void> updatePatientDeviceToken({required  String patientId,required String deviceToken }) async {
+    emit(UpdatePatientDeviceTokenLoading());
+    try {
+      final result = await bookingRemoteDataSource.updatePatientDeviceToken(patientId: patientId, deviceToken: deviceToken);
+      result.fold(
+        (failure) => emit(BookingFailure(failure)),
+        (success) => emit(UpdatePatientDeviceTokenSuccess(success)),
+      );
+    } catch (e) {
+      emit(BookingFailure(e.toString()));
+    }
+  }
+Future<void> getPatientDeviceToken({required ConfrimPayment appointment}) async {
+    emit(GetPatientDeviceTokenLoading());
+    try {
+      final result = await bookingRemoteDataSource.confirmPayment(appointment: appointment);
+      result.fold(
+        (failure) => emit(BookingFailure(failure)),
+        (success) => emit(GetPatientDeviceTokenSuccess(success)),
+      );
+    } catch (e) {
+      emit(BookingFailure(e.toString()));
+    }
+  }
 }
 

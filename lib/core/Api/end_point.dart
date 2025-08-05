@@ -6,6 +6,16 @@ class EndPoint {
   /// auth
   static String logindoctor = "$baseUrl/api/Doctor/login";
   static String forgetpassworddoctor = "$baseUrl/api/Doctor/forgotpassword";
+  /// token 
+  
+  static String getPatientDeviceToken({required String id}) =>   '$baseUrl/api/Patient/getPatientDeviceToken?id=$id';
+  static String updatePatientDeviceToken =    '$baseUrl/api/Patient/updateDeviceToken';
+  static Map<String,dynamic> updatePatientDeviceTokenbody({required String patientId,required String deviceToken}) =>   {
+  "patientId": patientId,
+  "deviceToken": deviceToken
+};
+
+
   //appointment
   static String getTodayAppointments =
       "$baseUrl/api/Doctor/getDoctorAppointmentsToday";

@@ -9,5 +9,7 @@ abstract class BookingRepository {
 Future<Either<String, List<DoctorAvailabilityModel>>> getBookings({required String doctorId,required String date });
 Future<Either<String, BookingResponse>> addAppointment({required  Appointment appointment });
 Future<Either<String, String>> confirmPayment({required  ConfrimPayment appointment });
+Future<Either<String, String>> getPatientDeviceToken({  required  String patientId });
+Future<Either<String, String>> updatePatientDeviceToken({required  String patientId,required String deviceToken });
 
 }

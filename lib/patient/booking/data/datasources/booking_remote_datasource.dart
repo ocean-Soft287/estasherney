@@ -8,11 +8,11 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 abstract class BookingRemoteDataSource {
-
 Future<Either<String, List<DoctorAvailabilityModel>>> getBookings({required String doctorId,required String date });
 Future<Either<String, BookingResponse>> addAppointment({required  Appointment appointment });
 Future<Either<String, String>> confirmPayment({required  ConfrimPayment appointment });
-
+Future<Either<String, String>> getPatientDeviceToken({  required  String patientId, });
+Future<Either<String, String>> updatePatientDeviceToken({required  String patientId,required String deviceToken });
 
 }
 class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
@@ -79,6 +79,36 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     return Left(e.toString());
   
   }
+  }
+  
+  @override
+  Future<Either<String, String>> getPatientDeviceToken({required String patientId}) async{
+   try{
+     final response = await dioConsumer.get(
+       EndPoint.getPatientDeviceToken(id: patientId),
+     );
+     return Right(response['deviceToken']);  
+   }on DioException  catch (e) {
+     return Left(e.toString());
+   }catch (e) {
+     return Left(e.toString());
+   }
+
+  }
+  
+  @override
+  Future<Either<String, String>> updatePatientDeviceToken({required String patientId, required String deviceToken}) async{
+   try{
+     final response = await dioConsumer.put(
+       EndPoint.updatePatientDeviceToken,
+       data: EndPoint.updatePatientDeviceTokenbody(patientId: patientId, deviceToken: deviceToken),);
+        
+     return Right(response['message']);  
+   }on DioException  catch (e) {
+     return Left(e.toString());
+   }catch (e) {
+     return Left(e.toString());
+   }
   }
 
 

@@ -27,6 +27,17 @@ class BookingRepositoryImpl implements BookingRepository {
 
     return remoteDataSource.confirmPayment(appointment: appointment); 
   }
+  
+  @override
+  Future<Either<String, String>> getPatientDeviceToken({required String patientId}) {
+  return  remoteDataSource.getPatientDeviceToken(patientId: patientId);
+  }
+  
+  @override
+  Future<Either<String, String>> updatePatientDeviceToken({required String patientId, required String deviceToken}) {
+      return  remoteDataSource.updatePatientDeviceToken(patientId: patientId, deviceToken: deviceToken);
+
+  }
 
 
 

@@ -11,6 +11,22 @@ class GtBookingAvailableSuccess extends BookingState {
   List<DoctorAvailabilityModel> data;
   GtBookingAvailableSuccess(this.data);
 }
+
+
+class UpdatePatientDeviceTokenLoading extends BookingState{}
+class UpdatePatientDeviceTokenSuccess extends BookingState{
+  String data;
+  UpdatePatientDeviceTokenSuccess(this.data);
+}
+
+
+
+class GetPatientDeviceTokenLoading extends BookingState{}
+class GetPatientDeviceTokenSuccess extends BookingState{
+  String data;
+  GetPatientDeviceTokenSuccess(this.data);
+}
+
 class ConfirmPaymentLoading extends BookingState {}
 class ConfirmPaymentSuccess extends BookingState {
   dynamic confirmPayment;
