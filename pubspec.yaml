@@ -105,7 +105,6 @@ flutter:
     - assets/genre/cancer.png
     - assets/icons/
     - assets/lottie/
-    - .env
     - assets/images_svg/chat.svg
     - assets/images_svg/confirm.svg
     - assets/images_svg/star.svg

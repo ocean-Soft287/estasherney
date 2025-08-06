@@ -2,7 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/notifications/flutter_local_notification.dart';
-import 'package:consult_me/patient/Call/video.dart';
+import 'package:consult_me/features/call/data/models/call_model.dart';
+import 'package:consult_me/features/call/presentation/pages/video.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,9 @@ class FirebaseMessagingService {
      FirebaseMessaging.instance.getInitialMessage().then((initialMessage) {
 
   if (initialMessage != null) {
-       NavigationService.push(
-    const Video(),
-    );
-    
+     navigationToVideo(initialMessage); 
     }
+    
     });
   
 
@@ -93,24 +92,28 @@ return token;
       _localNotificationsService?.showNotification(
         notificationData.title,
         notificationData.body,
-        message.data.toString(),
+        message.data['data'],
       );
     
     }
   }
 
   void _onMessageOpenedApp(RemoteMessage message) async{
-   
+  navigationToVideo(message);
   
-     NavigationService.push(Video());
-
   }
+
+ 
 }
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
  
-  NavigationService.push(Video());
-  log('Background message received: ${message.data.toString()}');
+  navigationToVideo(message);
+
 
 }
+ void navigationToVideo(RemoteMessage message) {
+    CallModel call = CallModel.fromJson(message.data['data']);  
+       NavigationService.push(Video(call: call,));
+  }

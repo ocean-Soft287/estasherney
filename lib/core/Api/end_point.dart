@@ -15,6 +15,13 @@ class EndPoint {
   "deviceToken": deviceToken
 };
 
+ /// Call
+  
+ static String startCall =   '$baseUrl/api/Call/start';
+ static String endCall ({required String id}) =>   '$baseUrl/api/Call/end/$id';
+ static String getmyCalls =   '$baseUrl/api/Call/myCalls';
+
+
 
   //appointment
   static String getTodayAppointments =

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
+import 'package:consult_me/features/call/data/models/call_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
@@ -45,7 +45,7 @@ class NotificationService {
 
 
   static Future<void> sendNotification(
-      String deviceToken, String title, String body) async {
+      String deviceToken, String title, String body,CallModel data) async {
     final String accessToken = await getAccessToken();
     log ('accessToken $accessToken');
     String endpointFCM =
@@ -54,9 +54,7 @@ class NotificationService {
       "message": {
         "token": deviceToken,
         "notification": {"title": title, "body": body},
-        "data": {
-          "route": "serviceScreen",
-        }
+        "data": data.toJson()
       }
     };
 

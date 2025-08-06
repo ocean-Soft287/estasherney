@@ -2,8 +2,6 @@ import 'dart:ui';
 import 'dart:developer';
 import 'dart:isolate';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:consult_me/core/navigation/navigation_service.dart';
-import 'package:consult_me/patient/Call/video.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsService {
@@ -88,7 +86,6 @@ static Future<void> startListeningNotificationEvents() async {
           return;
         }
       }
-                NavigationService.push(Video());
 
       debugPrint("check data with receivedAction 3${receivedAction.buttonKeyInput}");
 
@@ -100,7 +97,7 @@ static Future<void> startListeningNotificationEvents() async {
       ReceivedAction receivedAction) async {
     if (receivedAction.title == "") {
       log("check data with receivedAction sssss${receivedAction.title}");
-       NavigationService.push(Video());
+     
     }
   
   }

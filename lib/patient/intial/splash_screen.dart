@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
      String? token = await firebaseMessaging.getToken();
       context.read<BookingCubit>(). getPatientDeviceToken(pateintId: '1') ; 
       context.read<BookingCubit>().   updatePatientDeviceToken    (patientId: '', deviceToken: token);
-        await NotificationService.sendNotification(token, 'payment', 'payment');
+       // await NotificationService.sendNotification(token, 'payment', 'payment');
   }
 
   @override

@@ -18,6 +18,7 @@ import 'patient/localization/data/localizationmodel.dart';
 import 'patient/localization/manger/localization_state.dart';
 import 'generated/l10n.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
