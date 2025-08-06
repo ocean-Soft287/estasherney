@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:consult_me/core/Network/local/secure_storage.dart';
+import 'package:consult_me/core/Network/local/sharedprefrences.dart';
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/login_pationt_cubit.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/login_pationt_state.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/widget/custom_forgetpassword_pationt_screen.dart';
@@ -83,10 +87,14 @@ class _LoginScreenState extends State<LoginScreen>
         body: BlocConsumer<LoginPationtCubit, LoginpationtState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => PageOnePrivacy()),
-              );
+              SharedPreferencesService.write(SharedPreferencesService.tokenpationt, state.data.token);
+            final data =  jsonEncode(  state.data.toJson());
+            SharedPreferencesService.write(SharedPreferencesService.pateint,  data).then((value) {
+                          NavigationService.pushReplacement(PageOnePrivacy());
+
+            });
+            
+             
             } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text("بريد إلكتروني أو كلمة مرور غير صحيحة")),

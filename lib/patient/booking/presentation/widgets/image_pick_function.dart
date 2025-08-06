@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<List<File>> pickFiles() async {
@@ -18,13 +19,32 @@ Future<List<File>> pickFiles() async {
   return [];
 }
 
+
 Future<File?> pickImage() async {
-  final picker = ImagePicker();
-  final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+  try {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-  if (pickedImage != null) {
-    return File(pickedImage.path);
+    if (pickedImage != null) {
+      return File(pickedImage.path);
+    } else {
+      // User canceled the image selection
+      print('Image selection canceled by user');
+      return null;
+    }
+  } catch (e) {
+    // Handle specific errors and log them
+    if (e is PlatformException) {
+      if (e.code == 'photo_access_denied') {
+        print('Photo gallery access denied');
+      } else if (e.code == 'camera_access_denied') {
+        print('Camera access denied');
+      } else {
+        print('Platform error: $e');
+      }
+    } else {
+      print('Failed to pick image: $e');
+    }
+    return null;
   }
-
-  return null;
 }

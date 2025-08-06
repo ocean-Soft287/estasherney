@@ -3,6 +3,7 @@ import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/services/local_services.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
 import 'package:consult_me/patient/booking/data/models/booking_response.dart';
+import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/intial/splash_screen.dart';
 import 'package:consult_me/patient/localization/manger/localization_cubit.dart';
 import 'package:consult_me/patient/payment/presentation/view/screens/payment_page.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => GetIt.instance<DeleteAccountCubit>(),
         ),
+     BlocProvider(create: (context) => GetIt.instance<BookingCubit>(),)
       ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, langState) {
@@ -96,10 +98,10 @@ class MyApp extends StatelessWidget {
                   }
                    return const Locale('ar');
                 },
-                home:PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
-                //  SplashScreen(
+                home:  //PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
+                 SplashScreen(
                   
-                // ),
+                ),
              
               );
             },

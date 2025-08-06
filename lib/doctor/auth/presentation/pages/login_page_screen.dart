@@ -10,15 +10,15 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:consult_me/core/Network/local/secure_storage.dart';
 
-class LoginPageScreen extends StatefulWidget {
+class LoginDoctorScreen extends StatefulWidget {
   
-  const LoginPageScreen({super.key,});
+  const LoginDoctorScreen({super.key,});
 
   @override
-  State<LoginPageScreen> createState() => _LoginPageScreenState();
+  State<LoginDoctorScreen> createState() => _LoginDoctorScreenState();
 }
 
-class _LoginPageScreenState extends State<LoginPageScreen>
+class _LoginDoctorScreenState extends State<LoginDoctorScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;

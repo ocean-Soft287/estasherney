@@ -214,7 +214,7 @@ void showLogoutDialog(BuildContext context) {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const LoginPageScreen(),
+                            builder: (_) => const LoginDoctorScreen(),
                           ),
                           (route) => false,
                         );

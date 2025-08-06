@@ -1,8 +1,12 @@
+import 'dart:async';
+import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
 import 'package:consult_me/core/notifications/flutter_local_notification.dart';
 import 'package:consult_me/core/notifications/notification_push.dart';
 import 'package:consult_me/patient/booking/data/models/confrim_payment.dart';
 import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
+import 'package:consult_me/patient/booking/presentation/cubit/booking_state.dart';
+import 'package:consult_me/patient/home/home_screen.dart';
 import 'package:consult_me/patient/payment/presentation/view/screens/pament_failure.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -26,14 +30,16 @@ class PaymentPage extends StatefulWidget {
 
 class PaymentPageState extends State<PaymentPage>
     with SingleTickerProviderStateMixin {
-  /// Define available payment methods with icons
   final Map<int, MFPaymentMethod> _paymentMethods = {};
-
   int? _selectedPaymentMethodId;
-  String? _selectedCurrency ;
+  String? _selectedCurrency;
   bool _isLoading = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  // Timer-related variables
+  Timer? _countdownTimer;
+  int _remainingSeconds = 300; // 5 minutes in seconds
+  String _timerDisplay = '5:00';
 
   @override
   void initState() {
@@ -47,22 +53,49 @@ class PaymentPageState extends State<PaymentPage>
     );
 
     initiatePayment();
+    _startCountdownTimer();
     _animationController.forward();
   }
 
   @override
   void dispose() {
+    _countdownTimer?.cancel();
     _animationController.dispose();
     super.dispose();
   }
 
-  void initiatePayment() async {
+  void _startCountdownTimer() {
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_remainingSeconds > 0) {
+          _remainingSeconds--;
+          _timerDisplay = _formatTime(_remainingSeconds);
+        } else {
+          timer.cancel();
+            GetIt.instance<BookingCubit>().confirmPayment(
+        appointment: ConfrimPayment(
+          appointmentId: widget.response.appointmentId,
+          isPaid: false,
+        ),
+      );
 
+        }
+      });
+    });
+  }
+
+  String _formatTime(int seconds) {
+    final minutes = (seconds ~/ 60).toString().padLeft(2, '0');
+    final secs = (seconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$secs';
+  }
+
+  void initiatePayment() async {
     MFSDK.init(
- //'3ofo2OpYbO56IxABXt_KtmGBOyCpCyupgPwZCAeHRh0qPtZhGZIBDw_4hPgkA7hbC0gqe1gra8X4wtJ8wBMAzdy5YmCrexczQme3LQgdo7PupxNAbdZ-7TNGZO2UbBxLVvULdmFSVdoExW0Gqg1eE1LWZe6thP1MtVth-V8LCAm4Dhx4ujwgshllE4CwTZJYRJeNdZ7hqMuNoctnpBsLAAf-hGxPeo5iigKgbaXX0CttgYWUKj9YiHniskvtjMZyXl-sVWDotMbaVYCojjr9u4lXTW8IieALw9ZA0Qlg6G8dCeCi9swyXC3rgAQL-5aap-3Gd2VSYTnpQrwJ9jFEAD3U6r42ix_lJtUN-8AQXiyoJelxWoZWwsUj5DkEACjFuFwhHB8rUi2eQTq3srrBPIRWSMDypv6EAJICVT5dUVO2HmPmJ1ySwxqz49vH08CcaeVLOJp9O6PUSXEonNZfm6PaFNg6S6_yqO2wkYG4MI-oEizyTWWAL2g32l8iBR7_plY7I-XKxEmFSn6sQr6870MNbfrioyyouTr7_tsLO6Skz-rXGIXfuxKP3do5daRPtOTTeQAtFlIr3NwjI9BrzreUmfXgtzE8gB37egpnSoPCcSQAukCuubtJsWwUp0jHJs9uJbaD-jN5VIcwwRPmCF4VUVncYiLOuK-aAoLpK8jgtvUA7PP3-y6q7yV3OV037j2QyQ',    
+      //  '3ofo2OpYbO56IxABXt_KtmGBOyCpCyupgPwZCAeHRh0qPtZhGZIBDw_4hPgkA7hbC0gqe1gra8X4wtJ8wBMAzdy5YmCrexczQme3LQgdo7PupxNAbdZ-7TNGZO2UbBxLVvULdmFSVdoExW0Gqg1eE1LWZe6thP1MtVth-V8LCAm4Dhx4ujwgshllE4CwTZJYRJeNdZ7hqMuNoctnpBsLAAf-hGxPeo5iigKgbaXX0CttgYWUKj9YiHniskvtjMZyXl-sVWDotMbaVYCojjr9u4lXTW8IieALw9ZA0Qlg6G8dCeCi9swyXC3rgAQL-5aap-3Gd2VSYTnpQrwJ9jFEAD3U6r42ix_lJtUN-8AQXiyoJelxWoZWwsUj5DkEACjFuFwhHB8rUi2eQTq3srrBPIRWSMDypv6EAJICVT5dUVO2HmPmJ1ySwxqz49vH08CcaeVLOJp9O6PUSXEonNZfm6PaFNg6S6_yqO2wkYG4MI-oEizyTWWAL2g32l8iBR7_plY7I-XKxEmFSn6sQr6870MNbfrioyyouTr7_tsLO6Skz-rXGIXfuxKP3do5daRPtOTTeQAtFlIr3NwjI9BrzreUmfXgtzE8gB37egpnSoPCcSQAukCuubtJsWwUp0jHJs9uJbaD-jN5VIcwwRPmCF4VUVncYiLOuK-aAoLpK8jgtvUA7PP3-y6q7yV3OV037j2QyQ',
       'rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL',
       MFCountry.EGYPT,
-      MFEnvironment.TEST, //LIVE
+      MFEnvironment.TEST,
     );
 
     final request = MFInitiatePaymentRequest(
@@ -77,8 +110,7 @@ class PaymentPageState extends State<PaymentPage>
     });
   }
 
- 
-  void executePayment({required BuildContext context}) async {
+  void executePayment({required BuildContext context,required BookingCubit cubit}) async {
     if (_selectedPaymentMethodId == null) {
       _showSnackBar("يرجى اختيار وسيلة الدفع", isError: true);
       return;
@@ -92,37 +124,44 @@ class PaymentPageState extends State<PaymentPage>
     double myPriceInUSD = await fx.getCurrencyConverted(
       sourceAmount: widget.response.finalConsultationPrice,
       sourceCurrency: 'EGP',
-      destinationCurrency: _selectedCurrency ??"USD",
+      destinationCurrency: _selectedCurrency ?? "USD",
     );
     final request = MFExecutePaymentRequest(
       paymentMethodId: _selectedPaymentMethodId,
-      invoiceValue: myPriceInUSD, //widget.response.finalConsultationPrice,
+      invoiceValue: myPriceInUSD,
     );
-
-    try {
-      final res = await MFSDK.executePayment(request, MFLanguage.ARABIC, (
-        invoiceId,
-      ) {
-        debugPrint("Invoice ID: $invoiceId");
-      });
-      if (res.invoiceStatus == "Paid") {
-        context.read<BookingCubit>().confirmPayment(
-          appointment: ConfrimPayment(
-            appointmentId: widget.response.appointmentId.toString(),
-            isPaid: 'true',
-          ),
-        );
-        _showSnackBar("تم الدفع بنجاح", isError: false);
-      } else {
-        _navigateToErrorPage();
-      }
-    } catch (error) {
-      _navigateToErrorPage();
-    } finally {
-      setState(() {
+    final res = await MFSDK.executePayment(request, MFLanguage.ARABIC, (
+      invoiceId,
+    ) {
+      debugPrint("Invoice ID: $invoiceId");
+    });
+    if (res.invoiceStatus == "Paid") {
+      _countdownTimer?.cancel(); // Stop timer only on successful payment
+        setState(() {
         _isLoading = false;
       });
+      cubit.confirmPayment(
+        appointment: ConfrimPayment(
+          appointmentId: widget.response.appointmentId,
+          isPaid: true,
+        ),
+      );
+    } else {
+      // Do not cancel timer on payment failure
+      _navigateToErrorPage();
     }
+
+    // try {
+
+    // }
+    //  catch (error) {
+    //   // Do not cancel timer on error
+    //   _navigateToErrorPage();
+    // } finally {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // }
   }
 
   void _navigateToErrorPage() {
@@ -146,50 +185,84 @@ class PaymentPageState extends State<PaymentPage>
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GetIt.instance<BookingCubit>(),
-      child: Scaffold(
-        backgroundColor: Colors.grey[50],
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
-            onPressed: () => Navigator.pop(context),
+      child: BlocBuilder<BookingCubit, BookingState>(
+        builder: (context, state) {
+          final cubit = context.read<BookingCubit>();
+          return Scaffold(
+            backgroundColor: Colors.grey[50],
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
+                onPressed: () => Navigator.pop(context),
+              ),
+              title: Text(
+                "إتمام عملية الدفع",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Monadi',
+                ),
+              ),
+              centerTitle: true,
+            ),
+            body: FadeTransition(
+              opacity: _fadeAnimation,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTimerCard(),
+                    SizedBox(height: 24.h),
+                    _buildPaymentSummaryCard(),
+                    SizedBox(height: 24.h),
+                    _buildPaymentMethodsSection(),
+                    SizedBox(height: 32.h),
+                    _buildSecurityNote(),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar: _buildBottomActionBar( context: context, cubit: cubit),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildTimerCard() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-          title: Text(
-            "إتمام عملية الدفع",
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.timer, color: AppColors.mainColor, size: 24.sp),
+          SizedBox(width: 12.w),
+          Text(
+            "الوقت المتبقي: $_timerDisplay",
             style: TextStyle(
-              color: Colors.black87,
-              fontSize: 18.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
+              color: _remainingSeconds <= 60 ? Colors.red : Colors.black87,
               fontFamily: 'Monadi',
             ),
           ),
-          centerTitle: true,
-        ),
-        body: FadeTransition(
-          opacity: _fadeAnimation,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(20.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Payment Summary Card
-                _buildPaymentSummaryCard(),
-
-                SizedBox(height: 24.h),
-
-                // Payment Methods Section
-                _buildPaymentMethodsSection(),
-
-                SizedBox(height: 32.h),
-
-                // Security Note
-                _buildSecurityNote(),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: _buildBottomActionBar(),
+        ],
       ),
     );
   }
@@ -284,7 +357,7 @@ class PaymentPageState extends State<PaymentPage>
         onTap: () {
           setState(() {
             _selectedPaymentMethodId = entry.key;
-            _selectedCurrency = entry.value.currencyIso; 
+            _selectedCurrency = entry.value.currencyIso;
           });
         },
         borderRadius: BorderRadius.circular(12.r),
@@ -315,16 +388,13 @@ class PaymentPageState extends State<PaymentPage>
                 duration: const Duration(milliseconds: 200),
                 width: 30.w,
                 height: 30.w,
-
                 child: CachedNetworkImage(
                   imageUrl: entry.value.imageUrl!,
                   placeholder: (context, url) => CircularProgressIndicator(),
                   errorWidget: (context, url, error) => Icon(Icons.error),
-
                   fit: BoxFit.fill,
                 ),
               ),
-
               SizedBox(width: 16.w),
               Expanded(
                 child: Text(
@@ -405,7 +475,7 @@ class PaymentPageState extends State<PaymentPage>
     );
   }
 
-  Widget _buildBottomActionBar() {
+  Widget _buildBottomActionBar({required BuildContext context,required BookingCubit cubit}) {
     return Container(
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
@@ -420,9 +490,13 @@ class PaymentPageState extends State<PaymentPage>
       ),
       child: SafeArea(
         child: InkWell(
-          onTap: _isLoading ? null : (){
-            executePayment(context: context);
-          },
+          onTap:
+              _isLoading
+                  ? null
+                  : () {
+      
+                    executePayment(context: context,cubit: cubit);
+                  },
           borderRadius: BorderRadius.circular(12.r),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),

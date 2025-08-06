@@ -13,6 +13,7 @@ class DioConsumer extends ApiConsumer {
       'Accept-Language': 'ar',
     };
 
+    // Add Cache Interceptor
     dio.interceptors.add(
       DioCacheInterceptor(
         options: CacheOptions(
@@ -25,25 +26,75 @@ class DioConsumer extends ApiConsumer {
       ),
     );
 
-    dio.interceptors.add(LogInterceptor(
-      request: true,
-      requestHeader: true,
-      requestBody: true,
-      responseHeader: true,
-      responseBody: true,
-      error: true,
-    ));
+    // Add Custom Logging Interceptor with Enhanced Request Body Logging
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+          print('=== REQUEST ===');
+          print('Timestamp: ${DateTime.now()}');
+          print('Method: ${options.method}');
+          print('URL: ${options.uri}');
+          print('Headers: ${options.headers}');
+          print('Query Parameters: ${options.queryParameters}');
+          print('Body: ${_formatRequestBody(options.data)}');
+          print('==============');
+          return handler.next(options);
+        },
+        onResponse: (Response response, ResponseInterceptorHandler handler) {
+          print('=== RESPONSE ===');
+          print('Timestamp: ${DateTime.now()}');
+          print('Status Code: ${response.statusCode}');
+          print('Status Message: ${response.statusMessage}');
+          print('Headers: ${response.headers}');
+          print('Data: ${response.data}');
+          print('==============');
+          return handler.next(response);
+        },
+        onError: (DioException e, ErrorInterceptorHandler handler) {
+          print('=== ERROR ===');
+          print('Timestamp: ${DateTime.now()}');
+          print('Error Type: ${e.type}');
+          print('Message: ${e.message}');
+          if (e.response != null) {
+            print('Status Code: ${e.response!.statusCode}');
+            print('Response Data: ${e.response!.data}');
+          }
+          print('==============');
+          return handler.next(e);
+        },
+      ),
+    );
   }
 
-  Future<Map<String, String>> _buildHeaders({bool withAuth = true,bool isFromData = false}) async {
-    final token = await SharedPreferencesService.read(SharedPreferencesService.token);
+  // Helper method to format request body for logging
+  String _formatRequestBody(dynamic data) {
+    if (data == null) {
+      return 'No body';
+    } else if (data is FormData) {
+      // Handle FormData (multipart/form-data)
+      final fields = data.fields.map((field) => '${field.key}: ${field.value}').join(', ');
+      final files = data.files
+          .map((file) => '${file.key}: ${file.value.filename} (Content-Type: ${file.value.contentType})')
+          .join(', ');
+      return 'FormData { Fields: {$fields}, Files: {$files} }';
+    } else if (data is Map || data is List) {
+      // Handle JSON (Map or List)
+      return data.toString();
+    } else {
+      // Handle other types (e.g., String, int)
+      return data.toString();
+    }
+  }
+
+  Future<Map<String, String>> _buildHeaders({bool withAuth = true, bool isFromData = false,String? outerToken}) async {
+
+    String? token = await SharedPreferencesService.read(SharedPreferencesService.token);
+      token ??= await     SharedPreferencesService.read(SharedPreferencesService.tokenpationt);
+    token ??= outerToken;
     return {
-         'Accept-Language': 'ar',
-         if (!isFromData) 
-           'Content-Type': 'application/json',   
-         if (token != null)
-           'Authorization': 'Bearer $token',
-        
+      'Accept-Language': 'ar',
+      if (!isFromData) 'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
     };
   }
 
@@ -78,6 +129,7 @@ class DioConsumer extends ApiConsumer {
   Future post(
     String path, {
     dynamic data,
+    String? outerToken,
     bool isFromData = false,
     Map<String, dynamic>? queryParameters,
     bool withAuth = true,
@@ -85,12 +137,12 @@ class DioConsumer extends ApiConsumer {
     try {
       final response = await dio.post(
         path,
-        data: isFromData ? FormData.fromMap(data ) :  data,
+        data: isFromData ? FormData.fromMap(data) : data,
         queryParameters: queryParameters,
         options: Options(
-          headers: await _buildHeaders(withAuth: withAuth,isFromData: true),
+          
+          headers: await _buildHeaders(withAuth: withAuth, isFromData: isFromData,outerToken: outerToken),
           contentType: isFromData ? 'multipart/form-data' : 'application/json',
-
         ),
       );
       return response.data;
@@ -114,7 +166,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
         queryParameters: queryParameters,
         options: Options(
-          headers: await _buildHeaders(withAuth: withAuth),
+          headers: await _buildHeaders(withAuth: withAuth, isFromData: isFromData),
           contentType: isFromData ? 'multipart/form-data' : 'application/json',
         ),
       );
@@ -139,8 +191,8 @@ class DioConsumer extends ApiConsumer {
         data: data,
         queryParameters: queryParameters,
         options: Options(
-          headers: await _buildHeaders(withAuth: withAuth),
-          contentType: 'application/json',
+          headers: await _buildHeaders(withAuth: withAuth, isFromData: isFromData),
+          contentType: isFromData ? 'multipart/form-data' : 'application/json',
         ),
       );
       return response.data;
@@ -164,7 +216,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
         queryParameters: queryParameters,
         options: Options(
-          headers: await _buildHeaders(withAuth: withAuth),
+          headers: await _buildHeaders(withAuth: withAuth, isFromData: isFromData),
           contentType: isFromData ? 'multipart/form-data' : 'application/json',
         ),
       );
@@ -189,25 +241,18 @@ class DioErrorHandler {
     switch (dioError.type) {
       case DioExceptionType.cancel:
         return 'تم إلغاء الطلب';
-      
       case DioExceptionType.connectionTimeout:
         return 'انتهت مهلة الاتصال';
-      
       case DioExceptionType.receiveTimeout:
         return 'انتهت مهلة استلام البيانات';
-      
       case DioExceptionType.sendTimeout:
         return 'انتهت مهلة إرسال البيانات';
-      
       case DioExceptionType.badResponse:
         return _handleBadResponse(dioError);
-      
       case DioExceptionType.badCertificate:
         return 'شهادة الأمان غير صحيحة';
-      
       case DioExceptionType.connectionError:
         return 'فشل الاتصال بالإنترنت';
-      
       default:
         return 'حدث خطأ غير معروف';
     }
@@ -215,18 +260,17 @@ class DioErrorHandler {
 
   static String _handleBadResponse(DioException dioError) {
     final response = dioError.response;
-    
-    if (response != null) {
-      if(response.data is String){
-                 return '${response.data ?? 'حدث خطا غير معروف'}';
 
-      }else if (response.data is Map<String, dynamic>) {
-        return ' تحقق من البيانات';
+    if (response != null) {
+      if (response.data is String) {
+        return '${response.data ?? 'حدث خطا غير معروف'}';
+      } else if (response.data is Map<String, dynamic>) {
+        return 'تحقق من البيانات';
       }
-    
+
       switch (response.statusCode) {
-       case 400:
-         return 'خطأ ${response.statusCode}: ${response.statusMessage ?? 'غير معروف'}';
+        case 400:
+          return 'خطأ ${response.statusCode}: ${response.statusMessage ?? 'غير معروف'}';
         case 401:
           return 'غير مصرح بالدخول';
         case 403:
@@ -243,37 +287,34 @@ class DioErrorHandler {
           return 'بوابة غير صحيحة';
         case 503:
           return 'الخدمة غير متوفرة';
-       
         default:
-                 return 'طلب غير صحيح';
- 
+          return 'طلب غير صحيح';
       }
     }
-    
+
     return 'استجابة غير صحيحة من الخادم';
   }
 
-List<String> extractErrorMessages(dynamic errorData) {
-  final List<String> messages = [];
+  static List<String> extractErrorMessages(dynamic errorData) {
+    final List<String> messages = [];
 
-  if (errorData is Map<String, dynamic>) {
-    final errors = errorData['errors'];
+    if (errorData is Map<String, dynamic>) {
+      final errors = errorData['errors'];
 
-    if (errors is Map<String, dynamic>) {
-      for (final field in errors.entries) {
-        final errorList = field.value;
-        if (errorList is List) {
-          for (final msg in errorList) {
-            messages.add(msg.toString());
+      if (errors is Map<String, dynamic>) {
+        for (final field in errors.entries) {
+          final errorList = field.value;
+          if (errorList is List) {
+            for (final msg in errorList) {
+              messages.add(msg.toString());
+            }
           }
         }
       }
     }
+
+    return messages;
   }
-
-  return messages;
-}
-
 
   static String extractServerMessage(dynamic data) {
     try {

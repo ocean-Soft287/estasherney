@@ -69,10 +69,9 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   try {
     final response = await dioConsumer.post(
       EndPoint.confirmAppointment,
-      isFromData: true,
       data: appointment.toJson(),
     );
-    return Right('تمت العملية بنجاح');
+    return Right(response['message']);
   } on DioException catch (e) {
     return Left(e.toString());
   } catch (e) {

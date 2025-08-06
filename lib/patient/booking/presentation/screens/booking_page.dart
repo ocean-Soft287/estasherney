@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:consult_me/core/constants/app_colors.dart';
-import 'package:consult_me/doctor/auth/presentation/pages/login_page_screen.dart';
+import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/patient/booking/data/models/appointment_model.dart';
 import 'package:consult_me/patient/booking/data/models/booking_model.dart';
 import 'package:consult_me/patient/booking/presentation/widgets/attachment_section_booking_widget.dart';
@@ -158,7 +158,7 @@ final formKey = GlobalKey<FormState>();
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => db.GetIt.instance<BookingCubit>()..getBooking(date: convertArabicToEnglishNumber(dates[selectedDateIndex]),
-       doctorId:'37' // widget.doctor.id.toString(),
+       doctorId: widget.doctor.id.toString(),
        ),
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
@@ -188,28 +188,37 @@ final formKey = GlobalKey<FormState>();
                                 selectedSlot = slot;
                               });
                             },),
-                            _buildPatientDetailsSection(),
-                            PersonalInfoSection(fullName: fullName, age: age,
-                             problemDescription: problemDescription, selectedGender: gender,
-                             onProblemChanged: (problem){},
-                               onGenderSelected: (gender){}, formKey: formKey, nameController: nameController,
-                               ageController: ageController,
-                               problemController: problemController,),
-                        //    _buildPersonalInfoSection(),
-                           AttachmentsSectionWidget(onFileTap: () async{  
-                           selectedFile.clear(); 
-                         selectedFile =   await pickFiles();
-                         setState(() {
-                           
-                         });
-                           }, onImageTap: () async{
-                                                     selectedFile.clear(); 
-                
-                         selectedImage =     await pickImage();
-                         setState(() {
-                         selectedFile.add(selectedImage!);  });
-                
-                             },),
+                          
+                         cubit.times.isEmpty? SizedBox.shrink():   Column(
+                              children: [
+                                _buildPatientDetailsSection(),
+                                PersonalInfoSection(fullName: fullName, age: age,
+                                 problemDescription: problemDescription, selectedGender: gender,
+                                 onProblemChanged: (problem){},
+                                   onGenderSelected: (gender){}, formKey: formKey, nameController: nameController,
+                                   ageController: ageController,
+                                   problemController: problemController,),
+                                                        //    _buildPersonalInfoSection(),
+                                                           AttachmentsSectionWidget(onFileTap: () async{  
+                                                           selectedFile.clear(); 
+                                                         selectedFile =   await pickFiles();
+                                                         setState(() {
+                                                           
+                                                         });
+                                                           }, onImageTap: () async{
+                                                         selectedFile.clear(); 
+                                                
+                                                         selectedImage =     await pickImage();
+                                                         if(selectedImage != null){
+                                                         setState(() {
+                                                    selectedFile.add(selectedImage!);
+                                                           });
+                                                         
+                                                         }
+                                                
+                                 },),
+                              ],
+                            ),
                        
                          if(selectedFile.isNotEmpty)  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -217,11 +226,12 @@ final formKey = GlobalKey<FormState>();
                              Text("picked Files :  ${selectedFile.length}"),
                            ],
                          ),
-                           ConfirmButtonWidget(
-                            
+                            ConfirmButtonWidget(
+                            color: cubit.times.isEmpty ? Colors.grey : AppColors.mainColor,
                             isloading: cubit.state is AddAppointmentLoading ? true : false,
                             onPressed: 
-                            cubit.state is AddAppointmentLoading?  null:
+                             
+                            cubit.state is AddAppointmentLoading || cubit.times.isEmpty?  null:
                             () async{
                               if(selectedSessionType == null){
                                 Fluttertoast.showToast(msg: "برجاء اختيار نوع الحجز");
@@ -241,7 +251,7 @@ final formKey = GlobalKey<FormState>();
                   if(formKey.currentState!.validate()) {
              
                 final appointment =  Appointment(
-                  doctorId: '37', //widget.doctor.id.toString(),
+                  doctorId: widget.doctor.id.toString(),
                   slotStartTime: selectedSlot!.startTime!,
                 
                                slotEndTime: selectedSlot!.endTime!,
@@ -276,7 +286,8 @@ final formKey = GlobalKey<FormState>();
             listener: (context, state) {
              if(state is AddAppointmentSuccess){
               Fluttertoast.showToast(msg:state.bookingResponse.message);
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PaymentPage(response: state.bookingResponse,),));
+              NavigationService.pushReplacement( PaymentPage(response: state.bookingResponse,));
+              // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => PaymentPage(response: state.bookingResponse,),));
              }else if (state is BookingFailure) {
               Fluttertoast.showToast(msg: state.error);
              }
@@ -495,7 +506,7 @@ final formKey = GlobalKey<FormState>();
               selectedDateIndex = index;
                  cubit.getBooking(
                   date:convertArabicToEnglishNumber(dates[selectedDateIndex]),
-                  doctorId:'37' // widget.doctor.id.toString(),
+                  doctorId: widget.doctor.id.toString(),
                 );
 
             });

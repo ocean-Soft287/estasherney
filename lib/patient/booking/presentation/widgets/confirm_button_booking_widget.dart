@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 class ConfirmButtonWidget extends StatelessWidget {
   final VoidCallback? onPressed;
  final bool isloading;
-  const ConfirmButtonWidget({required this.onPressed,required this.isloading, super.key});
+ final Color color;
+  const ConfirmButtonWidget({required this.onPressed,required this.isloading, super.key,  this.color = AppColors.mainColor});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,14 @@ class ConfirmButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(27.5.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.mainColor.withOpacity(0.3),
+            color: color.withOpacity(0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Material(
-        color: AppColors.mainColor,
+        color:color,
         borderRadius: BorderRadius.circular(27.5.r),
         child: InkWell(
           borderRadius: BorderRadius.circular(27.5.r),

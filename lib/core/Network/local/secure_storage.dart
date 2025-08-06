@@ -9,7 +9,6 @@ class SharedPreferencesService {
   static const String lastName = "lastName";
   static const String picture = "picture";
   static const String userKey = "user";
-
   static const String examenPrice = "examenPrice";
   static const String specialization = "specialization";
   static const String nationalID = "nationalID";
@@ -27,11 +26,11 @@ class SharedPreferencesService {
   static const String phoneNumber = "phoneNumber";
   static const String birthday = "birthday";
   static const String imageurlpationt = "imageUrl";
-  static const String tokenpationt = "token";
-
-  
+  static const String tokenpationt = "token";  
   static const String favoritesKey = "favorites";
 
+  static const String pateint = "pateint";
+  static const String doctor = "doctor";
   
   static Future<void> write(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
