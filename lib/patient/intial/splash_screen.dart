@@ -1,7 +1,6 @@
 import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
 import 'package:consult_me/core/notifications/flutter_local_notification.dart';
-import 'package:consult_me/core/notifications/notification_push.dart';
-import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
+ import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
@@ -12,6 +11,9 @@ import 'package:consult_me/patient/intial/onboarding_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
+
+
+  
   const SplashScreen({super.key});
 
   @override
