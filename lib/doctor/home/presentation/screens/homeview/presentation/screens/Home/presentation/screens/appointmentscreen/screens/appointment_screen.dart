@@ -1,19 +1,22 @@
-import 'package:consult_me/core/constants/app_colors.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointment_day_cubit/appointment_day_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointment_day_cubit/appointment_day_state.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointmentdoctor_future_cubit/appointment_future_state.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointmentpast/appointment_past_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/appointmentpast/appointment_past_state.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/searchappoint/searchAppontment_cubit.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/logic/searchappoint/searchappointment_state.dart';
-import 'package:consult_me/doctor/home/presentation/screens/homeview/presentation/screens/Home/presentation/screens/appointmentscreen/widget/custom_search.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
+import '../../../../../../../../../../../../core/constants/app_colors.dart';
+import '../../../../../../../../../../../../features/call/presentation/cubit/call_cubit.dart';
+import '../data/models/doctor_future_appointment.dart';
+import '../logic/appointment_day_cubit/appointment_day_cubit.dart';
+import '../logic/appointment_day_cubit/appointment_day_state.dart';
+import '../logic/appointmentdoctor_future_cubit/appointment_future_cubit.dart';
+import '../logic/appointmentdoctor_future_cubit/appointment_future_state.dart';
+import '../logic/appointmentpast/appointment_past_cubit.dart';
+import '../logic/appointmentpast/appointment_past_state.dart';
+import '../logic/searchappoint/searchAppontment_cubit.dart';
+import '../logic/searchappoint/searchappointment_state.dart';
+import '../widget/custom_search.dart';
 
 class AppointmentScreen extends StatelessWidget {
   const AppointmentScreen({super.key});
@@ -23,18 +26,20 @@ class AppointmentScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
-        body: BlocProvider(
-          create: (context) => GetIt.I<SearchAppointmentCubit>(),
+        body: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => GetIt.I<SearchAppointmentCubit>()),
+            BlocProvider(create: (context) => GetIt.I<CallCubit>()),
+          ],
           child: BlocBuilder<SearchAppointmentCubit, SearchAppointmentState>(
             builder: (context, state) {
               final isSearching =
                   state is SearchAppointmentSuccess ||
-                  state is SearchAppointmentLoading ||
-                  state is SearchAppointmentFailure;
+                      state is SearchAppointmentLoading ||
+                      state is SearchAppointmentFailure;
 
               return Column(
                 children: [
-                  // Header with gradient
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -59,9 +64,7 @@ class AppointmentScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12.r),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.mainColor.withOpacity(
-                                        0.1,
-                                      ),
+                                      color: AppColors.mainColor.withOpacity(0.1),
                                       blurRadius: 8,
                                       offset: const Offset(0, 2),
                                     ),
@@ -86,7 +89,7 @@ class AppointmentScreen extends StatelessWidget {
                                 ),
                               ),
                               const Spacer(),
-                              SizedBox(width: 48.w), // Balance spacing
+                              SizedBox(width: 48.w),
                             ],
                           ),
                         ),
@@ -136,7 +139,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Column(
       children: [
         SizedBox(height: 20.h),
-        // Modern Tabs
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: Container(
@@ -162,27 +164,24 @@ class _OrdersScreenState extends State<OrdersScreen> {
           ),
         ),
         SizedBox(height: 20.h),
-        // Smooth animated content
         Expanded(
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
-            transitionBuilder:
-                (child, animation) => FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0.1, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                ),
-            child:
-                selectedIndex == 0
-                    ? const PreviousOrdersEmptyWidget(key: ValueKey('future'))
-                    : selectedIndex == 1
-                    ? const CurrentAppointmentsScreen(key: ValueKey('current'))
-                    : const CanceledOrderCard(key: ValueKey('past')),
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0.1, 0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: selectedIndex == 0
+                ? const PreviousOrdersEmptyWidget(key: ValueKey('future'))
+                : selectedIndex == 1
+                ? const CurrentAppointmentsScreen(key: ValueKey('current'))
+                : const CanceledOrderCard(key: ValueKey('past')),
           ),
         ),
       ],
@@ -199,16 +198,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
           decoration: BoxDecoration(
             color: isSelected ? AppColors.mainColor : Colors.transparent,
             borderRadius: BorderRadius.circular(14.r),
-            boxShadow:
-                isSelected
-                    ? [
-                      BoxShadow(
-                        color: AppColors.mainColor.withOpacity(0.25),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                    : null,
+            boxShadow: isSelected
+                ? [
+              BoxShadow(
+                color: AppColors.mainColor.withOpacity(0.25),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ]
+                : null,
           ),
           child: Center(
             child: Text(
@@ -226,9 +224,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 }
 
-// ✅ تم التصحيح: استخدام `mixin` بدل `abstract class`
 mixin AppointmentCardHelper {
-  String getTimeRemainingText(String date, String startTime, String endTime) {
+  Widget getTimeRemainingText(String date, String startTime, String endTime) {
+    return _CountdownTimerWidget(
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
+    );
+  }
+
+  bool isSessionActive(String date, String startTime, String endTime) {
     try {
       final start = DateTime.parse(
         "$date ${startTime.length == 5 ? '$startTime:00' : startTime}",
@@ -237,14 +242,9 @@ mixin AppointmentCardHelper {
         "$date ${endTime.length == 5 ? '$endTime:00' : endTime}",
       );
       final now = DateTime.now();
-      if (now.isAfter(end)) return "الموعد انتهى";
-      if (now.isAfter(start) && now.isBefore(end)) return "الموعد جاري الآن";
-      final diff = start.difference(now);
-      final hours = diff.inHours;
-      final minutes = diff.inMinutes.remainder(60);
-      return "المتبقي: $hours ساعة و $minutes دقيقة";
+      return now.isAfter(start) && now.isBefore(end);
     } catch (e) {
-      return "خطأ في توقيت الموعد";
+      return false;
     }
   }
 
@@ -301,8 +301,98 @@ mixin AppointmentCardHelper {
   }
 }
 
-class PreviousOrdersEmptyWidget extends StatelessWidget
-    with AppointmentCardHelper {
+class _CountdownTimerWidget extends StatefulWidget {
+  final String date;
+  final String startTime;
+  final String endTime;
+
+  const _CountdownTimerWidget({
+    required this.date,
+    required this.startTime,
+    required this.endTime,
+  });
+
+  @override
+  _CountdownTimerWidgetState createState() => _CountdownTimerWidgetState();
+}
+
+class _CountdownTimerWidgetState extends State<_CountdownTimerWidget> {
+  Timer? _timer;
+  String _displayText = "جاري الحساب...";
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    try {
+      final start = DateTime.parse(
+        "${widget.date} ${widget.startTime.length == 5 ? '${widget.startTime}:00' : widget.startTime}",
+      );
+      final end = DateTime.parse(
+        "${widget.date} ${widget.endTime.length == 5 ? '${widget.endTime}:00' : widget.endTime}",
+      );
+
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
+        final now = DateTime.now();
+
+        if (now.isAfter(end)) {
+          setState(() => _displayText = "الموعد انتهى");
+          timer.cancel();
+          return;
+        }
+        if (now.isAfter(start) && now.isBefore(end)) {
+          setState(() => _displayText = "الموعد جاري الآن");
+          return;
+        }
+
+        final diff = start.difference(now);
+        final days = diff.inDays;
+        final hours = diff.inHours.remainder(24);
+        final minutes = diff.inMinutes.remainder(60);
+        final seconds = diff.inSeconds.remainder(60);
+
+        final parts = <String>[];
+        if (days > 0) parts.add("$days يوم");
+        if (hours > 0) parts.add("$hours ساعة");
+        if (minutes > 0) parts.add("$minutes دقيقة");
+        if (seconds > 0 || parts.isEmpty) parts.add("$seconds ثانية");
+
+        setState(() => _displayText = "المتبقي: ${parts.join(' و ')}");
+      });
+    } catch (e) {
+      setState(() => _displayText = "خطأ في توقيت الموعد");
+      _timer?.cancel();
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      _displayText,
+      style: GoogleFonts.leagueSpartan(
+        color: AppColors.mainColor,
+        fontSize: 13.sp,
+        fontWeight: FontWeight.w600,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+class PreviousOrdersEmptyWidget extends StatelessWidget with AppointmentCardHelper {
   const PreviousOrdersEmptyWidget({super.key});
 
   @override
@@ -327,8 +417,8 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
               padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 12.h),
               itemCount: appointments.length,
               itemBuilder: (context, index) {
-                final item = appointments[index];
-                return _buildAppointmentCard(context, item);
+                final PastAppointmentData item = appointments[index];
+                return _buildAppointmentCard(context, item: item);
               },
             );
           }
@@ -374,8 +464,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
             ),
           ],
         ),
-        child:
-         Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Lottie.asset(
@@ -409,12 +498,13 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
             ),
           ],
         ),
-     
       ),
     );
   }
 
-  Widget _buildAppointmentCard(BuildContext context, dynamic item) {
+  Widget _buildAppointmentCard(BuildContext context, {required PastAppointmentData item}) {
+    final isActive = isSessionActive(item.date, item.slotStartTime, item.slotEndTime);
+
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
@@ -433,7 +523,6 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Patient + Action
             Row(
               children: [
                 Container(
@@ -504,39 +593,89 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
                     ],
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.mainColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12.r),
-                      onTap: () {},
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 8.h,
-                        ),
-                        child: Text(
-                          "السجلات",
-                          style: GoogleFonts.leagueSpartan(
-                            color: AppColors.mainColor,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
+                Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.mainColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(12.r),
+                          onTap: () {
+
+                            DateTime start = DateTime.parse("${item.date} ${item.slotStartTime}");
+                            DateTime end = DateTime.parse("${item.date} ${item.slotEndTime}");
+                            Duration diff = end.difference(start);
+                            context.read<CallCubit>().startCall(
+                              targetUserId: item.patientId,
+                              durationInMinutes: diff.inMinutes,
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 8.h,
+                            ),
+                            child: Text(
+                              "السجلات",
+                              style: GoogleFonts.leagueSpartan(
+                                color: AppColors.mainColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 10.h),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: isActive ? AppColors.mainColor.withOpacity(0.1) : Colors.grey.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(12.r),
+                          onTap: isActive
+                              ? () {
+                            DateTime start = DateTime.parse("${item.date} ${item.slotStartTime}");
+                            DateTime end = DateTime.parse("${item.date} ${item.slotEndTime}");
+                            Duration diff = end.difference(start);
+                            context.read<CallCubit>().startCall(
+                              targetUserId: item.patientId,
+                              durationInMinutes: diff.inMinutes,
+                            );
+                          }
+                              : null,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 8.h,
+                            ),
+                            child: Text(
+                              "انضم الان",
+                              style: GoogleFonts.leagueSpartan(
+                                color: isActive ? AppColors.mainColor : Colors.grey,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
             SizedBox(height: 16.h),
             Divider(color: AppColors.mainColor.withOpacity(0.2)),
             SizedBox(height: 12.h),
-            // Tags
             Wrap(
               spacing: 10.w,
               runSpacing: 8.h,
@@ -549,7 +688,6 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
             SizedBox(height: 12.h),
             Divider(color: AppColors.mainColor.withOpacity(0.2)),
             SizedBox(height: 12.h),
-            // Time & Payment
             Row(
               children: [
                 Expanded(
@@ -590,7 +728,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
       child: Text(
         label,
         style: GoogleFonts.leagueSpartan(
-          color: Colors.blueAccent ?? color, // ✅ تم التصحيح
+          color: color,
           fontSize: 12.sp,
           fontWeight: FontWeight.w500,
         ),
@@ -598,7 +736,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
     );
   }
 
-  Widget _buildInfoBox(String title, String value, Color color) {
+  Widget _buildInfoBox(String title, dynamic value, Color color) {
     return Container(
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
@@ -616,8 +754,10 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
             ),
           ),
           SizedBox(height: 4.h),
-          Text(
-            value,
+          value is Widget
+              ? value
+              : Text(
+            value.toString(),
             style: GoogleFonts.leagueSpartan(
               color: color,
               fontSize: 13.sp,
@@ -631,8 +771,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
   }
 }
 
-class CurrentAppointmentsScreen extends StatelessWidget
-    with AppointmentCardHelper {
+class CurrentAppointmentsScreen extends StatelessWidget with AppointmentCardHelper {
   const CurrentAppointmentsScreen({super.key});
 
   @override
@@ -685,16 +824,24 @@ class CurrentAppointmentsScreen extends StatelessWidget
           ),
           Text(
             "ليس لديك مواعيد اليوم",
-            style: TextStyle(color: AppColors.mainColor, fontSize: 18.sp),
+            style: GoogleFonts.leagueSpartan(
+              color: AppColors.mainColor,
+              fontSize: 18.sp,
+            ),
           ),
-         
           Text(
             "قم بتحديث أيام وساعات عملك",
-            style: TextStyle(color: AppColors.mainColor, fontSize: 15.sp),
+            style: GoogleFonts.leagueSpartan(
+              color: AppColors.mainColor,
+              fontSize: 15.sp,
+            ),
           ),
           Text(
             "لتستقبل المواعيد المختلفة",
-            style: TextStyle(color: AppColors.mainColor, fontSize: 15.sp),
+            style: GoogleFonts.leagueSpartan(
+              color: AppColors.mainColor,
+              fontSize: 15.sp,
+            ),
           ),
         ],
       ),
@@ -702,6 +849,8 @@ class CurrentAppointmentsScreen extends StatelessWidget
   }
 
   Widget _buildAppointmentCard(BuildContext context, dynamic item) {
+    final isActive = isSessionActive(item.date, item.slotStartTime, item.slotEndTime);
+
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
@@ -758,21 +907,82 @@ class CurrentAppointmentsScreen extends StatelessWidget
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
+                Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.mainColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(12.r),
+                          onTap: () {
+                            DateTime start = DateTime.parse("${item.date} ${item.slotStartTime}");
+                            DateTime end = DateTime.parse("${item.date} ${item.slotEndTime}");
+                            Duration diff = end.difference(start);
+                            context.read<CallCubit>().startCall(
+                              targetUserId: item.patientId,
+                              durationInMinutes: diff.inMinutes,
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 8.h,
+                            ),
+                            child: Text(
+                              "السجلات",
+                              style: GoogleFonts.leagueSpartan(
+                                color: AppColors.mainColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    "السجلات",
-                    style: GoogleFonts.leagueSpartan(
-                      color: AppColors.mainColor,
-                      fontSize: 14.sp,
+                    SizedBox(height: 10.h),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: isActive ? AppColors.mainColor.withOpacity(0.1) : Colors.grey.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(12.r),
+                          onTap: isActive
+                              ? () {
+                            DateTime start = DateTime.parse("${item.date} ${item.slotStartTime}");
+                            DateTime end = DateTime.parse("${item.date} ${item.slotEndTime}");
+                            Duration diff = end.difference(start);
+                            context.read<CallCubit>().startCall(
+                              targetUserId: item.patientId,
+                              durationInMinutes: diff.inMinutes,
+                            );
+                          }
+                              : null,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 8.h,
+                            ),
+                            child: Text(
+                              "انضم الان",
+                              style: GoogleFonts.leagueSpartan(
+                                color: isActive ? AppColors.mainColor : Colors.grey,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
@@ -804,16 +1014,10 @@ class CurrentAppointmentsScreen extends StatelessWidget
                         ),
                       ),
                       SizedBox(height: 4.h),
-                      Text(
-                        getTimeRemainingText(
-                          item.date,
-                          item.slotStartTime,
-                          item.slotEndTime,
-                        ),
-                        style: GoogleFonts.leagueSpartan(
-                          color: AppColors.mainColor,
-                          fontSize: 14.sp,
-                        ),
+                      getTimeRemainingText(
+                        item.date,
+                        item.slotStartTime,
+                        item.slotEndTime,
                       ),
                     ],
                   ),
@@ -833,7 +1037,7 @@ class CurrentAppointmentsScreen extends StatelessWidget
                       Text(
                         getArabicPaymentStatus(item.status),
                         style: GoogleFonts.leagueSpartan(
-                          color: Colors.green,
+                          color: getPaymentStatusColor(item.status),
                           fontSize: 14.sp,
                         ),
                       ),
@@ -859,7 +1063,7 @@ class CurrentAppointmentsScreen extends StatelessWidget
       child: Text(
         label,
         style: GoogleFonts.leagueSpartan(
-          color: Colors.blueAccent ?? color,
+          color: color,
           fontSize: 12.sp,
         ),
       ),
@@ -873,9 +1077,7 @@ class CanceledOrderCard extends StatelessWidget with AppointmentCardHelper {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:
-          (context) =>
-              GetIt.instance<PastAppointmentCubit>()..getPastAppointments(),
+      create: (context) => GetIt.instance<PastAppointmentCubit>()..getPastAppointments(),
       child: BlocConsumer<PastAppointmentCubit, PastAppointmentState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -896,14 +1098,14 @@ class CanceledOrderCard extends StatelessWidget with AppointmentCardHelper {
                   ),
                   Text(
                     "ليس لديك مواعيد سابقة",
-                    style: TextStyle(
+                    style: GoogleFonts.leagueSpartan(
                       color: AppColors.mainColor,
                       fontSize: 18.sp,
                     ),
                   ),
                   Text(
                     "المواعيد ستظهر هنا",
-                    style: TextStyle(
+                    style: GoogleFonts.leagueSpartan(
                       color: AppColors.mainColor,
                       fontSize: 15.sp,
                     ),
@@ -1069,7 +1271,7 @@ class CanceledOrderCard extends StatelessWidget with AppointmentCardHelper {
       child: Text(
         label,
         style: GoogleFonts.leagueSpartan(
-          color: Colors.blueAccent ?? color,
+          color: color,
           fontSize: 12.sp,
         ),
       ),

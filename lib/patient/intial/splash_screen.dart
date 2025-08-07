@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
 import 'package:consult_me/core/notifications/flutter_local_notification.dart';
  import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
@@ -8,7 +10,8 @@ import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/home/home_view.dart';
 import 'package:consult_me/patient/intial/onboarding_view.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import '../auth/presentation/views/screens/login/data/models/login_pationt_model.dart';
 
 class SplashScreen extends StatefulWidget {
 
@@ -48,6 +51,8 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     if (patientToken != null && patientToken.isNotEmpty) {
+
+      messaging();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -66,14 +71,16 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
- Future<void> messaging({required BuildContext context}) async {
+ Future<void> messaging() async {
     await  NotificationsService.init();
      final firebaseMessaging =     FirebaseMessagingService.instance();
       await firebaseMessaging.init(localNotificationsService: NotificationsService());
      String? token = await firebaseMessaging.getToken();
-      context.read<BookingCubit>(). getPatientDeviceToken(pateintId: '1') ; 
-      context.read<BookingCubit>().   updatePatientDeviceToken    (patientId: '', deviceToken: token);
-       // await NotificationService.sendNotification(token, 'payment', 'payment');
+  final json =  await SharedPreferencesService.read(SharedPreferencesService.pateint);
+  final patient=  LoginPationtModel.fromJson(jsonDecode(json!));
+  GetIt.instance<BookingCubit>(). updatePatientDeviceToken    (patientId: patient.id, deviceToken: token);
+
+     // context.read<BookingCubit>(). getPatientDeviceToken(pateintId: patient.id) ;
   }
 
   @override

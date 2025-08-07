@@ -4,7 +4,6 @@ import 'package:consult_me/patient/booking/data/models/appointment_model.dart';
 import 'package:consult_me/patient/booking/data/models/booking_model.dart';
 import 'package:consult_me/patient/booking/data/models/confrim_payment.dart';
 import 'package:consult_me/patient/home/home_screen.dart';
-import 'package:consult_me/patient/payment/presentation/view/screens/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -72,7 +71,7 @@ Future<void> confirmPayment({required ConfrimPayment appointment}) async {
       emit(BookingFailure(e.toString()));
     }
   }
-Future<void> updatePatientDeviceToken({required  String patientId,required String deviceToken }) async {
+Future<void> updatePatientDeviceToken({required  int patientId,required String deviceToken }) async {
     emit(UpdatePatientDeviceTokenLoading());
     try {
       final result = await bookingRemoteDataSource.updatePatientDeviceToken(patientId: patientId, deviceToken: deviceToken);
@@ -84,7 +83,7 @@ Future<void> updatePatientDeviceToken({required  String patientId,required Strin
       emit(BookingFailure(e.toString()));
     }
   }
-Future<void> getPatientDeviceToken({required String pateintId}) async {
+Future<void> getPatientDeviceToken({required int pateintId}) async {
     emit(GetPatientDeviceTokenLoading());
     try {
       final result = await bookingRemoteDataSource.getPatientDeviceToken(patientId: pateintId);

@@ -29,12 +29,12 @@ class BookingRepositoryImpl implements BookingRepository {
   }
   
   @override
-  Future<Either<String, String>> getPatientDeviceToken({required String patientId}) {
+  Future<Either<String, String>> getPatientDeviceToken({required int patientId}) {
   return  remoteDataSource.getPatientDeviceToken(patientId: patientId);
   }
   
   @override
-  Future<Either<String, String>> updatePatientDeviceToken({required String patientId, required String deviceToken}) {
+  Future<Either<String, String>> updatePatientDeviceToken({required int patientId, required String deviceToken}) {
       return  remoteDataSource.updatePatientDeviceToken(patientId: patientId, deviceToken: deviceToken);
 
   }

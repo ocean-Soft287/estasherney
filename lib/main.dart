@@ -2,11 +2,9 @@ import 'package:consult_me/bloc_observer.dart';
 import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/services/local_services.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
-import 'package:consult_me/patient/booking/data/models/booking_response.dart';
 import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/intial/splash_screen.dart';
 import 'package:consult_me/patient/localization/manger/localization_cubit.dart';
-import 'package:consult_me/patient/payment/presentation/view/screens/payment_page.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,13 +16,11 @@ import 'patient/localization/data/localizationmodel.dart';
 import 'patient/localization/manger/localization_state.dart';
 import 'generated/l10n.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
   Bloc.observer = MyBlocObserver();
-  runApp(DevicePreview(enabled: true
-  , builder: (context) => const MyApp()));
+  runApp(DevicePreview(enabled: false, builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -56,10 +52,8 @@ class MyApp extends StatelessWidget {
                   LocalizationCubit()
                     ..appLanguage(LanguageEventEnums.initialLanguage),
         ),
-        BlocProvider(
-          create: (context) => GetIt.instance<DeleteAccountCubit>(),
-        ),
-     BlocProvider(create: (context) => GetIt.instance<BookingCubit>(),)
+        BlocProvider(create: (context) => GetIt.instance<DeleteAccountCubit>()),
+        BlocProvider(create: (context) => GetIt.instance<BookingCubit>()),
       ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, langState) {
@@ -70,17 +64,15 @@ class MyApp extends StatelessWidget {
           }
 
           return ScreenUtilInit(
-            
             designSize: const Size(360, 690),
             minTextAdapt: true,
             splitScreenMode: true,
             builder: (context, child) {
               return MaterialApp(
                 navigatorKey: NavigationService.navigatorKey,
-                          locale: const Locale('ar'), 
+                locale: const Locale('ar'),
 
                 debugShowCheckedModeBanner: false,
-                
 
                 supportedLocales: S.delegate.supportedLocales,
                 localizationsDelegates: [
@@ -97,13 +89,10 @@ class MyApp extends StatelessWidget {
                       }
                     }
                   }
-                   return const Locale('ar');
+                  return const Locale('ar');
                 },
-                home:  //PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
-                 SplashScreen(
-                  
-                ),
-             
+                home: //PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
+                    SplashScreen(),
               );
             },
           );

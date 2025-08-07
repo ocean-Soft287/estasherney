@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/notifications/flutter_local_notification.dart';
 import 'package:consult_me/features/call/data/models/call_model.dart';
+import 'package:consult_me/features/call/data/models/my_call_model.dart';
 import 'package:consult_me/features/call/presentation/pages/video.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -114,6 +115,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 }
  void navigationToVideo(RemoteMessage message) {
-    CallModel call = CallModel.fromJson(message.data['data']);  
+   MyCallModel call = MyCallModel.fromJson(message.data['data']);
        NavigationService.push(Video(call: call,));
   }

@@ -5,6 +5,7 @@ class CallModel {
   final DateTime startedAt;
   final int durationInMinutes;
 
+
   CallModel({
     required this.callId,
     required this.channelName,
@@ -34,6 +35,4 @@ class CallModel {
       'durationInMinutes': durationInMinutes,
     };
   }
-
-
 }

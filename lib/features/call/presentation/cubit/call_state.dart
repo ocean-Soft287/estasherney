@@ -1,4 +1,5 @@
 import 'package:consult_me/features/call/data/models/call_model.dart';
+import 'package:consult_me/features/call/data/models/my_call_model.dart';
 
 abstract class CallState {}
 
@@ -16,7 +17,10 @@ class StartCallSuccess extends CallState {
   StartCallSuccess(this.callModel);
 }
 class EndCallSuccess extends CallState {}
-class GetAllMyCallsSuccess extends CallState {}
+class GetAllMyCallsSuccess extends CallState {
+  List<MyCallModel>calls;
+  GetAllMyCallsSuccess({required this.calls});
+}
 
 
 class CallSuccess extends CallState {

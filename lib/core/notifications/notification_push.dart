@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:consult_me/features/call/data/models/call_model.dart';
+import 'package:consult_me/features/call/data/models/my_call_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
@@ -45,7 +46,7 @@ class NotificationService {
 
 
   static Future<void> sendNotification(
-      String deviceToken, String title, String body,CallModel data) async {
+      String deviceToken, String title, String body,MyCallModel data) async {
     final String accessToken = await getAccessToken();
     log ('accessToken $accessToken');
     String endpointFCM =

@@ -8,9 +8,9 @@ class EndPoint {
   static String forgetpassworddoctor = "$baseUrl/api/Doctor/forgotpassword";
   /// token 
   
-  static String getPatientDeviceToken({required String id}) =>   '$baseUrl/api/Patient/getPatientDeviceToken?id=$id';
+  static String getPatientDeviceToken({required int id}) =>   '$baseUrl/api/Patient/getPatientDeviceToken?id=$id';
   static String updatePatientDeviceToken =    '$baseUrl/api/Patient/updateDeviceToken';
-  static Map<String,dynamic> updatePatientDeviceTokenbody({required String patientId,required String deviceToken}) =>   {
+  static Map<String,dynamic> updatePatientDeviceTokenbody({required int patientId,required String deviceToken}) =>   {
   "patientId": patientId,
   "deviceToken": deviceToken
 };
@@ -18,7 +18,7 @@ class EndPoint {
  /// Call
   
  static String startCall =   '$baseUrl/api/Call/start';
- static String endCall ({required String id}) =>   '$baseUrl/api/Call/end/$id';
+ static String endCall ({required int id}) =>   '$baseUrl/api/Call/end/$id';
  static String getmyCalls =   '$baseUrl/api/Call/myCalls';
 
 
