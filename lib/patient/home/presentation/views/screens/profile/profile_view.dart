@@ -2,12 +2,10 @@ import 'package:consult_me/patient/auth/presentation/views/screens/login/present
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/screens/login_screen.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/presentation/logic/update_profile_cubit.dart';
-import 'package:consult_me/patient/payment/presentation/view/screens/payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/screens/favourites.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/help_center.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/notfication.dart';
-import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/setting/presentation/screens/setting.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/screens/your_profile.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/widget/build_menu_item.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/profile/widget/build_profile_header.dart';

@@ -1,6 +1,7 @@
 import 'package:consult_me/core/constants/app_colors.dart';
 import 'package:consult_me/patient/booking/presentation/screens/booking_page.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_cubit.dart';
+import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/deleate_favourite/deleate_favourite_state.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_cubit.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/manager/post_favourite/post_favourite_state.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/profiledoctor/presentation/screens/profile_doctor.dart';
@@ -157,8 +158,16 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                           horizontal: 12.w,
                           vertical: 6.h,
                         ),
-                        child: BlocProvider(
-                          create: (_) => GetIt.I<SetFavoriteDoctorCubit>(),
+                        child: MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (_) => GetIt.I<SetFavoriteDoctorCubit>(),
+                            ),
+                            BlocProvider(
+                              create:
+                                  (_) => GetIt.I<RemoveFavoriteDoctorCubit>(),
+                            ),
+                          ],
                           child: BlocConsumer<
                             SetFavoriteDoctorCubit,
                             SetFavoriteDoctorState
@@ -168,6 +177,15 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text("تمت الإضافة للمفضلة"),
+                                  ),
+                                );
+                              }
+                              if (state is RemoveFavoriteDoctorSuccess) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'تمت إزالة الطبيب من المفضلة',
+                                    ),
                                   ),
                                 );
                               } else if (favState is SetFavoriteDoctorFailure) {
@@ -268,7 +286,8 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                           doctor.isFavorite
                                                               ? AppColors
                                                                   .mainColor
-                                                              : Colors.grey,
+                                                              : Colors
+                                                                  .grey, // الأزرق عند المفضلة
                                                       size: 22.sp,
                                                     ),
                                                     onPressed: () async {
@@ -301,6 +320,7 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                           doctor.isFavorite =
                                                               !isNowFavorite;
                                                         });
+
                                                         ScaffoldMessenger.of(
                                                           context,
                                                         ).showSnackBar(
@@ -312,12 +332,6 @@ class _DoctorForSpecializationState extends State<DoctorForSpecialization> {
                                                         );
                                                       }
                                                     },
-                                                  ),
-                                                  SizedBox(width: 8.w),
-                                                  Icon(
-                                                    Icons.calendar_month,
-                                                    color: AppColors.mainColor,
-                                                    size: 20.sp,
                                                   ),
                                                 ],
                                               ),

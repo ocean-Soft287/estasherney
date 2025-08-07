@@ -1,4 +1,3 @@
-import 'package:consult_me/core/Network/local/secure_storage.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/manager/getdoctor/get_doctor_pationt_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/data/repo/get_doctor_pationt/get_doctor_pationt_repo.dart';
@@ -12,6 +11,7 @@ class GetDoctorsBySpecialtyCubit extends Cubit<GetDoctorsBySpecialtyState> {
 
   GetDoctorsBySpecialtyCubit(this.repo) : super(GetDoctorsBySpecialtyInitial());
 
+  // جلب الأطباء حسب التخصص
   Future<void> fetchDoctors(String specialty) async {
     emit(GetDoctorsBySpecialtyLoading());
     _currentSpecialty = specialty;
@@ -19,24 +19,14 @@ class GetDoctorsBySpecialtyCubit extends Cubit<GetDoctorsBySpecialtyState> {
     final result = await repo.getDoctorsBySpecialty(specialty);
     result.fold(
       (failure) => emit(GetDoctorsBySpecialtyFailure(errorMessage: failure.message)),
-      (doctors) async {
+      (doctors) {
         _allDoctors = doctors;
-
-       
-        final favorites = await SharedPreferencesService.getFavorites();
-        final favoriteIds = favorites.map((fav) => fav['id']).toSet();
-
-        
-        final updatedDoctors = doctors.map((doctor) {
-          doctor.isFavorite = favoriteIds.contains(doctor.id);
-          return doctor;
-        }).toList();
-
-        emit(GetDoctorsBySpecialtySuccess(doctors: updatedDoctors));
+        emit(GetDoctorsBySpecialtySuccess(doctors: doctors));
       },
     );
   }
 
+  // البحث داخل قائمة الأطباء
   void searchDoctors(String query) {
     final filtered = _allDoctors.where((doc) {
       final nameMatch = doc.name.toLowerCase().contains(query.toLowerCase());
@@ -47,16 +37,17 @@ class GetDoctorsBySpecialtyCubit extends Cubit<GetDoctorsBySpecialtyState> {
     emit(GetDoctorsBySpecialtySuccess(doctors: filtered));
   }
 
+  // فلترة حسب التخصص (لو كان "الكل" يرجع الكل)
   void filterBySpecialty(String specialty) {
     _currentSpecialty = specialty;
 
     final filtered = _allDoctors.where((doc) =>
-      specialty == 'الكل' || doc.specialization == specialty
-    ).toList();
+        specialty == 'الكل' || doc.specialization == specialty).toList();
 
     emit(GetDoctorsBySpecialtySuccess(doctors: filtered));
   }
 
+  // مسح الفلاتر والرجوع للقائمة الأصلية
   void clearFilters() {
     _currentSpecialty = '';
     emit(GetDoctorsBySpecialtySuccess(doctors: _allDoctors));

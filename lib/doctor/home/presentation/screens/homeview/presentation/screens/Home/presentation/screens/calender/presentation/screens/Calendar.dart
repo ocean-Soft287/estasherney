@@ -23,8 +23,10 @@ class CalendarScreens extends StatelessWidget {
               padding: EdgeInsets.only(right: 20.h),
               child: Row(
                 children: [
-                  Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
-                  SizedBox(width: 100.w),
+                IconButton(onPressed: (){
+Navigator.pop(context);
+               }, icon:                       Icon(Icons.arrow_back_ios, color: AppColors.mainColor),),
+   SizedBox(width: 100.w),
                   Text(
                     "التقويم",
                     style: GoogleFonts.leagueSpartan(

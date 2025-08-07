@@ -23,10 +23,13 @@ class AvailableTimes extends StatelessWidget {
               padding: EdgeInsets.only(right: 20.h),
               child: Row(
                 children: [
-                  Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
-                  SizedBox(width: 100.w),
+               IconButton(onPressed: (){
+Navigator.pop(context);
+               }, icon:                       Icon(Icons.arrow_back_ios, color: AppColors.mainColor),),
+
+                  SizedBox(width: 80.w),
                   Text(
-                    "التقويم",
+                    "الاوقات المتاحة",
                     style: GoogleFonts.leagueSpartan(
                       color: AppColors.mainColor,
                       fontSize: 18,
@@ -47,41 +50,44 @@ class AvailableTimes extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChooseClinic()),
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(screenWidth * 0.025),
-                      width: screenWidth * 0.5,
-                      height: screenWidth * 0.3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.mainColor,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/Group (6).png",
-                            width: screenWidth * 0.15,
-                          ),
-                          SizedBox(height: screenWidth * 0.05),
-                          Text(
-                            "متوفر في عيادة ",
-                            style: GoogleFonts.leagueSpartan(
-                              color: AppColors.wightcolor,
-                              fontSize: screenWidth * 0.02,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+
+                  //// Clinic
+                  // InkWell(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => ChooseClinic()),
+                  //     );
+                  //   },
+                  //   child: Container(
+                  //     padding: EdgeInsets.all(screenWidth * 0.025),
+                  //     width: screenWidth * 0.5,
+                  //     height: screenWidth * 0.3,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       color: AppColors.mainColor,
+                  //     ),
+                  //     child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Image.asset(
+                  //           "assets/images/Group (6).png",
+                  //           width: screenWidth * 0.15,
+                  //         ),
+                  //         SizedBox(height: screenWidth * 0.05),
+                  //         Text(
+                  //           "متوفر في عيادة ",
+                  //           style: GoogleFonts.leagueSpartan(
+                  //             color: AppColors.wightcolor,
+                  //             fontSize: screenWidth * 0.02,
+                  //             fontWeight: FontWeight.w700,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+              
                   SizedBox(height: screenWidth * 0.06),
                   InkWell(
                     onTap: () {

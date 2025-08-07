@@ -47,6 +47,7 @@ class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
     final price = await SharedPreferencesService.read(
       SharedPreferencesService.examenPrice,
     );
+    
 
     setState(() {
       emaill = email;
@@ -149,7 +150,7 @@ class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
                         child: CircleAvatar(
                           radius: 50.r,
                           backgroundImage:
-                              imageUrl != null
+                              imageUrl !=   null
                                   ? NetworkImage(imageUrl!)
                                   : AssetImage("assets/images/DrAva.png")
                                       as ImageProvider,
@@ -162,7 +163,6 @@ class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
                       buildInfoRow('الرقم القومي', nationalID),
                       buildInfoRow('سنوات الخبرة', yearsOfExperience),
                       buildInfoRow('سعر الكشف', "$examenPrice جنيه"),
-             
                     ],
                   ),
                 ),

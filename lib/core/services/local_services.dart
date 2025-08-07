@@ -37,6 +37,11 @@ import 'package:consult_me/doctor/home/presentation/screens/homeview/presentatio
 import 'package:consult_me/feature/home/presentation/views/screens/dataview/data/repo/get_pationt_appointment_repo.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/dataview/data/repo/get_pationt_appointment_repo_impl.dart';
 import 'package:consult_me/feature/home/presentation/views/screens/dataview/presentation/manger/get_pationt_appointment_cubit.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_future_pationt_appointment/get_future_pationt_appointment_repo.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/data/repo/get_future_pationt_appointment/get_future_pationt_appointment_repo_impl.dart';
+import 'package:consult_me/feature/home/presentation/views/screens/home/presentation/manager/get_future_pationt_appointment/get_future_pationt_appointment_cubit.dart';
+import 'package:consult_me/features/call/data/datasources/call_remote_datasource.dart';
+import 'package:consult_me/features/call/presentation/cubit/call_cubit.dart';
 import 'package:consult_me/firebase_options.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/deleate_account_repo_impl.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/deleate_acount_repo.dart';
@@ -249,6 +254,10 @@ Future<void> setup() async {
   () => RemoveFavoriteDoctorRepoImpl(sl()),
 );
 
+/// call
+  sl.registerLazySingleton<CallRemoteDataSource>(
+    () => CallRemoteDataSourceImpl(dioConsumer:  sl<DioConsumer>()),
+  );
 sl.registerFactory(() => RemoveFavoriteDoctorCubit(sl()));
 
   // delete account
@@ -282,6 +291,13 @@ sl.registerFactory(() => DoctorRatinAllCubit(sl<DoctorAllRatingRepo>()));
     () => AppointmentsRepoImpl(sl<DioConsumer>()),
   );
   sl.registerFactory(() => GetAppointmentsCubit(sl<AppointmentsRepo>()));
+  //get all pationtppointment
+  sl.registerLazySingleton<AppointmentsPationtRepo>(
+    () => AppointmentsPationtRepoImpl(sl<DioConsumer>()),
+  );
+  sl.registerFactory(() => AppointmentsPationtCubit(sl<AppointmentsPationtRepo>()));
+
+  sl.registerFactory(() => CallCubit(callRemoteDataSourc:  sl<CallRemoteDataSource>()));
 
 
   

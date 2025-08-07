@@ -37,7 +37,10 @@ class _AvailableOnlineState extends State<AvailableOnline> {
                   SizedBox(height: 30.h),
                   Row(
                     children: [
-                      Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
+               IconButton(onPressed: (){
+Navigator.pop(context);
+               }, icon:                       Icon(Icons.arrow_back_ios, color: AppColors.mainColor),),
+
                       SizedBox(width: 60.w),
                       Text(
                         "متوفر عبر الانترنت",

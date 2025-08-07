@@ -26,7 +26,10 @@ class _AdditionalOptionState extends State<AdditionalOption> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
+       IconButton(onPressed: (){
+         Navigator.pop(context);
+       }, icon:                   Icon(Icons.arrow_back_ios, color: AppColors.mainColor),
+),
                   SizedBox(width: 80.w),
                   Text(
                     'خيارات إضافية',

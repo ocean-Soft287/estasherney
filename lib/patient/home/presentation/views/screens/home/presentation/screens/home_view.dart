@@ -1,4 +1,6 @@
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/core/navigation/navigation_service.dart';
+import 'package:consult_me/features/call/presentation/pages/my_calls.dart';
 import 'package:consult_me/patient/doctors/presentation/view/screens/favourites/presentation/screens/favourites.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/manager/cubit/get_all_specialist_doctor_cubit.dart';
 import 'package:consult_me/patient/home/presentation/views/screens/home/presentation/screens/doctor_for_specialization.dart';
@@ -341,21 +343,30 @@ class HomeView extends StatelessWidget {
                         horizontal: 8.w,
                         vertical: 4.h,
                       ),
-                      child: Text(
-                        "الكل",
-                        style: GoogleFonts.leagueSpartan(
-                          color: AppColors.mainColor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
+                      child: GestureDetector(
+                        onTap: () {
+                          NavigationService.push(MyCalls());
+                        },
+                        child: Text(
+                          "الكل",
+                          style: GoogleFonts.leagueSpartan(
+                            color: AppColors.mainColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
-
-                SizedBox(height: 16.h),
-                CustomListView(),
-
+                  
+                SizedBox(height: 16.h
+                
+                ),
+                FutureAppointmentsScreen(
+                  
+                  
+                ),
                 SizedBox(height: 32.h),
 
                 Row(

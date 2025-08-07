@@ -362,7 +362,6 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
   Widget _emptyState() {
     return Center(
       child: Container(
-        margin: EdgeInsets.all(20.w),
         padding: EdgeInsets.all(30.w),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -375,7 +374,8 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
             ),
           ],
         ),
-        child: Column(
+        child:
+         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Lottie.asset(
@@ -409,6 +409,7 @@ class PreviousOrdersEmptyWidget extends StatelessWidget
             ),
           ],
         ),
+     
       ),
     );
   }
@@ -686,6 +687,7 @@ class CurrentAppointmentsScreen extends StatelessWidget
             "ليس لديك مواعيد اليوم",
             style: TextStyle(color: AppColors.mainColor, fontSize: 18.sp),
           ),
+         
           Text(
             "قم بتحديث أيام وساعات عملك",
             style: TextStyle(color: AppColors.mainColor, fontSize: 15.sp),
