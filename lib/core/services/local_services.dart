@@ -55,15 +55,12 @@ import 'package:consult_me/patient/auth/presentation/views/screens/login/data/re
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/resetpassword_pationt_repo.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/data/repo/resetpasword_pationt_repo_impl.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
-
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/forgetpassword_pationt_cubit.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/login_pationt_cubit.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/resetpassword_pationt_cubit.dart';
-
 import 'package:consult_me/patient/auth/presentation/views/screens/otp/data/repo/otp_repo.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/otp/data/repo/otp_repo_impl.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/otp/presentation/logic/otp_cubit.dart';
-
 import 'package:consult_me/patient/auth/presentation/views/screens/register/data/repo/register_repo.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/register/data/repo/register_repo_impl.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/register/presentation/logic/register_cubit.dart';
@@ -99,6 +96,8 @@ import 'package:consult_me/patient/home/presentation/views/screens/profile/scree
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
+
+import '../notifications/notification_file.dart';
 
 final sl = GetIt.instance;
 
@@ -297,7 +296,11 @@ sl.registerFactory(() => DoctorRatinAllCubit(sl<DoctorAllRatingRepo>()));
   );
   sl.registerFactory(() => AppointmentsPationtCubit(sl<AppointmentsPationtRepo>()));
 
-  sl.registerFactory(() => CallCubit(callRemoteDataSourc:  sl<CallRemoteDataSource>()));
+  sl.registerLazySingleton(() => CallCubit(callRemoteDataSourc:  sl<CallRemoteDataSource>()));
+  final intstance =  NotificationService.instance();
+  await intstance.init();
+  sl.registerLazySingleton<NotificationService>(() => intstance);
+
 
 
   

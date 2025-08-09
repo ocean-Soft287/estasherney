@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:consult_me/core/notifications/firebase_messaging_service.dart';
 import 'package:consult_me/core/notifications/flutter_local_notification.dart';
+import 'package:consult_me/core/notifications/notification_file.dart';
  import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/home/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/home/home_view.dart';
 import 'package:consult_me/patient/intial/onboarding_view.dart';
 import 'package:get_it/get_it.dart';
+import '../../features/call/presentation/cubit/call_cubit.dart';
 import '../auth/presentation/views/screens/login/data/models/login_pationt_model.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -72,15 +74,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
  Future<void> messaging() async {
-    await  NotificationsService.init();
-     final firebaseMessaging =     FirebaseMessagingService.instance();
-      await firebaseMessaging.init(localNotificationsService: NotificationsService());
-     String? token = await firebaseMessaging.getToken();
+     // await  NotificationsService.init();
+    //  final firebaseMessaging =     FirebaseMessagingService.instance();
+    //   await firebaseMessaging.init(localNotificationsService: NotificationsService());
+   String? token = await NotificationService.instance().getToken();
   final json =  await SharedPreferencesService.read(SharedPreferencesService.pateint);
   final patient=  LoginPationtModel.fromJson(jsonDecode(json!));
-  GetIt.instance<BookingCubit>(). updatePatientDeviceToken    (patientId: patient.id, deviceToken: token);
-
-     // context.read<BookingCubit>(). getPatientDeviceToken(pateintId: patient.id) ;
+ final oldID =  await GetIt.instance<BookingCubit>(). getPatientDeviceToken    ( pateintId:  patient.id,);
+ if(token != oldID) {
+   GetIt.instance<BookingCubit>().updatePatientDeviceToken(
+       patientId: patient.id, deviceToken: token);
+ }
   }
 
   @override

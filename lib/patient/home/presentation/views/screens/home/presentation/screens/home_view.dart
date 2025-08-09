@@ -22,7 +22,7 @@ class HomeView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xFFFAFBFC),
-        body: SingleChildScrollView(
+        body:  SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.all(16.w),
@@ -220,12 +220,17 @@ class HomeView extends StatelessWidget {
                         horizontal: 8.w,
                         vertical: 4.h,
                       ),
-                      child: Text(
-                        "الكل",
-                        style: GoogleFonts.leagueSpartan(
-                          color: AppColors.mainColor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
+                      child: GestureDetector(
+                        onTap: (){
+                          NavigationService.push(MyCalls());
+                        },
+                        child: Text(
+                          "الكل",
+                          style: GoogleFonts.leagueSpartan(
+                            color: AppColors.mainColor,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
@@ -463,6 +468,7 @@ class HomeView extends StatelessWidget {
             ),
           ),
         ),
+
       ),
     );
   }

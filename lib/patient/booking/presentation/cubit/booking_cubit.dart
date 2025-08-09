@@ -83,17 +83,21 @@ Future<void> updatePatientDeviceToken({required  int patientId,required String d
       emit(BookingFailure(e.toString()));
     }
   }
-Future<void> getPatientDeviceToken({required int pateintId}) async {
+Future<String> getPatientDeviceToken({required int pateintId}) async {
+    String token = '';
     emit(GetPatientDeviceTokenLoading());
     try {
       final result = await bookingRemoteDataSource.getPatientDeviceToken(patientId: pateintId);
       result.fold(
-        (failure) => emit(BookingFailure(failure)),
-        (success) => emit(GetPatientDeviceTokenSuccess(success)),
+        (failure) { emit(BookingFailure(failure));},
+        (success) {
+          token == success;
+          emit(GetPatientDeviceTokenSuccess(success));},
       );
     } catch (e) {
       emit(BookingFailure(e.toString()));
     }
+  return token;
   }
 }
 

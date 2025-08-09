@@ -606,13 +606,14 @@ class PreviousOrdersEmptyWidget extends StatelessWidget with AppointmentCardHelp
                           borderRadius: BorderRadius.circular(12.r),
                           onTap: () {
 
-                            DateTime start = DateTime.parse("${item.date} ${item.slotStartTime}");
-                            DateTime end = DateTime.parse("${item.date} ${item.slotEndTime}");
-                            Duration diff = end.difference(start);
-                            context.read<CallCubit>().startCall(
-                              targetUserId: item.patientId,
-                              durationInMinutes: diff.inMinutes,
-                            );
+                            // DateTime start = DateTime.parse("${item.date} ${item.slotStartTime}");
+                            // DateTime end = DateTime.parse("${item.date} ${item.slotEndTime}");
+                            // Duration diff = end.difference(start);
+                            // context.read<CallCubit>().startCall(
+                            //   targetUserId: item.patientId,
+                            //   durationInMinutes: diff.inMinutes,
+                            // );
+                            //
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(

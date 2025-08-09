@@ -1,6 +1,8 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
+import 'dart:async';
 
 import 'package:consult_me/core/constants/app_colors.dart';
+import 'package:consult_me/core/notifications/notification_push.dart';
 import 'package:consult_me/features/call/presentation/cubit/call_cubit.dart';
 import 'package:consult_me/features/call/presentation/pages/video.dart';
 import 'package:flutter/material.dart';
@@ -22,26 +24,42 @@ class MyCalls extends StatefulWidget {
 
 class _MyCallsState extends State<MyCalls> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    // Fetch calls when the page loads
-    GetIt.instance<CallCubit>().getAllCalls();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _timer = Timer.periodic(const Duration(seconds: 60), (_) {
+       GetIt.instance<CallCubit>().getAllCallForPatient();
+      });
+      // Fetch calls when the page loads
+
+
+    });
+
   }
 
   @override
+  void deactivate() {
+    _controller.dispose();
+    _timer.cancel();
+    super.deactivate();
+  }
+  @override
   void dispose() {
     _controller.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => GetIt.instance<CallCubit>(),
-      child: Scaffold(
+      create: (_) => GetIt.instance<CallCubit>()..getAllCallForPatient(),
+      child:
+      Scaffold(
         backgroundColor: Colors.grey.shade50,
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -86,6 +104,7 @@ class _MyCallsState extends State<MyCalls> with SingleTickerProviderStateMixin {
           },
         ),
       ),
+
     );
   }
 
@@ -208,7 +227,7 @@ class _MyCallsState extends State<MyCalls> with SingleTickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "مكالمة مع المريض #${call.patientId ?? 'غير معروف'}",
+                        "مكالمة مع الطبيب #${call.doctorId ?? 'غير معروف'}",
                         style: GoogleFonts.leagueSpartan(
                           color: AppColors.mainColor,
                           fontSize: 16.sp,
@@ -223,6 +242,16 @@ class _MyCallsState extends State<MyCalls> with SingleTickerProviderStateMixin {
                           fontSize: 14.sp,
                         ),
                       ),
+
+                      SizedBox(height: 4.h),
+                      Text(
+                        "رقم المكالمة: ${call.id ?? 0} ",
+                        style: GoogleFonts.leagueSpartan(
+                          color: AppColors.mainColor.withOpacity(0.7),
+                          fontSize: 14.sp,
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
@@ -237,12 +266,14 @@ class _MyCallsState extends State<MyCalls> with SingleTickerProviderStateMixin {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(12.r),
                         onTap: () {
+                      //  context.read<CallCubit>().  sendNotification(id: call.patientId!,call: call);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>  Video(call: call),
                             ),
                           );
+
                         },
                         child: Padding(
                           padding: EdgeInsets.symmetric(

@@ -1,8 +1,12 @@
+
+import 'dart:async';
+
 import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/features/call/data/datasources/call_remote_datasource.dart';
 import 'package:consult_me/features/call/presentation/pages/video.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/notifications/notification_push.dart';
+import '../../../../core/notifications/notification_file.dart';
+import '../../data/models/my_call_model.dart';
 import 'call_state.dart';
 
 class CallCubit extends Cubit<CallState> {
@@ -43,7 +47,8 @@ class CallCubit extends Cubit<CallState> {
       emit(CallFailure(e.toString()));
     }
 
-  } Future<void> getAllCalls() async {
+  }
+  Future<void> getAllCalls() async {
     emit(GetAllMyCallsLoading());
     try {
      final res = await callRemoteDataSourc.getmyCalls();
@@ -51,14 +56,17 @@ class CallCubit extends Cubit<CallState> {
        emit(CallFailure(e.toString()));
 
      }, (ifRight)async{
+
      final res = await  callRemoteDataSourc.getPatientDeviceToken(id: ifRight.last.patientId!);
     res.fold((e){
       emit(CallFailure(e.toString()));
 
     }, (deviceToken){
-      NotificationService.sendNotification(deviceToken, 'title', 'body', ifRight.last);
-      emit(GetAllMyCallsSuccess(calls:  ifRight ));
+      NotificationService.instance().sendPushNotification(deviceToken:  deviceToken,
+          title:  'title',body:  'body',data:  ifRight.last);
+
       NavigationService.push(Video(call:  ifRight.last));
+      emit(GetAllMyCallsSuccess(calls:  ifRight ));
 
     });
 
@@ -67,5 +75,37 @@ class CallCubit extends Cubit<CallState> {
       emit(CallFailure(e.toString()));
     }
   }
+  Future<void> getAllCallForPatient() async {
+    emit(GetAllMyCallsLoading());
+    try {
+      final res = await callRemoteDataSourc.getmyCalls();
+      res.fold((e){
+        emit(CallFailure(e.toString()));
 
+      }, (ifRight)async{
+      Timer(Duration(seconds: 1),(){
+        emit(GetAllMyCallsSuccess(calls:  ifRight ));
+      });
+
+
+
+      });
+    } catch (e) {
+      emit(CallFailure(e.toString()));
+    }
+  }
+
+  Future<void>sendNotification({required int id,required MyCallModel call})async{
+  final res = await  callRemoteDataSourc.getPatientDeviceToken(id: id);
+  res.fold((e){
+    emit(CallFailure(e.toString()));
+
+  }, (deviceToken){
+    NotificationService.instance().sendPushNotification(deviceToken:  deviceToken,
+        title:  'title',body:  'body',data:  call);
+
+
+  });
+
+}
 }
