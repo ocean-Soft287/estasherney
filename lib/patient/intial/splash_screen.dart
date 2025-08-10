@@ -12,6 +12,7 @@ import 'package:consult_me/doctor/auth/data/model/login_model.dart';
 import 'package:consult_me/doctor/home/home_view.dart';
 import 'package:consult_me/patient/intial/onboarding_view.dart';
 import 'package:get_it/get_it.dart';
+import '../../core/navigation/navigation_service.dart';
 import '../../features/call/presentation/cubit/call_cubit.dart';
 import '../auth/presentation/views/screens/login/data/models/login_pationt_model.dart';
 
@@ -42,12 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
       final doctorUserJson = await SharedPreferencesService.getUserData();
       if (doctorUserJson != null) {
         final doctorUser = LoginModel.fromJson(doctorUserJson);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreenDoctor(user: doctorUser),
-          ),
+
+          NavigationService.pushReplacement(
+        HomeScreenDoctor(user: doctorUser),
+
         );
+
         return;
       }
     }

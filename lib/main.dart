@@ -1,6 +1,9 @@
 import 'package:consult_me/bloc_observer.dart';
 import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/core/services/local_services.dart';
+import 'package:consult_me/core/connectivity/cubit/connectivity_cubit.dart';
+import 'package:consult_me/core/connectivity/cubit/connectivity_state.dart';
+import 'package:consult_me/core/connectivity/screens/offline_screen.dart';
 import 'package:consult_me/patient/auth/presentation/views/screens/login/presentation/logic/deleate_account_cubit.dart';
 import 'package:consult_me/patient/booking/presentation/cubit/booking_cubit.dart';
 import 'package:consult_me/patient/intial/splash_screen.dart';
@@ -12,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'core/connectivity/widgets/connectivity_wrapper.dart';
 import 'patient/localization/data/localizationmodel.dart';
 import 'patient/localization/manger/localization_state.dart';
 import 'generated/l10n.dart';
@@ -47,6 +51,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => sl<ConnectivityCubit>(),
+        ),
+        BlocProvider(
           create:
               (context) =>
                   LocalizationCubit()
@@ -71,16 +78,19 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 navigatorKey: NavigationService.navigatorKey,
                 locale: const Locale('ar'),
-
                 debugShowCheckedModeBanner: false,
-
                 supportedLocales: S.delegate.supportedLocales,
-                localizationsDelegates: [
+                localizationsDelegates: const [
                   S.delegate,
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                 ],
+                builder: (context, child) {
+                  return ConnectivityWrapper(
+                    child: child!,
+                  );
+                },
                 localeResolutionCallback: (deviceLocale, supportedLocals) {
                   for (var local in supportedLocals) {
                     if (deviceLocale != null) {
@@ -91,13 +101,12 @@ class MyApp extends StatelessWidget {
                   }
                   return const Locale('ar');
                 },
-                home: //PaymentPage(response: BookingResponse(message: '', appointmentId: 8, finalConsultationPrice: 305),)
-                    SplashScreen(),
+                home: const SplashScreen(),
               );
             },
           );
         },
-      ),
+      )
     );
   }
 }

@@ -473,7 +473,8 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
     List<String> result = ['Chat'];
     if (isCallSelected) {
       result.add('Call');
-    } else if (isVideoSelected) {
+    } 
+    if (isVideoSelected) {
       result.add('Video');
     }
     return result;
@@ -626,7 +627,6 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
                         onChanged: (val) {
                           setState(() {
                             isCallSelected = val;
-                            if (val) isVideoSelected = false;
                           });
                         },
                       ),
@@ -637,7 +637,6 @@ class _TimeSelectorOnlineState extends State<TimeSelectorOnline> {
                         onChanged: (val) {
                           setState(() {
                             isVideoSelected = val;
-                            if (val) isCallSelected = false;
                           });
                         },
                       ),

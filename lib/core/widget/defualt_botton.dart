@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DefaultButton extends StatelessWidget {
   final String text;
-  final Function function;
+  final VoidCallback function;
   final Color backgroundColor;
   final Color textColor;
   final bool hasIcon;
@@ -40,10 +40,8 @@ class DefaultButton extends StatelessWidget {
       width: width ?? 0.5 * MediaQuery.sizeOf(context).width,
       height: heightButton ?? 45.h,
       child: GestureDetector(
-        onTap: () {
-          function();
-        },
-
+        behavior: HitTestBehavior.opaque,
+        onTap: function,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

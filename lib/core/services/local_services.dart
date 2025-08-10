@@ -97,6 +97,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 
+import '../connectivity/cubit/connectivity_cubit.dart';
 import '../notifications/notification_file.dart';
 
 final sl = GetIt.instance;
@@ -302,7 +303,7 @@ sl.registerFactory(() => DoctorRatinAllCubit(sl<DoctorAllRatingRepo>()));
   sl.registerLazySingleton<NotificationService>(() => intstance);
 
 
-
+sl.registerSingleton<ConnectivityCubit>(ConnectivityCubit());
   
 
 

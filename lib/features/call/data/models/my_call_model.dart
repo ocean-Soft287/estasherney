@@ -31,6 +31,18 @@ class MyCallModel {
       durationInMinutes: json['durationInMinutes'] as int?,
     );
   }
+  factory MyCallModel.empty() {
+    return MyCallModel(
+      id: 0,
+      doctorId: 0,
+      patientId: 0,
+      startedAt: DateTime.timestamp(),
+      endedAt: DateTime.timestamp().add(const Duration(hours: 1)),
+      channelName: "ChannelName",
+      agoraToken: "c74d620ba147479ea30543c30b9dc1c6",
+      durationInMinutes: 2,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {
