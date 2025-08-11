@@ -9,7 +9,6 @@ import '../connectivity/screens/offline_screen.dart';
 import '../../patient/intial/splash_screen.dart';
 import '../../patient/localization/manger/localization_cubit.dart';
 import '../../patient/localization/manger/localization_state.dart';
-import '../../patient/localization/data/localizationmodel.dart';
 import '../../generated/l10n.dart';
 
 class AppWidget extends StatelessWidget {
@@ -51,7 +50,7 @@ class AppWidget extends StatelessWidget {
                 }
                 return const Locale('ar');
               },
-              home: BlocBuilder<ConnectivityCubit, ConnectivityState>(
+              home: BlocBuilder<ConnectivityCubit, bool>(
                 builder: (context, connectivityState) {
                   return Stack(
                     children: [

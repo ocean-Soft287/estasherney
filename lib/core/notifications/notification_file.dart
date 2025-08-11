@@ -4,11 +4,12 @@ import 'package:consult_me/core/navigation/navigation_service.dart';
 import 'package:consult_me/features/call/data/models/my_call_model.dart';
 import 'package:consult_me/features/call/presentation/pages/video.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+
+import '../services/local_services.dart';
 
 /// Comprehensive notification service handling Firebase Cloud Messaging (FCM),
 /// local notifications, and push notifications with various notification types.
@@ -461,7 +462,7 @@ static  Map<String, String?>? toStringMap(Map<String, dynamic>? input) {
         },
       };
 
-      final response = await Dio().post(
+      final response = await sl<Dio>().post(
         endpointFCM,
         options: Options(headers:  {
           'Content-Type': 'application/json',

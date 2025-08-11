@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:consult_me/core/navigation/navigation_service.dart';
@@ -6,8 +5,9 @@ import 'package:consult_me/features/call/data/datasources/call_remote_datasource
 import 'package:consult_me/features/call/presentation/pages/video.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/notifications/notification_file.dart';
-import '../../data/models/my_call_model.dart';
 import 'call_state.dart';
+
+
 
 class CallCubit extends Cubit<CallState> {
   CallRemoteDataSource callRemoteDataSourc;
@@ -62,8 +62,10 @@ class CallCubit extends Cubit<CallState> {
       emit(CallFailure(e.toString()));
 
     }, (deviceToken){
-      NotificationService.instance().sendPushNotification(deviceToken:  deviceToken,
-          title:  'title',body:  'body',data:  ifRight.last);
+      NotificationService.instance().sendPushNotification(deviceToken: deviceToken,
+          title: 'Incoming Call',
+          body: 'You have a new call.',
+          data: ifRight.last);
 
       NavigationService.push(Video(call:  ifRight.last));
       emit(GetAllMyCallsSuccess(calls:  ifRight ));
@@ -95,17 +97,7 @@ class CallCubit extends Cubit<CallState> {
     }
   }
 
-  Future<void>sendNotification({required int id,required MyCallModel call})async{
-  final res = await  callRemoteDataSourc.getPatientDeviceToken(id: id);
-  res.fold((e){
-    emit(CallFailure(e.toString()));
 
-  }, (deviceToken){
-    NotificationService.instance().sendPushNotification(deviceToken:  deviceToken,
-        title:  'title',body:  'body',data:  call);
-
-
-  });
 
 }
-}
+
