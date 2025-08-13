@@ -41,7 +41,7 @@ void main() async {
 
   await setup();
   Bloc.observer = MyBlocObserver();
-  runApp(DevicePreview(enabled: !kReleaseMode, builder: (context) => const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

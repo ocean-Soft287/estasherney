@@ -62,12 +62,13 @@ class CallCubit extends Cubit<CallState> {
       emit(CallFailure(e.toString()));
 
     }, (deviceToken){
+
       NotificationService.instance().sendPushNotification(deviceToken: deviceToken,
           title: 'Incoming Call',
           body: 'You have a new call.',
           data: ifRight.last);
 
-      NavigationService.push(Video(call:  ifRight.last));
+     // NavigationService.push(Video(call:  ifRight.last));
       emit(GetAllMyCallsSuccess(calls:  ifRight ));
 
     });

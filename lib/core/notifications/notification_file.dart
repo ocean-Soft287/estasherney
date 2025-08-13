@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:consult_me/core/navigation/navigation_service.dart';
+import 'package:consult_me/features/call/data/models/call_model.dart';
 import 'package:consult_me/features/call/data/models/my_call_model.dart';
 import 'package:consult_me/features/call/presentation/pages/video.dart';
 import 'package:dio/dio.dart';
@@ -167,13 +169,14 @@ class NotificationService {
 
   /// Handle foreground messages
   void _onForegroundMessage(RemoteMessage message) {
+
     debugPrint('Foreground message received: ${message.data}');
     final notificationData = message.notification;
     if (notificationData != null) {
       showInstantNotification(
         title: notificationData.title ?? 'Notification',
         body: notificationData.body ?? '',
-        payload: message.data['data'],
+        payload: message.data,
       );
     }
   }
@@ -191,10 +194,13 @@ class NotificationService {
 
   /// Navigate to video call screen
   static void _navigationToVideo(RemoteMessage message) {
-    if (message.data['data'] != null) {
+    log("aflkjalfjlakjfslkj");
+    log(message.data.toString());
+    if (message.data != null) {
       try {
-        final call = MyCallModel.fromJson(message.data['data']);
-        NavigationService.push(Video(call: call));
+
+        // final call = MyCallModel.fromJson(  toDynamicMap(message.data));
+         NavigationService.push(Video(call:MyCallModel.empty() ));
       } catch (e) {
         debugPrint('Error navigating to video: $e');
       }
@@ -359,15 +365,15 @@ static  Map<String, String?>? toStringMap(Map<String, dynamic>? input) {
   }
 
   /// Convert Map<String, String?>? to Map<String, dynamic>
- static Map<String, dynamic> toDynamicMap(Map<String, String?>? input) {
+ static Map<String, String> toDynamicMap(Map<String, String?>? input) {
     if (input == null) {
       debugPrint('Input map is null, returning empty dynamic map');
       return {};
     }
     try {
-      final result = <String, dynamic>{};
+      final result = <String, String>{};
       input.forEach((key, value) {
-        result[key] = value;
+        result[key] = value!;
       });
       debugPrint('Converted to dynamic map: $result');
       return result;
@@ -388,10 +394,12 @@ static  Map<String, String?>? toStringMap(Map<String, dynamic>? input) {
   /// Handle notification actions
   static Future<void> _onActionReceivedMethod(ReceivedAction receivedAction) async {
     debugPrint('Notification action received: ${receivedAction.buttonKeyPressed}');
-    if (receivedAction.payload != null && receivedAction.payload!['data'] != null) {
+    log("afakfj ${receivedAction.payload.toString()}");
+
+    if (receivedAction.payload != null ) {
       try {
-        Map<String, dynamic> json = toDynamicMap( receivedAction.payload!);
-        final call = MyCallModel.fromJson(json['data']);
+        Map<String, String> json = toDynamicMap( receivedAction.payload!);
+        final call = MyCallModel.fromJson(json);
         NavigationService.push(Video(call: call));
       } catch (e) {
         debugPrint('Error handling notification action: $e');
@@ -401,19 +409,21 @@ static  Map<String, String?>? toStringMap(Map<String, dynamic>? input) {
 
   /// Get Firebase access token for sending push notifications
   static Future<String> _getAccessToken() async {
-    const serviceAccountJson = {
+    const serviceAccountJson =
+    {
       "type": "service_account",
-      "project_id": _projectId,
-      "private_key_id": "fc2c0cc48b52e22a3e14b94cade969df80dc40b3",
-      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCyLVqHJ1uQsiG1\nI9dh27/SKErsCL3ZTPpStw8h4eYBRX1ujTyrCRL1SmTrDyCFlNMzH+efLpiJgc9c\nYY/frwvtkbKGtWhhWBCXpJTtoDUvq8agH0JWkIFGFsKFPYuA6Bu7vRkcJNLivBI3\nXH57WMz9ThNNmb9Z1WrBKw+jUhCbUIpWHtO9QmxvGgMY6L0ZqKvRnh1tWjhmhcWA\n0nGNkGMqYmUys5YMOBgRTFY95CQo9+0sD2e+63u15QNpjZq3iVRiDLdwHt1QahOt\n/+lzJL7NmxupubGhkojxUq+URr0yM37+TNApR/6xAdbaqPiKt4J8oFM/4H1OYAXZ\npXYs2fydAgMBAAECggEAIwMCfPhg58f5E60dT59szBEa19LH64FS1xodoRzQo4NS\nKH0cZMd9sDGULxRj4Zvi/HLSgtcXJj4Zzx9ktCGjiGVO3WWcQzSY3hN7KE6I5Psu RADIO Jpy93mC65ljmlGQJm6UAfh2kZ4Fc5yzpr3M/b2F9tnC3HlKN5UsolRivE/q2RK50\nucaS+kmAX9f9ZJ6Ez8dyAhEl6kHl7HSV3NmBJsEL0/4RK565DlND4VsqEXy8GS24\nEV1UbUIVvjSzkfzE9Zc1WMkR288AGajsUtakuAZ7vjpBisgkterBTblDQ4UTSMlS\nGZ5N12wlIAMftAV9OhG9irecHY2pw1dKS0e6bhvtyQKBgQDldM3OuY2i+G4Xz7H+\nliW8JgmRitksUVLQGUNh2c/wZ2ndfJD8ozFZhmWSktWDv40iuEN7YA2GimNmcMym\nTBE+Wj72suAVBUzvpFi7iKv0lb7SpcWXjZU0yVW+1kaDqEcTTw2YMp/s6kvjN/k2\nkAy5sykwkzakedw9Y1yQ3BZjMwKBgQDGyfPuiMQKcNHnI5rTYW8Z8UCocVFLaOsw\niRZRLZDEZ0B37xIBwOJxAK7MAR3cr6w1D558AOjKqcScAPoRWzRwhOm6whQfyXu5\niBA6YvQffAFYECAp3Fbg7cV/navNmWrAyYTOLHLxNiWOqvjjGytys9B0Wn0X59sZ\nKK1eij8g7wKBgQDd5pa+C/4olB5MEsTtEyGNEjAAu4mI7WCr9TKP58fLkwbzdmr0\nl5G7JVkHZc7s6YtA/3frUZni+eRlBkMzs66dYUMw6w3/5i9gNczGF8dL8qEnL7+l\n7/tSoD63Hpv06QFLcBESlirJQFCBffkZxxjc4Q0ZbPpMCfwL5rySuxtkztwKBgQCp\n4dbT6A9ZONc5J8VdlevDiNgP2191CYHMparrzvvjzLVciXOjCfq6RbIb52xkt8B8\nTA/Nu102LOU3yOHsSTxEWGICV2+pRp+0i2IK85va+DeR0Z4bCBE7AhgBGnbDKrP/\nc3hKVdQY7YQlK1mtg/+ac67WcKps7pjgJFIc9BpFAwKBgQDBewY7HaTaxlxFhs35\nfhtAa4nMmg+1GidnHKhg9tVUjBTsw4dioWq8SS8hHwFsC7xt+h5dBxjwt7xFtHDa\nsTUToE0xIAyy3a6VDGmUy3QTKEFP9DfJ8Cb9FLWAI3NXRDBMJ72t7+HkNGgRNXgD\nH9BhREN21cQwDeYg1V1ZHPYQPA==\n-----END PRIVATE KEY-----\n",
-      "client_email": "ownerest@estasherny-43801.iam.gserviceaccount.com",
-      "client_id": "104964778386686279867",
+      "project_id": "estasherny-43801",
+      "private_key_id": "20272b2e3ddb4cff78d727dd9e67dd4480a52f94",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC8uO9T/t7N4bC5\nFhPLdn++EAPEIQ6sFJRYkDzJ/4gOif3i2L9ak8GWclf1K5vHtbpED9NCPQ00ELE3\n9iw+C4QJjeqzm6K3VGz1zsLvtwhTgw2yqvcRTBWQtQM2EK9gE37ZRR0no+aSD61w\nzfwz5zPUqgHT7N1JyLS2em1/ojbD9VAe2v4/aYHekI40BPeikB9b9MIZmeOf+U8b\n1YQr9LDm/5/GpKZI7XIcbAH9qzM7G38YekfT0MkwDaUxLqoXSNX5ymsS5vvTIbwu\noeXepUhxNaUJshOE5MInyjSjUJE2VhqaP7Te3gtGSBw0wftj7N7MLRHJgYBoTIji\nBAm5tCW9AgMBAAECggEAIwY0XnOS4IU18cej4VMK5phcxpG3Ah8on94W9gsfMkmQ\nTYEZ1ELPPu9WHRlchh4XJUoFlEm10VeWuDLO563l8Yr9x5sHAfygYycd/PSMTklo\naaP6ieKDrxE0+Rv0HEHJ/SMrQ7/SiwFvWBvWZkCOmTV69NyE/gxKY4JJn5IYlVm4\nUFOVcmcgSakgzRUz9iYZPfjBnLZJ7lSC31B8fL9zq/PDmaL+wwZ7Q0JP2GzwSprH\nT2GGAB8kpd7JwhF34aUOERXXNrLdzlWPS4x97bc3SobLYn9Dskt3B9GTPRQL2gHI\ndnHRcN6nUlmhMqTPBX6EmpJPXvazIt0sjp7pbZStOQKBgQDdHuc+wJJ74iXbw9+5\nD9TXizkxjktVkJEx7pd8+US+pLdDHOMKOyTbQAv0I2M4u08nF17XtR20w7r5GFUz\nIGe5kngjmLtsLw3vK/aw/prE7fvc7Gg+jSajIHXNKkD6num5supgapTmXDA0ndrN\ni6wUWzbm8d9cpEqaORRatipRlQKBgQDafcCNyTNV2JsIxaGe4X3OqDXV0DmVPYIN\nHD/GJQXzGlRz7wHNboULvsEHrOVes7NnYbcUNhoLqWOxKCbagK0DVSdd6H2rMuqS\nEZ9cwap7j9pGCaXJNhVDWJUxj5DKxffHex1zQPwcN2B+E3QkywS2fGnXp8Y2smZV\nD+cx799JiQKBgQDDUsAMQ4lh2zN7/HtMevqVZ8sexkYvkCNhyxOP9pTOHqwvoX3A\nlNwKvHmSsAu+ml7h9hf2TWuvONKZpO/l2LMnToXHU+wDNVGGuvwP/udyG5LG5SF0\nV7UQleTZVYDOob9uJOg6QQvErRx77hDQTpez55sIyBF5QTsRHmindJDPPQKBgB2I\nBbCkUzX1Mu86lx+8Zp66CZy+qinLyHoxKUWE14sGMggBdALqPz1ZKQn6in4EV+lP\nQcmPjnGpEXpubOH3pmre5ZVByUqMdTwM+bc1ze8pgF0bDLdngfQ6UuACAZYGr/jc\nYRyk2e6OZZJk2rvmXNq1cjDd0mKuNjqlDaCoRUvRAoGBALrTi89PmwMKgGBaYBgz\n5l+BuftKe5hQVn2bxnmXna1irrcvEE3cbtAbS4nKHyZKQ0VRb5VWQOFAk7z8a5ti\n1I9HpR/0gEOmXWrfyDttU1ZKsQfp1L+enXc2dxFBzdVB1kbOWyM00V7o/hmEma7z\ncVdOxhpGamvpJLJ5p6MaDtnZ\n-----END PRIVATE KEY-----\n",
+      "client_email": "firebase-adminsdk-fbsvc@estasherny-43801.iam.gserviceaccount.com",
+      "client_id": "109079682596151540713",
       "auth_uri": "https://accounts.google.com/o/oauth2/auth",
       "token_uri": "https://oauth2.googleapis.com/token",
       "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-      "client_x509_cert_url": "https://www.googleapis.com/robot/v1 Metadata/x509/ownerest%40estasherny-43801.iam.gserviceaccount.com",
-      "universe_domain": "googleapis.com",
+      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40estasherny-43801.iam.gserviceaccount.com",
+      "universe_domain": "googleapis.com"
     };
+
 
     const scopes = [
       "https://www.googleapis.com/auth/userinfo.email",
@@ -452,13 +462,13 @@ static  Map<String, String?>? toStringMap(Map<String, dynamic>? input) {
         debugPrint('Failed to obtain access token');
         return;
       }
-
+   log("jsssssob ${data.toJson()}");
       final endpointFCM = 'https://fcm.googleapis.com/v1/projects/$_projectId/messages:send';
       final message = {
         "message": {
           "token": deviceToken,
           "notification": {"title": title, "body": body},
-          "data": data.toJson(),
+         "data": data.toJson(),
         },
       };
 

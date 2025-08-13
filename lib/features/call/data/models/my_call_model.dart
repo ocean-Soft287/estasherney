@@ -19,25 +19,36 @@ class MyCallModel {
     this.durationInMinutes,
   });
 
-  factory MyCallModel.fromJson(Map<String, dynamic> json) {
+  factory MyCallModel.fromJson(Map<String, String> json) {
     return MyCallModel(
-      id: json['id'] as int?,
-      doctorId: json['doctorId'] as int?,
-      patientId: json['patientId'] as int?,
-      startedAt: json['startedAt'] != null ? DateTime.tryParse(json['startedAt']) : null,
-      endedAt: json['endedAt'] != null ? DateTime.tryParse(json['endedAt']) : null,
-      channelName: json['channelName'] as String?,
-      agoraToken: json['agoraToken'] as String?,
-      durationInMinutes: json['durationInMinutes'] as int?,
+      id: _toInt(json['id']),
+      doctorId: _toInt(json['doctorId']),
+      patientId: _toInt(json['patientId']),
+      startedAt: json['startedAt'] != null ? DateTime.tryParse(json['startedAt']!) : null,
+      endedAt: json['endedAt'] != null ? DateTime.tryParse(json['endedAt']!) : null,
+      channelName: json['channelName'] as String,
+      agoraToken: json['agoraToken'] as String,
+      durationInMinutes: _toInt(json['durationInMinutes']),
     );
   }
+
+  // ✅ Helper to safely convert dynamic to int?
+  static int? _toInt(dynamic value) {
+    if (value == null) return null;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value);
+    }
+    return null;
+  }
+
   factory MyCallModel.empty() {
     return MyCallModel(
       id: 0,
       doctorId: 0,
       patientId: 0,
-      startedAt: DateTime.timestamp(),
-      endedAt: DateTime.timestamp().add(const Duration(hours: 1)),
+      startedAt: DateTime.now(),
+      endedAt: DateTime.now().add(const Duration(hours: 1)),
       channelName: "ChannelName",
       agoraToken: "c74d620ba147479ea30543c30b9dc1c6",
       durationInMinutes: 2,
@@ -46,14 +57,14 @@ class MyCallModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'doctorId': doctorId,
-      'patientId': patientId,
+      'id': id?.toString(),
+      'doctorId': doctorId?.toString(),
+      'patientId': patientId?.toString(),
       'startedAt': startedAt?.toIso8601String(),
       'endedAt': endedAt?.toIso8601String(),
       'channelName': channelName,
       'agoraToken': agoraToken,
-      'durationInMinutes': durationInMinutes,
+      'durationInMinutes': durationInMinutes?.toString(),
     };
   }
 }
